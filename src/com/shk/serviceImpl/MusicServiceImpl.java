@@ -57,4 +57,59 @@ public class MusicServiceImpl implements MusicService {
 
 		return str;
 	}
+	@Override
+	public boolean addMusic(Music music) {
+		// TODO Auto-generated method stub
+		return md.addMusic(music);
+	}
+
+	@Override
+	public boolean delMusic(int musicId) {
+		// TODO Auto-generated method stub
+		return md.delMusic(musicId);
+	}
+
+	@Override
+	public List<Music> getAllMusic() {
+		// TODO Auto-generated method stub
+		return md.queryAllMusic();
+	}
+
+	@Override
+	public Music getMusicById(int musicId) {
+		// TODO Auto-generated method stub
+		return md.queryMusicById(musicId);
+	}
+
+	@Override
+	public List<Music> getMusicByTypeId(int typeId) {
+		// TODO Auto-generated method stub
+		return md.queryMusicByTypeId(typeId);
+	}
+
+	@Override
+	public List<Music> getMusicBySingerId(int singerId) {
+		// TODO Auto-generated method stub
+		return md.queryMusicBySingerId(singerId);
+	}
+
+	@Override
+	public List<Music> getMusicBySingerName(String singerName) {
+		// TODO Auto-generated method stub
+		return md.queryMusicBySingerName(singerName);
+	}
+
+	@Override
+	public List<Music> getMusicByMNameOrSingerName(String name) {
+		// TODO Auto-generated method stub
+		return md.queryMusicByMNameOrSingerName(name);
+	}
+
+	@Override
+	public List<Music> getMusicByAnyWord(String str) {
+		// TODO Auto-generated method stub
+		return md.queryMusicByAnyWord(str);
+	}
+
+	
 }
