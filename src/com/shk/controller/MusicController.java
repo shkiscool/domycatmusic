@@ -2,7 +2,7 @@ package com.shk.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,13 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.shk.entity.Music;
 import com.shk.service.MusicService;
 import com.shk.serviceImpl.MusicServiceImpl;
+import com.shk.util.PageData;
 
 /**
  * Servlet implementation class MusicController
  */
 @WebServlet("/MusicController")
 public class MusicController extends HttpServlet {
-	MusicService ms = new MusicServiceImpl();
+	static MusicService ms = new MusicServiceImpl();
 	
 	private static final long serialVersionUID = 1L;
        
@@ -44,7 +45,7 @@ public class MusicController extends HttpServlet {
 		
 		String op = "query";
 		int page = 2;
-		int pageSize = 15;
+		int pageSize = 12;
 		String musicLike = "";
 		
 		if(null!=request.getParameter("op"))
@@ -68,12 +69,12 @@ public class MusicController extends HttpServlet {
 				musicLike = request.getParameter("musicLike");
 			}
 			
-			
-			String str = ms.changeToSongStr(ms.getMusic(page, pageSize, musicLike).getData());
-			
-			System.out.println(str);
-			
+			String str = getMyList(page, pageSize, musicLike); //我的音乐列表
+			PageData<Music> pdRandom = getRandomMusic(pageSize);//推荐音乐
+			PageData<Music> pdNew = getRandomMusic(8);//新曲推荐
+			request.setAttribute("pdNew", pdNew);
 			request.setAttribute("data", str);
+			request.setAttribute("pdRandom", pdRandom);
 			
 			request.getRequestDispatcher("jsps/NewFile.jsp").forward(request, response);
 		}
@@ -90,6 +91,31 @@ public class MusicController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+	
+	/**
+	 * 获得随机的推荐歌曲
+	 * @param pageSize
+	 */
+	public static PageData<Music> getRandomMusic(int pageSize) {
+		Random rd = new Random();
+		int page = rd.nextInt(100);
+		PageData<Music> pd = ms.getMusic(page, pageSize, "");
+		return pd;
+		
+	}
+	
+	/**
+	 * 获得我的音乐列表的歌曲
+	 * @param page
+	 * @param pageSize
+	 * @param musicLike
+	 * @return
+	 */
+	public static String getMyList(int page,int pageSize,String musicLike) {
+		PageData<Music> pd = ms.getMusic(page, pageSize, musicLike);
+		String str = ms.changeToSongStr(pd.getData());
+		return str;
 	}
 
 }
