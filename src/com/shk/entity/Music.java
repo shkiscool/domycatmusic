@@ -1,164 +1,117 @@
 package com.shk.entity;
 
-/**
- * 音乐实体类
- * 
- * @author 徐扬 2018/6/2 16:30
- *
- */
+import java.sql.Clob;
+
 public class Music {
-
-	private int M_ID; // 音乐编号
-	private int T_ID; // 音乐类型编号
-	private int SCENEID; // 音乐场景编号
-	private int MODEID; // 曲风（偏向某种心情）编号
-	private int GENRE_ID; // 流派编号
-	private int LANGUAGID; // 音乐语种编号
-	private int SINGERID; // 歌手编号
-	private String M_NAME; // 音乐名称
-	private String M_URL; // 音乐链接路径
-	private int M_COUNT; // 音乐点击次数
-	private String M_LYRIC; // 歌词
-
+	/**
+	 * 2018年6月5日 勾思奇根据数据库修改  歌曲的实体类 匹配MUISIC表格的相关查询
+	 */
+	
+	//属性，与列名对应（此处用标准的驼峰格式）；
+	private int mId;
+	private int tId;
+	private int singerId;
+	private String mName;
+	private String mUrl;
+	private int mCount;
+	private Clob mLyric;
+	private String mDate;
+	private String mImg;
+	private String singerName;
+	private String mTime;
+	
 	public Music() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
 	public String toString() {
-		return "music [M_ID=" + M_ID + ", T_ID=" + T_ID + ", SCENEID=" + SCENEID + ", MODEID=" + MODEID + ", GENRE_ID="
-				+ GENRE_ID + ", LANGUAGID=" + LANGUAGID + ", SINGERID=" + SINGERID + ", M_NAME=" + M_NAME + ", M_URL="
-				+ M_URL + ", M_COUNT=" + M_COUNT + ", M_LYRIC=" + M_LYRIC + "]";
+		return "Music [mId=" + mId + ", tId=" + tId + ", singerId=" + singerId + ", mName=" + mName + ", mUrl=" + mUrl
+				+ ", mCount=" + mCount + ", mLyric=" + mLyric + ", mDate=" + mDate + ", mImg=" + mImg + ", singerName="
+				+ singerName + ", mTime=" + mTime + "]";
 	}
 
-	/**
-	 * 有参构造
-	 * 
-	 * @param m_ID
-	 *            音乐编号
-	 * @param t_ID
-	 *            音乐类型编号
-	 * @param sCENEID
-	 *            音乐场景编号
-	 * @param mODEID
-	 *            曲风（偏向某种心情）编号
-	 * @param gENRE_ID
-	 *            流派编号
-	 * @param lANGUAGID
-	 *            音乐语种编号
-	 * @param sINGERID
-	 *            歌手编号
-	 * @param m_NAME
-	 *            音乐名称
-	 * @param m_URL
-	 *            音乐链接路径
-	 * @param m_COUNT
-	 *            音乐点击次数
-	 * @param m_LYRIC
-	 *            歌词
-	 */
-	public Music(int m_ID, int t_ID, int sCENEID, int mODEID, int gENRE_ID, int lANGUAGID, int sINGERID, String m_NAME,
-			String m_URL, int m_COUNT, String m_LYRIC) {
+	public Music(int mId, int tId, int singerId, String mName, String mUrl, int mCount, Clob mLyric, String mDate,
+			String mImg, String singerName, String mTime) {
 		super();
-		M_ID = m_ID;
-		T_ID = t_ID;
-		SCENEID = sCENEID;
-		MODEID = mODEID;
-		GENRE_ID = gENRE_ID;
-		LANGUAGID = lANGUAGID;
-		SINGERID = sINGERID;
-		M_NAME = m_NAME;
-		M_URL = m_URL;
-		M_COUNT = m_COUNT;
-		M_LYRIC = m_LYRIC;
+		this.mId = mId;
+		this.tId = tId;
+		this.singerId = singerId;
+		this.mName = mName;
+		this.mUrl = mUrl;
+		this.mCount = mCount;
+		this.mLyric = mLyric;
+		this.mDate = mDate;
+		this.mImg = mImg;
+		this.singerName = singerName;
+		this.mTime = mTime;
 	}
-
-	public int getM_ID() {
-		return M_ID;
+	public int getmId() {
+		return mId;
 	}
-
-	public void setM_ID(int m_ID) {
-		M_ID = m_ID;
+	public void setmId(int mId) {
+		this.mId = mId;
 	}
-
-	public int getT_ID() {
-		return T_ID;
+	public int gettId() {
+		return tId;
 	}
-
-	public void setT_ID(int t_ID) {
-		T_ID = t_ID;
+	public void settId(int tId) {
+		this.tId = tId;
 	}
-
-	public int getSCENEID() {
-		return SCENEID;
+	public int getSingerId() {
+		return singerId;
 	}
-
-	public void setSCENEID(int sCENEID) {
-		SCENEID = sCENEID;
+	public void setSingerId(int singerId) {
+		this.singerId = singerId;
 	}
-
-	public int getMODEID() {
-		return MODEID;
+	public String getmName() {
+		return mName;
 	}
-
-	public void setMODEID(int mODEID) {
-		MODEID = mODEID;
+	public void setmName(String mName) {
+		this.mName = mName;
 	}
-
-	public int getGENRE_ID() {
-		return GENRE_ID;
+	public String getmUrl() {
+		return mUrl;
 	}
-
-	public void setGENRE_ID(int gENRE_ID) {
-		GENRE_ID = gENRE_ID;
+	public void setmUrl(String mUrl) {
+		this.mUrl = mUrl;
 	}
-
-	public int getLANGUAGID() {
-		return LANGUAGID;
+	public int getmCount() {
+		return mCount;
 	}
-
-	public void setLANGUAGID(int lANGUAGID) {
-		LANGUAGID = lANGUAGID;
+	public void setmCount(int mCount) {
+		this.mCount = mCount;
 	}
-
-	public int getSINGERID() {
-		return SINGERID;
+	public Clob getmLyric() {
+		return mLyric;
 	}
-
-	public void setSINGERID(int sINGERID) {
-		SINGERID = sINGERID;
+	public void setmLyric(Clob mLyric) {
+		this.mLyric = mLyric;
 	}
-
-	public String getM_NAME() {
-		return M_NAME;
+	public String getmDate() {
+		return mDate;
 	}
-
-	public void setM_NAME(String m_NAME) {
-		M_NAME = m_NAME;
+	public void setmDate(String mDate) {
+		this.mDate = mDate;
 	}
-
-	public String getM_URL() {
-		return M_URL;
+	public String getmImg() {
+		return mImg;
 	}
-
-	public void setM_URL(String m_URL) {
-		M_URL = m_URL;
+	public void setmImg(String mImg) {
+		this.mImg = mImg;
 	}
-
-	public int getM_COUNT() {
-		return M_COUNT;
+	public String getSingerName() {
+		return singerName;
 	}
-
-	public void setM_COUNT(int m_COUNT) {
-		M_COUNT = m_COUNT;
+	public void setSingerName(String singerName) {
+		this.singerName = singerName;
 	}
-
-	public String getM_LYRIC() {
-		return M_LYRIC;
+	public String getmTime() {
+		return mTime;
 	}
-
-	public void setM_LYRIC(String m_LYRIC) {
-		M_LYRIC = m_LYRIC;
+	public void setmTime(String mTime) {
+		this.mTime = mTime;
 	}
-
+	
+	
 }
