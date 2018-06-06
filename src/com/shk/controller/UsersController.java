@@ -266,24 +266,13 @@ public class UsersController extends HttpServlet {
 				out.print("用户名或密码错误！");
 			}
 		} else if("list".equals(ap)) {
-			int page = 1;  //初始页数为1，也就是第一页
-			int pagesize = 5;  //初始每页的数据量，这里设置的是一页五条用户数据
-			String userNameLike = "";  //模糊查询的初始设置值为"";这样可以查询所有数据
-
-			//从网页端获取管理员点击的页码数
-			if (null != request.getParameter("Userpage")) {
-				page = Integer.parseInt(request.getParameter("Userpage"));
-
-				if (page < 1) {
-					page = 1;
-				}
-
-			}
-
-			//从网页端获取管理员设置的每页数据量信息（其实这句是多余的，因为并没有给管理员设置页面数据量的窗口）
-			if (null != request.getParameter("pagesize")) {
-				pagesize = Integer.parseInt(request.getParameter("pagesize"));
-			}
+			//模糊查询的初始设置值为"";这样可以查询所有数据
+			String userNameLike = "";  
+			//从网页端获取页码
+			int	page = Integer.parseInt(request.getParameter("Userpage"));
+			
+			//从网页端获取管理员设置的每页数据量信息
+			int pagesize = Integer.parseInt(request.getParameter("pagesize"));
 
 			//从网页端获取管理员查询所使用的关键字
 			if (null != request.getParameter("userNameLike")) {
@@ -296,7 +285,6 @@ public class UsersController extends HttpServlet {
 		    info.put("data", pd.getData());
 		    info.put("page", pd.getPage());
 		    info.put("totalpage", pd.getTotalPage());
-		    info.put("pagesize", pd.getPageSize());
 		    String json = new Gson().toJson(info);
 		    out.write(json);
 		}

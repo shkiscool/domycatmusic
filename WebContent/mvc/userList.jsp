@@ -12,7 +12,7 @@
 <meta name="author" content="xxxxx">
 <meta name="keyword" content="xxxxx">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>云之家后台管理</title>
+<title>DMC音乐后台管理</title>
 <!-- start: Css -->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css">
@@ -45,7 +45,7 @@
 					<span class="top"></span> <span class="middle"></span> <span
 						class="bottom"></span>
 				</div>
-				<a href="mvc/Behinddesk.jsp" class="navbar-brand"> <b>云之家后台管理</b>
+				<a href="mvc/Behinddesk.jsp" class="navbar-brand"> <b>DMC音乐后台管理</b>
 				</a>
 				<ul class="nav navbar-nav navbar-right user-nav">
 					<li class="user-name"><span>${sessionScope.users.USERNAME}</span></li>
@@ -102,25 +102,26 @@
 			<div class="panel">
 				<div class="panel-body">
 					<div class="col-md-12">
-						<h3 class="animated fadeInLeft">用户页面</h3>
+						<h3 class="animated fadeInLeft">用户管理</h3>
 						<p class="animated fadeInDown">
-							业务 <span class="fa-angle-right fa"></span> 用户管理
+							业务 <span class="fa-angle-right fa"></span> 用户列表
 						</p>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-12 padding-0 form-element">
-				<div class="col-md-12">
-					<div class="col-md-10">
+			<div class="panel">
+				<div class="col-md-3" style="float:left; padding:10px 15px;">
 						<input type="text" name="userNameLike" id="userNameLike"
 							class="form-control" placeholder="Search...">
-					</div>	
 				</div>
-			</div>
-			<hr>
-			<div class="panel">
-				<div class="panel-heading">
-					<h3>用户列表</h3>
+				<div style="float:right; padding:10px 15px;">
+				     <p>每页<select id="sel">
+				     <option value="5">5</option>
+				     <option value="10">10</option>
+				     <option value="20">20</option>
+				     <option value="40">40</option>
+				     <option value="80">80</option>
+				     </select>条记录</p>
 				</div>
 				<div class="panel-body">
 					<div class="responsive-table">
@@ -147,7 +148,8 @@
 										</tbody>
 									</table>
 									<div class="col-md-12 column text-center">
-										<ul class="pagination" id="pul">
+									<label id="pagela" style="float:left; padding-top:20px;"></label>
+										<ul class="pagination" id="pul" style="float:right">
 											
 										</ul>
 									</div>
@@ -206,7 +208,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="userLove" class="col-sm-2 control-label">用户音乐喜好:</label>
+							<label for="userLove" class="col-sm-2 control-label">音乐偏好:</label>
 							<div class="col-sm-6">
 								<input type="text" required="required" class="form-control"
 									name="userLove" id="userLove" />
@@ -251,40 +253,76 @@
 	<script src="${pageContext.request.contextPath}/asset/js/main.js"></script>
 	<!-- end: Javascript -->
 	<script src="${pageContext.request.contextPath}/layer/layer.js"></script>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 	<script>
-	$.post("${pageContext.request.contextPath}/UsersController",{"op":"ajax","ap":"list"},function(data,status){
-		array = JSON.parse(data);
-		var nextpage = array.page + 1;
-		var prepage = array.page - 1;
-	    $.each(array.data,function(index,type){
-	    	var userLevel = type.USERLEVEL == 1 ? "普通用户" : "管理员";
-	    	var userClass = type.USERID%2 == 0 ? "even" : "odd";
-	    	$html = $("<tr role='row' class='"+userClass+"'><td>"+type.USERID+"</td><td>"+type.USERNAME+"</td><td>"+userLevel+"</td><td>"+type.USERLOVE+"</td><td>"+type.USERPHOTO+"</td><td>"+type.USEREMAIL+"</td><td><button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='save("+type.USERID+")'>修改</button><a href='javascript:delFunction("+type.USERID+")'><button class='btn btn-danger'>删除</button></a></td></tr>");
-	    	$("#listtbody").append($html);
-	    });
-	    $("#pul").append("<li><a href='javascript:void(0)' id='prePage' onclick='page("+prepage+")'>上一页</a></li>");
-	    for(var i=1; i<= array.totalpage; i++){
-	    	if(array.page == i){
-	    		$("#pul").append("<li class='active'><a href='javascript:void(0)' class='pageNo'>"+i+"</a></li>");
-	    	}else{
-	    		$("#pul").append("<li><a href='javascript:void(0)' class='pageNo'>"+i+"</a></li>");
-	    	}
-	    }
-	    $("#pul").append("<li><a href='javascript:void(0)' id='nextPage' onclick='page("+nextpage+")'>下一页</a></li>");
-	    if(array.page >= array.totalpage){
-	    	
-			//下一页 样式设置
-			$("#nextPage").css("color","gray");
-			   //pointer-events 不能点击了 ,没有测试所有的浏览器
-			$("#nextPage").css("pointer-events","none");
-		}
-	    if(array.page <= 1){
-			     //上一页 样式设置
-		   $("#prePage").css("color","gray");
-		   $("#prePage").css("pointer-events","none");
-		}
-    });
 	
+	window.onload = function(){
+		pages(1);
+	}
+	
+	$(document.body).on("click",".pageNo",function(){
+		var page = $(this).text();
+		pages(page);
+	});
+	
+	$("#userNameLike").keyup(function(){
+		pages(1);
+	});
+	
+	$("#sel").change(function(){
+		pages(1);
+	});
+	
+	//用于分页，显示数据的通用方法
+	function pages(page){	
+		 $.post("${pageContext.request.contextPath}/UsersController",{"op":"ajax","ap":"list","Userpage":page,"pagesize":$("#sel").val(),"userNameLike":$("#userNameLike").val()},function(data,status){
+				array = JSON.parse(data);
+				var nextpages = array.page + 1;
+				var prepages = array.page - 1;
+				$("td").each(function(index,element){
+					element.remove();
+				});
+				$(".pageNo").remove();
+				$("#nextPage").remove();
+				$("#prePage").remove();
+			    $.each(array.data,function(index,type){
+			    	var userLevel = type.USERLEVEL == 1 ? "普通用户" : "管理员";
+			    	var userClass = type.USERID%2 == 0 ? "even" : "odd";
+			    	$("#listtbody").append("<tr role='row' class='"+userClass+"'>");
+			    	$("#listtbody").append("<td>"+type.USERID+"</td>");
+			    	$("#listtbody").append("<td>"+type.USERNAME+"</td>");
+			    	$("#listtbody").append("<td>"+userLevel+"</td>");
+			    	$("#listtbody").append("<td>"+type.USERLOVE+"</td>");
+			    	$("#listtbody").append("<td>"+type.USERPHOTO+"</td>");
+			    	$("#listtbody").append("<td>"+type.USEREMAIL+"</td>");
+			    	$("#listtbody").append("<td><button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='save("+type.USERID+")'>修改</button><a href='javascript:delFunction("+type.USERID+")'><button class='btn btn-danger'>删除</button></a></td></tr>");
+			    });
+			    $("#pul").append("<li><a href='javascript:void(0)' id='prePage' onclick='pages("+prepages+")'>上一页</a></li>");
+			    for(var i=(array.totalpage < 5 ? 1 : (array.page+2 >= array.totalpage ? array.totalpage-4 : (array.page-1 >= 3 ? array.page-2 : 1))); i<=(array.totalpage < 5 ? array.totalpage : (array.page-2 <= 1 ? 5 :(array.page+2 <= array.totalpage ? array.page+2 : array.totalpage))); i++){
+			    	$("#pagela").html("第"+array.page+"页(总共"+array.totalpage+"页)")
+			    	if(array.page == i){
+			    		$("#pul").append("<li class='active'><a href='javascript:void(0)' class='pageNo'>"+i+"</a></li>");
+			    	}else{
+			    		$("#pul").append("<li><a href='javascript:void(0)' class='pageNo'>"+i+"</a></li>");
+			    	}
+			    }
+			    $("#pul").append("<li><a href='javascript:void(0)' id='nextPage' onclick='pages("+nextpages+")'>下一页</a></li>");
+               if(array.page >= array.totalpage){
+			    	
+					//下一页 样式设置
+					$("#nextPage").css("color","gray");
+					   //pointer-events 不能点击了 ,没有测试所有的浏览器
+					$("#nextPage").css("pointer-events","none");
+				}
+			    if(array.page <= 1){
+					     //上一页 样式设置
+				   $("#prePage").css("color","gray");
+				   $("#prePage").css("pointer-events","none");
+				}
+		});
+	}
+	
+	//用于修改的方法
 	var flag = false;
     function send(forms) {
         	$.post("${pageContext.request.contextPath}/UsersController",{
@@ -309,64 +347,13 @@
         	});
     	return flag;
     }
-	</script>
-	<script>
-		$("#left-menu-2").click();
-		$("#left-menu-1").click(function() {
-			location.href = "${pageContext.request.contextPath}/mvc/Behinddesk.jsp";
-		})
-	</script>
-	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-	<script>
-	$(document.body).on("click",".pageNo",function(){
-		   var page = $(this).text();
-		   $.post("${pageContext.request.contextPath}/UsersController",{"op":"ajax","ap":"list","Userpage":page,"userNameLike":$("#userNameLike").val()},function(data,status){
-				array = JSON.parse(data);
-				var nextpages = array.page + 1;
-				var prepages = array.page - 1;
-				$("td").each(function(index,element){
-					element.remove();
-				});
-				$(".pageNo").remove();
-				$("#nextPage").remove();
-				$("#prePage").remove();
-			    $.each(array.data,function(index,type){
-			    	var userLevel = type.USERLEVEL == 1 ? "普通用户" : "管理员";
-			    	var userClass = type.USERID%2 == 0 ? "even" : "odd";
-			    	$html = $("<tr role='row' class='"+userClass+"'><td>"+type.USERID+"</td><td>"+type.USERNAME+"</td><td>"+userLevel+"</td><td>"+type.USERLOVE+"</td><td>"+type.USERPHOTO+"</td><td>"+type.USEREMAIL+"</td><td><button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='save("+type.USERID+")'>修改</button><a href='javascript:delFunction("+type.USERID+")'><button class='btn btn-danger'>删除</button></a></td></tr>");
-			    	$("#listtbody").append($html);
-			    });
-			    $("#pul").append("<li><a href='javascript:void(0)' id='prePage' onclick='page("+prepages+")'>上一页</a></li>");
-			    for(var i=1; i<= array.totalpage; i++){
-			    	if(array.page == i){
-			    		$("#pul").append("<li class='active'><a href='javascript:void(0)' class='pageNo'>"+i+"</a></li>");
-			    	}else{
-			    		$("#pul").append("<li><a href='javascript:void(0)' class='pageNo'>"+i+"</a></li>");
-			    	}
-			    }
-			    $("#pul").append("<li><a href='javascript:void(0)' id='nextPage' onclick='page("+nextpages+")'>下一页</a></li>");
-			    if(array.page >= array.totalpage){
-			    	
-					//下一页 样式设置
-					$("#nextPage").css("color","gray");
-					   //pointer-events 不能点击了 ,没有测试所有的浏览器
-					$("#nextPage").css("pointer-events","none");
-				}
-			    if(array.page <= 1){
-					     //上一页 样式设置
-				   $("#prePage").css("color","gray");
-				   $("#prePage").css("pointer-events","none");
-				}
-		    });
-	   });
-	</script>
-	
-	<script>
-	
+	   
+	//用于修改和删除的通用方法
 	function save(userId){
 		$(".userId").val(userId);
 	}
 	
+	//用于删除的方法
 	function delFunction(userId) {
 		layer.confirm('是否确定删除该用户？', {btn: ['确定','取消']}, function(){
 			$.post("${pageContext.request.contextPath}/UsersController?op=del","userId="+userId,
@@ -382,53 +369,11 @@
 		});
 	}
 	
-	$("#userNameLike").keyup(function(){
-		page(1);
-	});
-	   
-	   //页面的总编码
-	   function page(page){	
-		   $.post("${pageContext.request.contextPath}/UsersController",{"op":"ajax","ap":"list","Userpage":page,"userNameLike":$("#userNameLike").val()},function(data,status){
-				array = JSON.parse(data);
-				var nextpages = array.page + 1;
-				var prepages = array.page - 1;
-				$("td").each(function(index,element){
-					element.remove();
-				});
-				$(".pageNo").remove();
-				$("#nextPage").remove();
-				$("#prePage").remove();
-			    $.each(array.data,function(index,type){
-			    	var userLevel = type.USERLEVEL == 1 ? "普通用户" : "管理员";
-			    	var userClass = type.USERID%2 == 0 ? "even" : "odd";
-			    	$html = $("<tr role='row' class='"+userClass+"'><td>"+type.USERID+"</td><td>"+type.USERNAME+"</td><td>"+userLevel+"</td><td>"+type.USERLOVE+"</td><td>"+type.USERPHOTO+"</td><td>"+type.USEREMAIL+"</td><td><button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='save("+type.USERID+")'>修改</button><a href='javascript:delFunction("+type.USERID+")'><button class='btn btn-danger'>删除</button></a></td></tr>");
-			    	$("#listtbody").append($html);
-			    });
-			    $("#pul").append("<li><a href='javascript:void(0)' id='prePage' onclick='page("+prepages+")'>上一页</a></li>");
-			    for(var i=1; i<= array.totalpage; i++){
-			    	if(array.page == i){
-			    		$("#pul").append("<li class='active'><a href='javascript:void(0)' class='pageNo'>"+i+"</a></li>");
-			    	}else{
-			    		$("#pul").append("<li><a href='javascript:void(0)' class='pageNo'>"+i+"</a></li>");
-			    	}
-			    }
-			    $("#pul").append("<li><a href='javascript:void(0)' id='nextPage' onclick='page("+nextpages+")'>下一页</a></li>");
-               if(array.page >= array.totalpage){
-			    	
-					//下一页 样式设置
-					$("#nextPage").css("color","gray");
-					   //pointer-events 不能点击了 ,没有测试所有的浏览器
-					$("#nextPage").css("pointer-events","none");
-				}
-			    if(array.page <= 1){
-					     //上一页 样式设置
-				   $("#prePage").css("color","gray");
-				   $("#prePage").css("pointer-events","none");
-				}
-		    });
-	   }
-	   
-	   
+	//用于按钮的点击
+	$("#left-menu-2").click();
+	$("#left-menu-1").click(function() {
+		location.href = "${pageContext.request.contextPath}/mvc/Behinddesk.jsp";
+	})
 		
 	</script>
 </body>

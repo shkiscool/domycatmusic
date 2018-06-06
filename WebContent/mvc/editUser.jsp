@@ -8,7 +8,7 @@
 <meta name="author" content="xxxxx">
 <meta name="keyword" content="xxxxx">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>云之家后台管理</title>
+<title>DMC音乐后台管理</title>
 <!-- start: Css -->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css">
@@ -41,7 +41,7 @@
 						class="bottom"></span>
 				</div>
 				<a href="${pageContext.request.contextPath}/mvc/Behinddesk.jsp"
-					class="navbar-brand"> <b>云之家后台管理</b>
+					class="navbar-brand"> <b>DMC音乐后台管理</b>
 				</a>
 				<ul class="nav navbar-nav navbar-right user-nav">
 					<li class="user-name"><span>${sessionScope.users.USERNAME}</span></li>

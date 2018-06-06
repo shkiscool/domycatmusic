@@ -10,7 +10,7 @@
 <meta name="author" content="12">
 <meta name="keyword" content="12">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>云之家后台管理</title>
+<title>DMC音乐后台管理</title>
 <!-- start: Css -->
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css">
 <!-- plugins -->
@@ -33,7 +33,7 @@
   <div class="col-md-12 nav-wrapper">
     <div class="navbar-header" style="width:100%;">
       <div class="opener-left-menu is-open"> <span class="top"></span> <span class="middle"></span> <span class="bottom"></span> </div>
-      <a href="mvc/Behinddesk.jsp" class="navbar-brand"> <b>云之家后台管理</b> </a>
+      <a href="mvc/Behinddesk.jsp" class="navbar-brand"> <b>DMC音乐后台管理</b> </a>
       <ul class="nav navbar-nav navbar-right user-nav">
         <li class="user-name"><span>${sessionScope.users.USERNAME}</span></li>
         <li class="dropdown avatar-dropdown"> <img src="${pageContext.request.contextPath}/asset/img/avatar.jpg" class="img-circle avatar" alt="user name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"/>
