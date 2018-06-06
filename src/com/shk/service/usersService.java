@@ -1,6 +1,6 @@
 package com.shk.service;
 
-import com.shk.entity.mUser;
+import com.shk.entity.Users;
 import com.shk.util.PageData;
 
 /**
@@ -18,7 +18,7 @@ public interface usersService {
 	 *            传入一个用户对象
 	 * @return
 	 */
-	public boolean addUsers(mUser users);
+	public boolean addUsers(Users users);
 
 	/**
 	 * 实现删除用户业务的抽象方法
@@ -36,7 +36,7 @@ public interface usersService {
 	 *            传入一个用户对象
 	 * @return
 	 */
-	public boolean updateUsers(mUser users);
+	public boolean updateUsers(Users users);
 
 	/**
 	 * 实现用户分页查询的抽象方法
@@ -49,7 +49,7 @@ public interface usersService {
 	 *            传入要查找的用户名关键字
 	 * @return
 	 */
-	public PageData<mUser> getUsers(int page, int pagesize, String usersNameLike);
+	public PageData<Users> getUsers(int page, int pagesize, String usersNameLike);
 
 	/**
 	 * 实现用户登录功能的抽象方法
@@ -60,7 +60,7 @@ public interface usersService {
 	 *            传入用户密码
 	 * @return
 	 */
-	public mUser login(String userName, String userPwd);
+	public Users login(String userName, String userPwd);
 
 	/**
 	 * 实现通过名字查找用户的抽象方法
@@ -69,5 +69,5 @@ public interface usersService {
 	 *            传入用户名
 	 * @return
 	 */
-	public mUser getUserByName(String userName);
+	public Users getUserByName(String userName);
 }

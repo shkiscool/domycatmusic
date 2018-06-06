@@ -61,7 +61,7 @@ public class Filter implements javax.servlet.Filter {
 			}else if("forgot.jsp".equals(url)){
 				chain.doFilter(request, response);
 			}else{
-				res.sendRedirect("/dymmusic/login.jsp");
+				res.sendRedirect("/domycatmusic/login.jsp");
 			}
 		}
 		

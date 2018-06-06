@@ -2,6 +2,8 @@ package com.shk.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import com.shk.entity.mUser;
+
+import com.google.gson.Gson;
+import com.shk.entity.Users;
 import com.shk.service.usersService;
 import com.shk.serviceImpl.usersServiceImpl;
 import com.shk.util.PageData;
@@ -40,7 +44,6 @@ public class UsersController extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		// 参数名 op 值如果等于 list才做查询
 		String op = request.getParameter("op");
-		System.out.println(op);
 
 		if ("ajax".equals(op)) {
 			doAjax(request, response);
@@ -87,7 +90,7 @@ public class UsersController extends HttpServlet {
 		if (null != userEmail) {
 			USER_EMAIL = userEmail;
 		}
-		mUser users = new mUser(USER_ID, USER_NAME, USER_PASSWORD, USER_LEVEL, USER_EMAIL, USER_LOVE, USER_PHOTO);
+		Users users = new Users(USER_ID, USER_NAME, USER_PASSWORD, USER_LEVEL, USER_EMAIL, USER_LOVE, USER_PHOTO);
 		boolean flag = us.updateUsers(users);
 		PrintWriter out = response.getWriter();
 		if (flag) {
@@ -125,7 +128,7 @@ public class UsersController extends HttpServlet {
 	 */
 	protected void doAdd(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		PageData<mUser> pd = us.getUsers(1, 1, "");
+		PageData<Users> pd = us.getUsers(1, 1, "");
 		int USER_ID = pd.getTotal() + 1;  //从用户表中获取用户的总数然后加一变成新加用户的编号（有缺陷，中间不能隔断）
 		String USER_PHOTO = "";  //用户照片的链接地址
 		String USER_LOVE = "";  //用户的音乐喜好
@@ -151,7 +154,7 @@ public class UsersController extends HttpServlet {
 		if (null != userEmail) {
 			USER_EMAIL = userEmail;
 		}
-		mUser users = new mUser(USER_ID, USER_NAME, USER_PWD, USER_LEVEL, USER_EMAIL, USER_LOVE, USER_PHOTO);
+		Users users = new Users(USER_ID, USER_NAME, USER_PWD, USER_LEVEL, USER_EMAIL, USER_LOVE, USER_PHOTO);
 		boolean flag = us.addUsers(users);
 		PrintWriter out = response.getWriter();
 		if (flag) {
@@ -170,38 +173,6 @@ public class UsersController extends HttpServlet {
 	 */
 	protected void doList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		int page = 1;  //初始页数为1，也就是第一页
-		int pagesize = 5;  //初始每页的数据量，这里设置的是一页五条用户数据
-		String userNameLike = "";  //模糊查询的初始设置值为"";这样可以查询所有数据
-
-		//从网页端获取管理员点击的页码数
-		if (null != request.getParameter("Userpage")) {
-			page = Integer.parseInt(request.getParameter("Userpage"));
-
-			if (page < 1) {
-				page = 1;
-			}
-
-		}
-
-		//从网页端获取管理员设置的每页数据量信息（其实这句是多余的，因为并没有给管理员设置页面数据量的窗口）
-		if (null != request.getParameter("pagesize")) {
-			pagesize = Integer.parseInt(request.getParameter("pagesize"));
-		}
-
-		//从网页端获取管理员查询所使用的关键字
-		if (null != request.getParameter("userNameLike")) {
-			userNameLike = request.getParameter("userNameLike");
-		}
-
-		PageData<mUser> pd = us.getUsers(page, pagesize, userNameLike);
-
-		request.setAttribute("pd", pd);
-
-		request.setAttribute("userNameLike", userNameLike);
-
-		request.setAttribute("userLike", userNameLike);
-
 		request.getRequestDispatcher("mvc/userList.jsp").forward(request, response);
 	}
 
@@ -219,8 +190,8 @@ public class UsersController extends HttpServlet {
 		String userName = request.getParameter("userName");
 		String userPwd = request.getParameter("userPwd");
 		// 调用userService的方法
-		mUser u = us.login(userName, userPwd);
-		if (u.getUSER_LEVEL() == 2) {
+		Users u = us.login(userName, userPwd);
+		if (u.getUSERLEVEL() == 2) {
 			// 将用户信息存储在session对象中
 			session.setAttribute("users", u);
 			// 转发到用户后台
@@ -243,7 +214,7 @@ public class UsersController extends HttpServlet {
 	 */
 	protected void doSign(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		PageData<mUser> pd = us.getUsers(1, 1, "");
+		PageData<Users> pd = us.getUsers(1, 1, "");
 		int USER_ID = pd.getTotal() + 1;   //从用户表中获取用户的总数然后加一变成新加用户的编号（有缺陷，中间不能隔断）
 		int USER_LEVEL = 1;  //用户权限（一般默认为普通用户，这句其实是多余的~~）
 		String USER_LOVE = "";  //注册界面没有该窗口所以为空
@@ -255,7 +226,7 @@ public class UsersController extends HttpServlet {
 		if (null != userEmail) {
 			USER_EMAIL = userEmail;
 		}
-		mUser users = new mUser(USER_ID, USER_NAME, USER_PWD, USER_LEVEL, USER_EMAIL, USER_LOVE, USER_PHOTO);
+		Users users = new Users(USER_ID, USER_NAME, USER_PWD, USER_LEVEL, USER_EMAIL, USER_LOVE, USER_PHOTO);
 
 		boolean flag = us.addUsers(users);  //执行增加操作
 
@@ -277,7 +248,7 @@ public class UsersController extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		if ("au".equals(ap)) {   //当ap=au时，执行查询操作，判断用户名在数据库中是否存在
 			String username = request.getParameter("username");
-			mUser uss = us.getUserByName(username);
+			Users uss = us.getUserByName(username);
 			if (null != uss) {
 				out.print("用户名已存在！");
 			}
@@ -290,10 +261,44 @@ public class UsersController extends HttpServlet {
 		} else if ("login".equals(ap)) {  //当ap=login时，执行登录操作，判断用户名和密码是否正确
 			String userName = request.getParameter("userName");
 			String userPwd = request.getParameter("userPwd");
-			mUser u = us.login(userName, userPwd);
+			Users u = us.login(userName, userPwd);
 			if (null == u) {
 				out.print("用户名或密码错误！");
 			}
+		} else if("list".equals(ap)) {
+			int page = 1;  //初始页数为1，也就是第一页
+			int pagesize = 5;  //初始每页的数据量，这里设置的是一页五条用户数据
+			String userNameLike = "";  //模糊查询的初始设置值为"";这样可以查询所有数据
+
+			//从网页端获取管理员点击的页码数
+			if (null != request.getParameter("Userpage")) {
+				page = Integer.parseInt(request.getParameter("Userpage"));
+
+				if (page < 1) {
+					page = 1;
+				}
+
+			}
+
+			//从网页端获取管理员设置的每页数据量信息（其实这句是多余的，因为并没有给管理员设置页面数据量的窗口）
+			if (null != request.getParameter("pagesize")) {
+				pagesize = Integer.parseInt(request.getParameter("pagesize"));
+			}
+
+			//从网页端获取管理员查询所使用的关键字
+			if (null != request.getParameter("userNameLike")) {
+				userNameLike = request.getParameter("userNameLike");
+			}
+
+			PageData<Users> pd = us.getUsers(page, pagesize, userNameLike);
+
+			Map<Object, Object> info = new HashMap<Object, Object>();
+		    info.put("data", pd.getData());
+		    info.put("page", pd.getPage());
+		    info.put("totalpage", pd.getTotalPage());
+		    info.put("pagesize", pd.getPageSize());
+		    String json = new Gson().toJson(info);
+		    out.write(json);
 		}
 		out.close();
 	}

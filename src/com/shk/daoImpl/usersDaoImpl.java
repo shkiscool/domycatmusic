@@ -3,7 +3,7 @@ package com.shk.daoImpl;
 import java.util.List;
 
 import com.shk.dao.usersDao;
-import com.shk.entity.mUser;
+import com.shk.entity.Users;
 import com.shk.util.DBUtil;
 import com.shk.util.PageData;
 
@@ -20,11 +20,11 @@ public class usersDaoImpl implements usersDao {
 	 * 用户增加方法的实现
 	 */
 	@Override
-	public boolean addUsers(mUser users) {
+	public boolean addUsers(Users users) {
 		// TODO Auto-generated method stub
-		return DBUtil.execute("insert into M_USER values(?,?,?,?,?,?,?)", users.getUSER_ID(), users.getUSER_NAME(),
-				users.getUSER_PASSWORD(), users.getUSER_LEVEL(), users.getUSER_LOVE(), users.getUSER_PHOTO(),
-				users.getUSER_EMAIL()) > 0;
+		return DBUtil.execute("insert into MUSER values(?,?,?,?,?,?,?)", users.getUSERID(), users.getUSERNAME(),
+				users.getUSERPASSWORD(), users.getUSERLEVEL(), users.getUSERLOVE(), users.getUSERPHOTO(),
+				users.getUSEREMAIL()) > 0;
 	}
 
 	/**
@@ -33,30 +33,30 @@ public class usersDaoImpl implements usersDao {
 	@Override
 	public boolean delUsers(int usersId) {
 		// TODO Auto-generated method stub
-		return DBUtil.execute("delete from M_USER where USER_ID=?", usersId) > 0;
+		return DBUtil.execute("delete from MUSER where USERID=?", usersId) > 0;
 	}
 
 	/**
 	 * 用户修改方法的实现
 	 */
 	@Override
-	public boolean updateUsers(mUser users) {
+	public boolean updateUsers(Users users) {
 		// TODO Auto-generated method stub
 		return DBUtil.execute(
-				"update M_USER set USER_NAME=?,USER_PASSWORD=?,USER_LEVEL=?,USER_PHOTO=?,USER_EMAIL=?,USER_LOVE=? where USER_ID=?",
-				users.getUSER_NAME(), users.getUSER_PASSWORD(), users.getUSER_LEVEL(),
-				users.getUSER_PHOTO(), users.getUSER_EMAIL(), users.getUSER_LOVE(), users.getUSER_ID()) > 0;
+				"update MUSER set USERNAME=?,USERPASSWORD=?,USERLEVEL=?,USERPHOTO=?,USEREMAIL=?,USERLOVE=? where USERID=?",
+				users.getUSERNAME(), users.getUSERPASSWORD(), users.getUSERLEVEL(),
+				users.getUSERPHOTO(), users.getUSEREMAIL(), users.getUSERLOVE(), users.getUSERID()) > 0;
 	}
 
 	/**
 	 * 用户分页查询的实现
 	 */
 	@Override
-	public PageData<mUser> queryUsers(int page, int pagesize, String usersNameLike) {
+	public PageData<Users> queryUsers(int page, int pagesize, String usersNameLike) {
 		// TODO Auto-generated method stub
 		@SuppressWarnings("unchecked")
-		PageData<mUser> user = DBUtil.getPage("select*from M_USER where USER_NAME like ? ORDER BY USER_ID", page,
-				pagesize, mUser.class, "%" + usersNameLike + "%");
+		PageData<Users> user = DBUtil.getPage("select*from MUSER where USERNAME like ? ORDER BY USERID", page,
+				pagesize, Users.class, "%" + usersNameLike + "%");
 		if (null != user) {
 			return user;
 		}
@@ -67,11 +67,11 @@ public class usersDaoImpl implements usersDao {
 	 * 检测用户登录是否成功的实现
 	 */
 	@Override
-	public mUser queryUsersByNameAndPwd(String userName, String userPwd) {
+	public Users queryUsersByNameAndPwd(String userName, String userPwd) {
 		// TODO Auto-generated method stub
 		@SuppressWarnings("unchecked")
-		List<mUser> list = (List<mUser>) DBUtil.select("select * from M_USER where USER_NAME=? and USER_PASSWORD=?",
-				mUser.class, userName, userPwd);
+		List<Users> list = (List<Users>) DBUtil.select("select * from MUSER where USERNAME=? and USERPASSWORD=?",
+				Users.class, userName, userPwd);
 		if (list.size() > 0)
 			return list.get(0);
 		return null;
@@ -81,10 +81,10 @@ public class usersDaoImpl implements usersDao {
 	 * 通过用户名寻找用户的实现
 	 */
 	@Override
-	public mUser queryUsersByName(String userName) {
+	public Users queryUsersByName(String userName) {
 		// TODO Auto-generated method stub
 		@SuppressWarnings("unchecked")
-		List<mUser> list = (List<mUser>) DBUtil.select("select * from M_USER where USER_NAME=?", mUser.class, userName);
+		List<Users> list = (List<Users>) DBUtil.select("select * from MUSER where USERNAME=?", Users.class, userName);
 		if (list.size() > 0)
 			return list.get(0);
 		return null;

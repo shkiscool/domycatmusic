@@ -2,7 +2,7 @@ package com.shk.serviceImpl;
 
 import com.shk.dao.usersDao;
 import com.shk.daoImpl.usersDaoImpl;
-import com.shk.entity.mUser;
+import com.shk.entity.Users;
 import com.shk.service.usersService;
 import com.shk.util.PageData;
 
@@ -20,7 +20,7 @@ public class usersServiceImpl implements usersService {
 	 * 用户增加业务的实现
 	 */
 	@Override
-	public boolean addUsers(mUser users) {
+	public boolean addUsers(Users users) {
 		// TODO Auto-generated method stub
 		return ud.addUsers(users);
 	}
@@ -38,7 +38,7 @@ public class usersServiceImpl implements usersService {
 	 * 用户修改业务的实现
 	 */
 	@Override
-	public boolean updateUsers(mUser users) {
+	public boolean updateUsers(Users users) {
 		// TODO Auto-generated method stub
 		return ud.updateUsers(users);
 	}
@@ -47,7 +47,7 @@ public class usersServiceImpl implements usersService {
 	 * 用户分页查询的实现
 	 */
 	@Override
-	public PageData<mUser> getUsers(int page, int pagesize, String usersNameLike) {
+	public PageData<Users> getUsers(int page, int pagesize, String usersNameLike) {
 		// TODO Auto-generated method stub
 		return ud.queryUsers(page, pagesize, usersNameLike);
 	}
@@ -56,7 +56,7 @@ public class usersServiceImpl implements usersService {
 	 * 用户登录操作的实现
 	 */
 	@Override
-	public mUser login(String userName, String userPwd) {
+	public Users login(String userName, String userPwd) {
 		// TODO Auto-generated method stub
 		return ud.queryUsersByNameAndPwd(userName, userPwd);
 	}
@@ -65,7 +65,7 @@ public class usersServiceImpl implements usersService {
 	 * 通过用户名查询用户的实现
 	 */
 	@Override
-	public mUser getUserByName(String userName) {
+	public Users getUserByName(String userName) {
 		// TODO Auto-generated method stub
 		return ud.queryUsersByName(userName);
 	}

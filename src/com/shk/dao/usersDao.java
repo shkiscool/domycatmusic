@@ -1,6 +1,6 @@
 package com.shk.dao;
 
-import com.shk.entity.mUser;
+import com.shk.entity.Users;
 import com.shk.util.PageData;
 
 /**
@@ -18,7 +18,7 @@ public interface usersDao {
 	 *            传入一个用户对象
 	 * @return
 	 */
-	public boolean addUsers(mUser users);
+	public boolean addUsers(Users users);
 
 	/**
 	 * 用户的删除操作抽象方法
@@ -36,7 +36,7 @@ public interface usersDao {
 	 *            传入一个用户对象
 	 * @return
 	 */
-	public boolean updateUsers(mUser users);
+	public boolean updateUsers(Users users);
 
 	/**
 	 * 用户的分页查询抽象方法
@@ -49,7 +49,7 @@ public interface usersDao {
 	 *            传入要查找的用户名关键字
 	 * @return
 	 */
-	public PageData<mUser> queryUsers(int page, int pagesize, String usersNameLike);
+	public PageData<Users> queryUsers(int page, int pagesize, String usersNameLike);
 
 	/**
 	 * 检测用户登录的抽象方法
@@ -60,7 +60,7 @@ public interface usersDao {
 	 *            传入用户密码
 	 * @return
 	 */
-	public mUser queryUsersByNameAndPwd(String userName, String userPwd);
+	public Users queryUsersByNameAndPwd(String userName, String userPwd);
 
 	/**
 	 * 通过名字查询用户信息的抽象方法
@@ -69,5 +69,5 @@ public interface usersDao {
 	 *            传入用户名
 	 * @return
 	 */
-	public mUser queryUsersByName(String userName);
+	public Users queryUsersByName(String userName);
 }
