@@ -44,7 +44,7 @@ public class MusicController extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		String op = "query";
-		int page = 2;
+		int page = 1;
 		int pageSize = 12;
 		String musicLike = "";
 		
@@ -100,6 +100,7 @@ public class MusicController extends HttpServlet {
 	public static PageData<Music> getRandomMusic(int pageSize) {
 		Random rd = new Random();
 		int page = rd.nextInt(100);
+		
 		PageData<Music> pd = ms.getMusic(page, pageSize, "");
 		return pd;
 		
@@ -115,6 +116,7 @@ public class MusicController extends HttpServlet {
 	public static String getMyList(int page,int pageSize,String musicLike) {
 		PageData<Music> pd = ms.getMusic(page, pageSize, musicLike);
 		String str = ms.changeToSongStr(pd.getData());
+		System.out.println(str);
 		return str;
 	}
 
