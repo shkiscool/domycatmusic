@@ -11,6 +11,8 @@ import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import com.shk.util.PageData;
+
 /**
  * 数据库操作的辅助类
  */
@@ -324,6 +326,41 @@ public class DBUtil {
 				+ identity + " not in (select top " + start + " " + identity
 				+ " from " + name + " )"; // 拼接查询语句
 		List list = (List) select(selSql, cla, null);
+		PageData data = new PageData(list, count, pageSize, page);
+		return data;
+	}
+	
+	/**
+	 * oracle的分页实现
+	 * 
+	 * @param sql  执行的sql语句  (select * from emp where ename like ?)
+	 * @param page  当前页码
+	 * @param pageSize  每页显示的记录数
+	 * @param cla  Class类对象(Emp.class Dept.class)
+	 * @param param  sql语句中的? ("%S%")
+	 * @return   是一个PageData对象
+	 */
+	public static PageData getOraclePage(String sql, Integer page, Integer pageSize, Class cla, Object... param) {
+		// sql select * from news
+		// select count(1) from (select * from news) t --得到记录总数
+		String selSql = "select count(1) from (" + sql + ") t";
+		if (page == null) {
+			page = 1;
+		}
+		if (pageSize == null) {
+			pageSize = 10;
+		}
+
+		Integer count = Integer.parseInt(getFirst(selSql, param).toString());
+
+		int start = (page - 1) * pageSize; // 起始位置算法
+
+		int end = page * pageSize;
+		String oracleSql = "select * from (select tbl.*,rownum r from (" + sql + ") tbl where rownum<=" + end
+				+ ") mytable  where r>" + start;
+
+		List list = (List) select(oracleSql, cla, param);
+		// 创建一个PageData对象
 		PageData data = new PageData(list, count, pageSize, page);
 		return data;
 	}
