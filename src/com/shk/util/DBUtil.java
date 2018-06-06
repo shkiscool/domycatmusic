@@ -17,8 +17,8 @@ import org.apache.commons.beanutils.BeanUtils;
 public class DBUtil {
 
 	private static final String DRIVER = "oracle.jdbc.OracleDriver";
-	private static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
-	private static final String USER = "music"; // 用户名
+	private static final String URL = "jdbc:oracle:thin:@192.168.13.117:1521:orcl";
+	private static final String USER = "scott"; // 用户名
 	private static final String PASSWORD = "tiger";// 密码
 
 	/**
