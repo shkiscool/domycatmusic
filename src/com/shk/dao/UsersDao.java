@@ -9,7 +9,7 @@ import com.shk.util.PageData;
  * @author Administrator
  *
  */
-public interface usersDao {
+public interface UsersDao {
 
 	/**
 	 * 用户的增加操作抽象方法

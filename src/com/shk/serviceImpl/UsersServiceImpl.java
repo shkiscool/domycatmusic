@@ -1,9 +1,9 @@
 package com.shk.serviceImpl;
 
-import com.shk.dao.usersDao;
-import com.shk.daoImpl.usersDaoImpl;
+import com.shk.dao.UsersDao;
+import com.shk.daoImpl.UsersDaoImpl;
 import com.shk.entity.Users;
-import com.shk.service.usersService;
+import com.shk.service.UsersService;
 import com.shk.util.PageData;
 
 /**
@@ -12,9 +12,9 @@ import com.shk.util.PageData;
  * @author 徐扬 2018/6/2 20:00
  *
  */
-public class usersServiceImpl implements usersService {
+public class UsersServiceImpl implements UsersService {
 
-	usersDao ud = new usersDaoImpl();
+	UsersDao ud = new UsersDaoImpl();
 
 	/**
 	 * 用户增加业务的实现

@@ -6,14 +6,14 @@ package com.shk.entity;
  * @author 徐扬 2018/6/2 17:00
  *
  */
-public class uAndMode {
+public class UAndMode {
 
 	private int UANDMID; // 用户与心情表关联编号
 	private int USER_ID; // 用户编号
 	private int MODEID; // 曲风（心情）编号
 	private int UAMCOUNT; // 用户听歌类型的次数
 
-	public uAndMode() {
+	public UAndMode() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -35,7 +35,7 @@ public class uAndMode {
 	 * @param uAMCOUNT
 	 *            用户听歌类型的次数
 	 */
-	public uAndMode(int uANDMID, int uSER_ID, int mODEID, int uAMCOUNT) {
+	public UAndMode(int uANDMID, int uSER_ID, int mODEID, int uAMCOUNT) {
 		super();
 		UANDMID = uANDMID;
 		USER_ID = uSER_ID;

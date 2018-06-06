@@ -2,7 +2,7 @@ package com.shk.daoImpl;
 
 import java.util.List;
 
-import com.shk.dao.usersDao;
+import com.shk.dao.UsersDao;
 import com.shk.entity.Users;
 import com.shk.util.DBUtil;
 import com.shk.util.PageData;
@@ -13,7 +13,7 @@ import com.shk.util.PageData;
  * @author –Ï—Ô    2018/6/2 20:00
  *
  */
-public class usersDaoImpl implements usersDao {
+public class UsersDaoImpl implements UsersDao {
 
 	
 	/**

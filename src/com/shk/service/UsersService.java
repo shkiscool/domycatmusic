@@ -9,7 +9,7 @@ import com.shk.util.PageData;
  * @author 徐扬    2018/6/2 20:00
  *
  */
-public interface usersService {
+public interface UsersService {
 
 	/**
 	 * 实现增加用户业务的抽象方法

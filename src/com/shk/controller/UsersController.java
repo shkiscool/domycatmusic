@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.shk.entity.Users;
-import com.shk.service.usersService;
-import com.shk.serviceImpl.usersServiceImpl;
+import com.shk.service.UsersService;
+import com.shk.serviceImpl.UsersServiceImpl;
 import com.shk.util.PageData;
 
 /**
@@ -28,7 +28,7 @@ import com.shk.util.PageData;
 public class UsersController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	// 创建Service对象
-	usersService us = new usersServiceImpl();
+	UsersService us = new UsersServiceImpl();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse

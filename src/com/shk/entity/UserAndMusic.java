@@ -6,13 +6,13 @@ package com.shk.entity;
  * @author 徐扬 2018/6/2 17:00
  *
  */
-public class userAndMusic {
+public class UserAndMusic {
 
 	private int UANDMID;  //用户与歌曲关联编号
 	private int USER_ID;  //用户编号
 	private int M_ID;  //歌曲编号
 	
-	public userAndMusic() {
+	public UserAndMusic() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -27,7 +27,7 @@ public class userAndMusic {
 	 * @param uSER_ID  用户编号
 	 * @param m_ID  歌曲编号
 	 */
-	public userAndMusic(int uANDMID, int uSER_ID, int m_ID) {
+	public UserAndMusic(int uANDMID, int uSER_ID, int m_ID) {
 		super();
 		UANDMID = uANDMID;
 		USER_ID = uSER_ID;
