@@ -46,10 +46,11 @@ public class MusicDaoImpl implements MusicDao {
 		return list;
 	}
 
+	//勾思奇：修改返回值类型
 	@Override
-	public Music queryMusicById(int musicId) {
+	public List<Music> queryMusicById(int musicId) {
 		// TODO Auto-generated method stub
-		return (Music) DBUtil.getFirst(
+		return (List<Music>) DBUtil.getFirst(
 				"select mId as \"mId\",tId as \"tId\",singerId as \"singerId\",mName as \"mName\",mUrl as \"mUrl\",mCount as \"mCount\",mLyric as \"mLyric\",mDate as \"mDate\",mImg as \"mImg\",singerName as \"singerName\",mTime as \"mTime\" from MUSIC where MID = ?",
 				musicId);
 	}

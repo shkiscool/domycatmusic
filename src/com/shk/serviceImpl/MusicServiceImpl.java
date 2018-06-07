@@ -75,10 +75,14 @@ public class MusicServiceImpl implements MusicService {
 		return md.queryAllMusic();
 	}
 
+	//勾思奇：修改逻辑处理
 	@Override
 	public Music getMusicById(int musicId) {
 		// TODO Auto-generated method stub
-		return md.queryMusicById(musicId);
+		List<Music> list =  md.queryMusicById(musicId);
+		if(list.size()>0) {
+			return list.get(0);
+		}else return null;
 	}
 
 	@Override

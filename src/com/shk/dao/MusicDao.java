@@ -42,8 +42,9 @@ public interface MusicDao {
 	 * 通过歌曲ID搜索歌曲
 	 * @param musicId 歌曲ID
 	 * @return 返回一首歌
+	 * //勾思奇：修改返回值类型
 	 */
-	public Music queryMusicById(int musicId);
+	public List<Music> queryMusicById(int musicId);
 	/**
 	 * 通过歌曲的类型ID搜索同一种类型或风格的歌曲
 	 * @param typeId 类型ID

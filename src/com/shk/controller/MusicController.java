@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.shk.entity.Music;
 import com.shk.service.MusicService;
 import com.shk.serviceImpl.MusicServiceImpl;
@@ -82,6 +83,25 @@ public class MusicController extends HttpServlet {
 		/**
 		 * 后续添加
 		 */
+		/**
+		 * 勾思奇：后续添加搜索得到分页歌单列表的方法
+		 */
+		if("search".equals(op)) {
+			if(null!=request.getParameter("page"))
+			{
+				page =Integer.parseInt(request.getParameter("page"));
+			}
+			if(null!=request.getParameter("pageSize"))
+			{
+				pageSize =Integer.parseInt(request.getParameter("pageSize"));
+			}
+			String keyword = request.getParameter("keyword");
+			PageData<Music> pd = ms.getMusic(page, pageSize, keyword);
+			Gson gson = new Gson();
+			String data = gson.toJson(pd);
+			System.out.println(data);
+			out.print(data);
+		}
 		
 	}
 
@@ -102,6 +122,7 @@ public class MusicController extends HttpServlet {
 		int page = rd.nextInt(100);
 		
 		PageData<Music> pd = ms.getMusic(page, pageSize, "");
+		
 		return pd;
 		
 	}
