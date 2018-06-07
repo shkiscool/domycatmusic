@@ -21,7 +21,7 @@ import com.shk.util.PageData;
 /**
  * 用户后端控制器
  * 
- * @author 徐扬    2018/6/2 20:00
+ * @author 徐扬 2018/6/2 20:00
  *
  */
 @WebServlet("/UsersController")
@@ -32,14 +32,13 @@ public class UsersController extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 *      判断执行哪个操作
+	 *      response) 判断执行哪个操作
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		// TODO Auto-generated method stub
-		
+
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		// 参数名 op 值如果等于 list才做查询
@@ -82,7 +81,8 @@ public class UsersController extends HttpServlet {
 		int USER_LEVEL = Integer.parseInt(userLevel); // 用户权限
 		String USER_PHOTO = request.getParameter("userPhoto"); // 用户图片路径
 		String userLove = request.getParameter("userLove");
-		System.out.println(userLove);
+		String USER_SEX = request.getParameter("userSex");
+		String USER_BIRTHDAY = request.getParameter("userBirthday");
 		if (null != userLove) {
 			USER_LOVE = userLove;
 		}
@@ -90,7 +90,8 @@ public class UsersController extends HttpServlet {
 		if (null != userEmail) {
 			USER_EMAIL = userEmail;
 		}
-		Users users = new Users(USER_ID, USER_NAME, USER_PASSWORD, USER_LEVEL, USER_EMAIL, USER_LOVE, USER_PHOTO);
+		Users users = new Users(USER_ID, USER_NAME, USER_PASSWORD, USER_LEVEL, USER_EMAIL, USER_LOVE, USER_PHOTO,
+				USER_SEX, USER_BIRTHDAY);
 		boolean flag = us.updateUsers(users);
 		PrintWriter out = response.getWriter();
 		if (flag) {
@@ -109,7 +110,7 @@ public class UsersController extends HttpServlet {
 	 */
 	protected void doDel(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String userId = request.getParameter("userId");  //从网页端换取管理员想要删除用户的ID
+		String userId = request.getParameter("userId"); // 从网页端换取管理员想要删除用户的ID
 		boolean flag = us.delUsers(Integer.parseInt(userId));
 		PrintWriter out = response.getWriter();
 		if (flag) {
@@ -129,11 +130,11 @@ public class UsersController extends HttpServlet {
 	protected void doAdd(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		PageData<Users> pd = us.getUsers(1, 1, "");
-		int USER_ID = pd.getTotal() + 1;  //从用户表中获取用户的总数然后加一变成新加用户的编号（有缺陷，中间不能隔断）
-		String USER_PHOTO = "";  //用户照片的链接地址
-		String USER_LOVE = "";  //用户的音乐喜好
-		int USER_LEVEL = 1; //用户权限（一般默认为普通用户，这句其实是多余的~~）
-		String USER_EMAIL = "";  //用户的邮箱地址
+		int USER_ID = pd.getTotal() + 1; // 从用户表中获取用户的总数然后加一变成新加用户的编号（有缺陷，中间不能隔断）
+		String USER_PHOTO = ""; // 用户照片的链接地址
+		String USER_LOVE = ""; // 用户的音乐喜好
+		int USER_LEVEL = 1; // 用户权限（一般默认为普通用户，这句其实是多余的~~）
+		String USER_EMAIL = ""; // 用户的邮箱地址
 		String userLove = request.getParameter("userLove");
 		if (null != userLove) {
 			USER_LOVE = userLove;
@@ -142,9 +143,9 @@ public class UsersController extends HttpServlet {
 		if (null != userId) {
 			USER_ID = Integer.parseInt(userId);
 		}
-		String USER_NAME = request.getParameter("userName");  //从网页端获取用户名
-		String USER_PWD = request.getParameter("userPwd");  //从网页端获取用户密码
-		String userLevel = request.getParameter("userLevel"); //从网页端获取设置的用户权限数据
+		String USER_NAME = request.getParameter("userName"); // 从网页端获取用户名
+		String USER_PWD = request.getParameter("userPwd"); // 从网页端获取用户密码
+		String userLevel = request.getParameter("userLevel"); // 从网页端获取设置的用户权限数据
 
 		if (null != userLevel) {
 			USER_LEVEL = Integer.parseInt(userLevel);
@@ -154,7 +155,12 @@ public class UsersController extends HttpServlet {
 		if (null != userEmail) {
 			USER_EMAIL = userEmail;
 		}
-		Users users = new Users(USER_ID, USER_NAME, USER_PWD, USER_LEVEL, USER_EMAIL, USER_LOVE, USER_PHOTO);
+
+		String USER_SEX = request.getParameter("userSex");
+		String USER_BIRTHDAY = request.getParameter("userBirthday");
+
+		Users users = new Users(USER_ID, USER_NAME, USER_PWD, USER_LEVEL, USER_EMAIL, USER_LOVE, USER_PHOTO, USER_SEX,
+				USER_BIRTHDAY);
 		boolean flag = us.addUsers(users);
 		PrintWriter out = response.getWriter();
 		if (flag) {
@@ -215,20 +221,24 @@ public class UsersController extends HttpServlet {
 	protected void doSign(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		PageData<Users> pd = us.getUsers(1, 1, "");
-		int USER_ID = pd.getTotal() + 1;   //从用户表中获取用户的总数然后加一变成新加用户的编号（有缺陷，中间不能隔断）
-		int USER_LEVEL = 1;  //用户权限（一般默认为普通用户，这句其实是多余的~~）
-		String USER_LOVE = "";  //注册界面没有该窗口所以为空
-		String USER_PHOTO = "";  //注册界面没有该窗口所以为空
-		String USER_EMAIL = "";  //这句其实也是多余的，因为登录界面必须输入EMAIL地址才能注册成功
-		String USER_NAME = request.getParameter("userName");  //从网页端获取用户名
-		String USER_PWD = request.getParameter("userPwd");  //从网页端获取用户密码
-		String userEmail = request.getParameter("userEmail");  //从网页端获取EMAIL地址
+		int USER_ID = pd.getTotal() + 1; // 从用户表中获取用户的总数然后加一变成新加用户的编号（有缺陷，中间不能隔断）
+		int USER_LEVEL = 1; // 用户权限（一般默认为普通用户，这句其实是多余的~~）
+		String USER_LOVE = ""; // 注册界面没有该窗口所以为空
+		String USER_PHOTO = ""; // 注册界面没有该窗口所以为空
+		String USER_EMAIL = ""; // 这句其实也是多余的，因为登录界面必须输入EMAIL地址才能注册成功
+		String USER_NAME = request.getParameter("userName"); // 从网页端获取用户名
+		String USER_PWD = request.getParameter("userPwd"); // 从网页端获取用户密码
+		String userEmail = request.getParameter("userEmail"); // 从网页端获取EMAIL地址
 		if (null != userEmail) {
 			USER_EMAIL = userEmail;
 		}
-		Users users = new Users(USER_ID, USER_NAME, USER_PWD, USER_LEVEL, USER_EMAIL, USER_LOVE, USER_PHOTO);
+		String USER_SEX = request.getParameter("userSex");
+		String USER_BIRTHDAY = request.getParameter("userBirthday");
 
-		boolean flag = us.addUsers(users);  //执行增加操作
+		Users users = new Users(USER_ID, USER_NAME, USER_PWD, USER_LEVEL, USER_EMAIL, USER_LOVE, USER_PHOTO, USER_SEX,
+				USER_BIRTHDAY);
+
+		boolean flag = us.addUsers(users); // 执行增加操作
 
 		request.setAttribute("Usignflag", flag);
 		request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -246,35 +256,37 @@ public class UsersController extends HttpServlet {
 			throws ServletException, IOException {
 		String ap = request.getParameter("ap");
 		PrintWriter out = response.getWriter();
-		if ("au".equals(ap)) {   //当ap=au时，执行查询操作，判断用户名在数据库中是否存在
+		if ("au".equals(ap)) { // 当ap=au时，执行查询操作，判断用户名在数据库中是否存在
 			String username = request.getParameter("username");
 			Users uss = us.getUserByName(username);
 			if (null != uss) {
 				out.print("用户名已存在！");
 			}
-		} else if ("aw".equals(ap)) {  //当ap=aw 时，判断两次输入的密码是否一致
+		} else if ("aw".equals(ap)) { // 当ap=aw 时，判断两次输入的密码是否一致
 			String password = request.getParameter("password");
 			String repassword = request.getParameter("repassword");
 			if (!password.equals(repassword)) {
 				out.print("两次输入的密码不一致！请重新输入！");
 			}
-		} else if ("login".equals(ap)) {  //当ap=login时，执行登录操作，判断用户名和密码是否正确
+		} else if ("login".equals(ap)) { // 当ap=login时，执行登录操作，判断用户名和密码是否正确
 			String userName = request.getParameter("userName");
 			String userPwd = request.getParameter("userPwd");
 			Users u = us.login(userName, userPwd);
 			if (null == u) {
 				out.print("用户名或密码错误！");
+			}else {
+				out.print("true");
 			}
-		} else if("list".equals(ap)) {
-			//模糊查询的初始设置值为"";这样可以查询所有数据
-			String userNameLike = "";  
-			//从网页端获取页码
-			int	page = Integer.parseInt(request.getParameter("Userpage"));
-			
-			//从网页端获取管理员设置的每页数据量信息
+		} else if ("list".equals(ap)) {
+			// 模糊查询的初始设置值为"";这样可以查询所有数据
+			String userNameLike = "";
+			// 从网页端获取页码
+			int page = Integer.parseInt(request.getParameter("Userpage"));
+
+			// 从网页端获取管理员设置的每页数据量信息
 			int pagesize = Integer.parseInt(request.getParameter("pagesize"));
 
-			//从网页端获取管理员查询所使用的关键字
+			// 从网页端获取管理员查询所使用的关键字
 			if (null != request.getParameter("userNameLike")) {
 				userNameLike = request.getParameter("userNameLike");
 			}
@@ -282,11 +294,11 @@ public class UsersController extends HttpServlet {
 			PageData<Users> pd = us.getUsers(page, pagesize, userNameLike);
 
 			Map<Object, Object> info = new HashMap<Object, Object>();
-		    info.put("data", pd.getData());
-		    info.put("page", pd.getPage());
-		    info.put("totalpage", pd.getTotalPage());
-		    String json = new Gson().toJson(info);
-		    out.write(json);
+			info.put("data", pd.getData());
+			info.put("page", pd.getPage());
+			info.put("totalpage", pd.getTotalPage());
+			String json = new Gson().toJson(info);
+			out.write(json);
 		}
 		out.close();
 	}

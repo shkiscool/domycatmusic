@@ -15,6 +15,8 @@ public class Users {
 	private String USEREMAIL; // 用户邮箱
 	private String USERLOVE; // 用户音乐偏好
 	private String USERPHOTO; // 用户头像
+	private String USERSEX; // 用户性别
+	private String USERBIRTHDAY; // 用户生日
 
 	// 无参构造
 	public Users() {
@@ -24,12 +26,12 @@ public class Users {
 	@Override
 	public String toString() {
 		return "Users [USERID=" + USERID + ", USERNAME=" + USERNAME + ", USERPASSWORD=" + USERPASSWORD + ", USERLEVEL="
-				+ USERLEVEL + ", USEREMAIL=" + USEREMAIL + ", USERLOVE=" + USERLOVE + ", USERPHOTO=" + USERPHOTO + "]";
+				+ USERLEVEL + ", USEREMAIL=" + USEREMAIL + ", USERLOVE=" + USERLOVE + ", USERPHOTO=" + USERPHOTO
+				+ ", USERSEX=" + USERSEX + ", USERBIRTHDAY=" + USERBIRTHDAY + "]";
 	}
 
 	/**
 	 * 有参构造
-	 * 
 	 * @param uSERID
 	 *            用户编号
 	 * @param uSERNAME
@@ -37,16 +39,20 @@ public class Users {
 	 * @param uSERPASSWORD
 	 *            用户密码
 	 * @param uSERLEVEL
-	 *            用户权限
+	 *            用户等级
 	 * @param uSEREMAIL
 	 *            用户邮箱
 	 * @param uSERLOVE
 	 *            用户音乐偏好
 	 * @param uSERPHOTO
 	 *            用户头像
+	 * @param uSERSEX
+	 *            用户性别
+	 * @param uSERBIRTHDAY
+	 *            用户生日
 	 */
 	public Users(int uSERID, String uSERNAME, String uSERPASSWORD, int uSERLEVEL, String uSEREMAIL, String uSERLOVE,
-			String uSERPHOTO) {
+			String uSERPHOTO, String uSERSEX, String uSERBIRTHDAY) {
 		super();
 		USERID = uSERID;
 		USERNAME = uSERNAME;
@@ -55,6 +61,8 @@ public class Users {
 		USEREMAIL = uSEREMAIL;
 		USERLOVE = uSERLOVE;
 		USERPHOTO = uSERPHOTO;
+		USERSEX = uSERSEX;
+		USERBIRTHDAY = uSERBIRTHDAY;
 	}
 
 	public int getUSERID() {
@@ -111,6 +119,22 @@ public class Users {
 
 	public void setUSERPHOTO(String uSERPHOTO) {
 		USERPHOTO = uSERPHOTO;
+	}
+
+	public String getUSERSEX() {
+		return USERSEX;
+	}
+
+	public void setUSERSEX(String uSERSEX) {
+		USERSEX = uSERSEX;
+	}
+
+	public String getUSERBIRTHDAY() {
+		return USERBIRTHDAY;
+	}
+
+	public void setUSERBIRTHDAY(String uSERBIRTHDAY) {
+		USERBIRTHDAY = uSERBIRTHDAY;
 	}
 
 }

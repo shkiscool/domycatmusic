@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!-- 用户查询界面（用户列表） -->
@@ -129,16 +129,16 @@
 							class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 							<div class="row">
 								<div class="col-sm-12">
-									<table
-										class="table table-striped table-bordered dataTable no-footer"
-										width="100%" cellspacing="0" style="width: 100%;">
+									<table class="table table-striped table-bordered dataTable no-footer"  cellspacing="0" style="width: 100%;">
 										<thead>
 											<tr role="row">
 												<th class="sorting_asc" style="width: 60px;">编号</th>
 												<th class="sorting" style="width: 60px;">用户名</th>
-												<th class="sorting" style="width: 60px;">用户权限</th>
-												<th class="sorting" style="width: 60px;">用户音乐喜好</th>
-												<th class="sorting" style="width: 60px;">用户照片</th>
+												<th class="sorting" style="width: 60px;">性别</th>
+												<th class="sorting" style="width: 60px;">权限</th>
+												<th class="sorting" style="width: 60px;">音乐偏好</th>
+												<th class="sorting" style="width: 60px;">头像</th>
+												<th class="sorting" style="width: 60px;">生日</th>
 												<th class="sorting" style="width: 60px;">Email</th>
 												<th class="sorting" style="width: 60px;">操作</th>
 											</tr>
@@ -180,10 +180,24 @@
 						action="${pageContext.request.contextPath}/UsersController?op=upd"
 						method="post">
 						<div class="form-group">
+							<label for="userPhoto" class="col-sm-2 control-label">头像:</label>
+							<div class="col-sm-6">
+								<input type="text" required="required" class="form-control"
+									name="userPhoto" id="userPhoto" />
+							</div>
+						</div>
+						<div class="form-group">
 							<label for="userName" class="col-sm-2 control-label">用户名:</label>
 							<div class="col-sm-6">
 								<input type="text" required="required" class="form-control"
 									name="userName" id="userName" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="userSex" class="col-sm-2 control-label">性别:</label>
+							<div class="col-sm-6" id="Sex">
+								<input name="userSex" type="radio" value="男" checked="checked"/>男   &nbsp;&nbsp;&nbsp;&nbsp;
+								<input name="userSex" type="radio" value="女"/>女
 							</div>
 						</div>
 						<div class="form-group">
@@ -201,17 +215,21 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="userPhoto" class="col-sm-2 control-label">用户照片:</label>
+							<label for="userBirthday" class="col-sm-2 control-label">生日:</label>
 							<div class="col-sm-6">
 								<input type="text" required="required" class="form-control"
-									name="userPhoto" id="userPhoto" />
+									name="userBirthday" id="userBirthday" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="userLove" class="col-sm-2 control-label">音乐偏好:</label>
 							<div class="col-sm-6">
-								<input type="text" required="required" class="form-control"
-									name="userLove" id="userLove" />
+								<select name="userLove" id="userLove" class="form-control">
+									<option value="流行">流行</option><option value="英伦">英伦</option><option value="朋克">朋克</option>
+									<option value="民谣">民谣</option><option value="金属">金属</option><option value="后摇">后摇</option>
+									<option value="爵士">爵士</option><option value="轻音乐">轻音乐</option><option value="乡村">乡村</option>
+									<option value="摇滚">摇滚</option><option value="经典">经典 </option>
+								</select>
 							</div>
 						</div>
 						<div class="form-group">
@@ -228,7 +246,7 @@
 							<div class="col-sm-offset-2 col-sm-10" style="float: right;">
 								<button type="submit" class="btn btn-primary">提交更改</button>
 								<button type="button" class="btn btn-default"
-									data-dismiss="modal">关闭</button>
+									data-dismiss="modal" onclick="clear()">关闭</button>
 							</div>
 						</div>
 					</form>
@@ -253,9 +271,9 @@
 	<script src="${pageContext.request.contextPath}/asset/js/main.js"></script>
 	<!-- end: Javascript -->
 	<script src="${pageContext.request.contextPath}/layer/layer.js"></script>
+	<script src="${pageContext.request.contextPath}/laydate/laydate.js"></script>
 	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 	<script>
-	
 	window.onload = function(){
 		pages(1);
 	}
@@ -291,11 +309,14 @@
 			    	$("#listtbody").append("<tr role='row' class='"+userClass+"'>");
 			    	$("#listtbody").append("<td>"+type.USERID+"</td>");
 			    	$("#listtbody").append("<td>"+type.USERNAME+"</td>");
+			    	$("#listtbody").append("<td>"+type.USERSEX+"</td>");
 			    	$("#listtbody").append("<td>"+userLevel+"</td>");
 			    	$("#listtbody").append("<td>"+type.USERLOVE+"</td>");
 			    	$("#listtbody").append("<td>"+type.USERPHOTO+"</td>");
+			    	$("#listtbody").append("<td>"+type.USERBIRTHDAY+"</td>");
 			    	$("#listtbody").append("<td>"+type.USEREMAIL+"</td>");
-			    	$("#listtbody").append("<td><button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='save("+type.USERID+")'>修改</button><a href='javascript:delFunction("+type.USERID+")'><button class='btn btn-danger'>删除</button></a></td></tr>");
+			    	$("#listtbody").append("<td><button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='save("+type.USERID+",\""+type.USERNAME+"\",\""+type.USERPASSWORD+"\",\""+type.USERSEX+"\",\""+type.USERLOVE+"\",\""+type.USERLEVEL+"\",\""+type.USERPHOTO+"\",\""+type.USEREMAIL+"\",\""+type.USERBIRTHDAY+
+			    			"\");'>修改</button><a href='javascript:delFunction("+type.USERID+")'><button class='btn btn-danger'>删除</button></a></td></tr>");
 			    });
 			    $("#pul").append("<li><a href='javascript:void(0)' id='prePage' onclick='pages("+prepages+")'>上一页</a></li>");
 			    for(var i=(array.totalpage < 5 ? 1 : (array.page+2 >= array.totalpage ? array.totalpage-4 : (array.page-1 >= 3 ? array.page-2 : 1))); i<=(array.totalpage < 5 ? array.totalpage : (array.page-2 <= 1 ? 5 :(array.page+2 <= array.totalpage ? array.page+2 : array.totalpage))); i++){
@@ -322,6 +343,15 @@
 		});
 	}
 	
+	/* $(document).ready(function(){
+	    $('#sex').find('input[type=checkbox]').bind('click', function(){
+	        $('#sex').find('input[type=checkbox]').not(this).attr("checked", false);
+	}); */
+	
+	laydate.render({
+		  elem: '#userBirthday' //指定元素
+	});
+	
 	//用于修改的方法
 	var flag = false;
     function send(forms) {
@@ -333,12 +363,14 @@
         	userEmail:$("#userEmail").val(),
         	userLove:$("#userLove").val(),
         	userPhoto:$("#userPhoto").val(),
-        	userLevel:$("#userLevel").val()
+        	userLevel:$("#userLevel").val(),
+        	userSex: $('#Sex input[name="userSex"]:checked ').val(),
+        	userBirthday:$("#userBirthday").val()
         	},
         	function(data,status){
         	    if("true" == data){
         	    	layer.msg('修改成功！',{icon: 1},function(){
-        	    		page(1);
+        	    		pages(1);
         	    	});
         	    	return flag;
         	    }else{
@@ -348,9 +380,18 @@
     	return flag;
     }
 	   
-	//用于修改和删除的通用方法
-	function save(userId){
+	//用于修改方法(将数据填入文本框中)
+	function save(userId,userName,userPwd,userSex,userLove,userLevel,userPhoto,userEmail,userBirthday){
 		$(".userId").val(userId);
+	    document.getElementById("userName").value = userName;
+	    document.getElementById("userPwd").value = userPwd;
+	    $(":radio[name='userSex'][value='" + userSex + "']").prop("checked", "checked");
+	    document.getElementById("userLove").value = userLove;
+	    document.getElementById("userLevel").value = userLevel;
+	    document.getElementById("userPhoto").value = userPhoto;
+	    document.getElementById("userEmail").value = userEmail;
+	    userBirthday = userBirthday.substring(0,9);
+	    document.getElementById("userBirthday").value = userBirthday;
 	}
 	
 	//用于删除的方法
@@ -360,7 +401,7 @@
 			function(data,status){
 				if("true" == data){
 				 layer.msg('删除成功!',{icon: 1},function(){
-					 page(1);
+					 pages(1);
 				 });
 				}else{
 				 layer.msg('删除失败!',{icon: 1});
