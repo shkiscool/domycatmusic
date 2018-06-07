@@ -111,10 +111,25 @@
 				action="${pageContext.request.contextPath}/UsersController?op=add"
 				method="post">
 				<div class="form-group">
+					<label for="userPhoto" class="col-sm-2 control-label">头像:</label>
+					<div class="col-sm-6">
+						<label class="ui_button ui_button_primary" for="xFile"><img id="image" src="../images/imgback.png" width="212" height="212"></label><br/>
+		                <input type="file" id="xFile" style="position:absolute;clip:rect(0 0 0 0);" onchange="selectImage(this);" />
+		                <input type="button" class="btn btn-danger" onclick="uploadImage();" value="上传" />
+					</div>
+				</div>
+				<div class="form-group">
 					<label for="userName" class="col-sm-2 control-label">用户名:</label>
 					<div class="col-sm-6">
 						<input type="text" required="required" class="form-control"
 							name="userName" id="userName" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="userSex" class="col-sm-2 control-label">性别:</label>
+					<div class="col-sm-6" id="Sex">
+						<input name="userSex" type="radio" value="男" checked="checked"/>男   &nbsp;&nbsp;&nbsp;&nbsp;
+						<input name="userSex" type="radio" value="女"/>女
 					</div>
 				</div>
 				<div class="form-group">
@@ -132,17 +147,21 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="userPhoto" class="col-sm-2 control-label">用户照片:</label>
+					<label for="userBirthday" class="col-sm-2 control-label">生日:</label>
 					<div class="col-sm-6">
 						<input type="text" required="required" class="form-control"
-							name="userPhoto" id="userPhoto" />
+							name="userBirthday" id="userBirthday" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="userLove" class="col-sm-2 control-label">用户音乐喜好:</label>
+					<label for="userLove" class="col-sm-2 control-label">音乐偏好:</label>
 					<div class="col-sm-6">
-						<input type="text" required="required" class="form-control"
-							name="userLove" id="userLove" />
+						<select name="userLove" id="userLove" class="form-control">
+							<option value="流行">流行</option><option value="英伦">英伦</option><option value="朋克">朋克</option>
+							<option value="民谣">民谣</option><option value="金属">金属</option><option value="后摇">后摇</option>
+							<option value="爵士">爵士</option><option value="轻音乐">轻音乐</option><option value="乡村">乡村</option>
+							<option value="摇滚">摇滚</option><option value="经典">经典 </option>
+						</select>
 					</div>
 				</div>
 				<div class="form-group">
@@ -178,6 +197,44 @@
 	<script src="${pageContext.request.contextPath}/asset/js/main.js"></script>
 	<!-- end: Javascript -->
 	<script src="${pageContext.request.contextPath}/layer/layer.js"></script>
+	<script src="${pageContext.request.contextPath}/laydate/laydate.js"></script>
+	<script>
+			var image = '';
+
+			function selectImage(file) {
+				if(!file.files || !file.files[0]) {
+					return;
+				}
+				var reader = new FileReader();
+				reader.onload = function(evt) {
+					document.getElementById('image').src = evt.target.result;
+					image = evt.target.result;
+				}
+				reader.readAsDataURL(file.files[0]);
+			}
+
+			function uploadImage() {
+				$.ajax({
+					type: 'POST',
+					url: 'UsersController',
+					data: {
+						image: image
+					},
+					async: false,
+					dataType: 'json',
+					success: function(data) {
+						if(data.success) {
+							alert('上传成功');
+						} else {
+							alert('上传失败');
+						}
+					},
+					error: function(err) {
+						alert('网络故障');
+					}
+				});
+			}
+	</script>
 	<script>
 		var flag = false;
 		function send(forms) {
@@ -187,16 +244,17 @@
 				userPwd : $("#userPwd").val(),
 				userEmail : $("#userEmail").val(),
 				userLove : $("#userLove").val(),
-				userPhoto : $("#userPhoto").val(),
-				userLevel : $("#userLevel").val()
+				userLevel : $("#userLevel").val(),
+				userBirthday : $("#userBirthday").val(),
+				userSex : $("#userSex").val()
 			}, function(data, status) {
 				if ("true" == data) {
 					layer.msg('添加成功！', {icon : 1});
 					document.getElementById("userName").value = "";
 					document.getElementById("userPwd").value = "";
 					document.getElementById("userEmail").value = "";
-					document.getElementById("userLove").value = "";
 					document.getElementById("userPhoto").value = "";
+					document.getElementById("userBirthday").value = "";
 					return flag;
 				} else {
 					layer.msg('添加失败！', {icon : 1});
@@ -206,10 +264,13 @@
 		}
 	</script>
 	<script>
-		$("#left-menu-2").click();
-		$("#left-menu-1").click(function() {
-				location.href = "${pageContext.request.contextPath}/mvc/Behinddesk.jsp";
-		})
+	laydate.render({
+		  elem: '#userBirthday' //指定元素
+	});
+	$("#left-menu-2").click();
+	$("#left-menu-1").click(function() {
+			location.href = "${pageContext.request.contextPath}/mvc/Behinddesk.jsp";
+	})
 	</script>
 </body>
 </html>

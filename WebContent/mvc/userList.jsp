@@ -343,11 +343,6 @@ pageEncoding="UTF-8"%>
 		});
 	}
 	
-	/* $(document).ready(function(){
-	    $('#sex').find('input[type=checkbox]').bind('click', function(){
-	        $('#sex').find('input[type=checkbox]').not(this).attr("checked", false);
-	}); */
-	
 	laydate.render({
 		  elem: '#userBirthday' //指定元素
 	});
