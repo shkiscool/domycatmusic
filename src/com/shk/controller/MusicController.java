@@ -99,7 +99,6 @@ public class MusicController extends HttpServlet {
 			PageData<Music> pd = ms.getMusic(page, pageSize, keyword);
 			Gson gson = new Gson();
 			String data = gson.toJson(pd);
-			System.out.println(data);
 			out.print(data);
 		}
 		
@@ -111,6 +110,7 @@ public class MusicController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+		
 	}
 	
 	/**

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en" class="app">
 <head>
@@ -23,6 +22,9 @@
     <script src="js/ie/respond.min.js"></script>
     <script src="js/ie/excanvas.js"></script>
   <![endif]-->
+	<script src="js/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.js"></script>
 </head>
 <body class="">
 	<section class="vbox">
@@ -171,31 +173,8 @@
 									<section class="vbox animated fadeInUp">
 										<section class="scrollable hover">
 											<div
-												class="list-group no-radius no-border no-bg m-t-n-xxs m-b-none auto">
-												<a href="musicLib.jsp" class="list-group-item"> All </a> <a
-													href="musicLib.jsp" class="list-group-item active">
-													acoustic </a> <a href="musicLib.jsp" class="list-group-item">
-													ambient </a> <a href="musicLib.jsp" class="list-group-item">
-													blues </a> <a href="musicLib.jsp" class="list-group-item">
-													classical </a> <a href="musicLib.jsp" class="list-group-item">
-													country </a> <a href="musicLib.jsp" class="list-group-item">
-													electronic </a> <a href="musicLib.jsp" class="list-group-item">
-													emo </a> <a href="musicLib.jsp" class="list-group-item">
-													folk </a> <a href="musicLib.jsp" class="list-group-item">
-													hardcore </a> <a href="musicLib.jsp" class="list-group-item">
-													hip hop </a> <a href="musicLib.jsp" class="list-group-item">
-													indie </a> <a href="musicLib.jsp" class="list-group-item">
-													jazz </a> <a href="musicLib.jsp" class="list-group-item">
-													latin </a> <a href="musicLib.jsp" class="list-group-item">
-													metal </a> <a href="musicLib.jsp" class="list-group-item">
-													pop </a> <a href="musicLib.jsp" class="list-group-item">
-													pop punk </a> <a href="musicLib.jsp" class="list-group-item">
-													punk </a> <a href="musicLib.jsp" class="list-group-item">
-													reggae </a> <a href="musicLib.jsp" class="list-group-item">
-													rnb </a> <a href="musicLib.jsp" class="list-group-item">
-													rock </a> <a href="musicLib.jsp" class="list-group-item">
-													soul </a> <a href="musicLib.jsp" class="list-group-item">
-													world </a>
+												class="list-group no-radius no-border no-bg m-t-n-xxs m-b-none auto" id="singerList">
+												<a href="javascript:void(0)" class="list-group-item"> 热门歌手 </a> 
 											</div>
 										</section>
 									</section>
@@ -233,9 +212,18 @@
 												
 											</div>
 											
+											<!-- 显示分页标签 -->
+											<div class="row row-sm" id="pageList" >
+												
+											
+											</div>
+											
+											
 											<!-- 显示分页 -->
-											<ul class="pagination pagination" id="pageList">
-												<!-- <li><a href="javascript:void(0);"><i class="fa fa-chevron-left" id="lastPage"></i></a></li>
+											<!-- <ul class="pagination pagination" id="pageList">
+												
+												
+												<li><a href="javascript:void(0);"><i class="fa fa-chevron-left" id="lastPage"></i></a></li>
 												
 												<li><a href="javascript:void(0);">1</a></li>
 												<li><a href="javascript:void(0);">2</a></li>
@@ -243,8 +231,8 @@
 												<li><a href="javascript:void(0);">4</a></li>
 												<li><a href="javascript:void(0);">5</a></li>
 								
-												<li><a href="javascript:void(0);" id="nextPage"><i class="fa fa-chevron-right"></i></a></li> -->
-											</ul>	
+												<li><a href="javascript:void(0);" id="nextPage"><i class="fa fa-chevron-right"></i></a></li>
+											</ul>	 -->
 																		
 											
 										</section>
@@ -348,21 +336,62 @@
 			</section>
 		</section>
 	</section>
-	<script src="js/jquery.min.js"></script>
-	<!-- Bootstrap -->
-	<script src="js/bootstrap.js"></script>
-	<script type="text/javascript">
-  $(function(){
-	  
-	  //歌曲搜索的点击事件，ajax向控制器发送请求，获取分页数据；
-	  $("#btnSearch").click(function(){
-		 var keyword = {
+
+
+
+	
+	<!-- 自动加载所有歌曲 -->
+<script type="text/javascript">
+$(function(){
+	//定义分页查询所有歌曲，定义关键词为空；
+	var keyword = {
 			"op":"search",
-		 	"keyword":$("#txtSearch").val(),
+		 	"keyword":"",
 		 }
-		 $.ajax({
+	
+	//执行根据关键词查询单词的方法
+	ajax(keyword);
+	
+	
+})
+</script>
+
+<!-- 执行搜索歌曲的方法 -->
+<script type="text/javascript">
+$(function(){
+  //歌曲搜索的点击事件，ajax向控制器发送请求，获取分页数据；
+  $("#btnSearch").click(function(){
+	 var keyword = {
+		"op":"search",
+	 	"keyword":$("#txtSearch").val(),
+	 }
+	 ajax(keyword);
+	 
+  });
+});
+</script>
+  
+<!-- 翻页的方法 -->
+<script type="text/javascript">
+function toPage(page, totalPage){
+	  if(page>0&&page<=totalPage){
+		  var keyword = {
+				  "op":"search",
+				  "keyword":$("#txtSearch").val(),
+				  "page":page,
+				  }
+		  ajax(keyword);
+	  }
+}
+  
+</script>
+
+<!-- 定义根据关键词查询歌曲的请求 --> 
+<script type="text/javascript">
+  	function ajax(json){
+  		$.ajax({
 			 url:"${pageContext.request.contextPath}/MusicController",
-			 data: keyword,
+			 data: json,
 			 success: function(data){
 				 
 				 //将控制器返回的string转换为json格式以便解析
@@ -393,27 +422,18 @@
 					 
 				 } 
 				 //得到总页数
-				 var totalPage=Math.ceil(data.total/data.pageSize)+"";
+				 var totalPage=Math.ceil(data.total/data.pageSize);
 				//根据总页数显示分页：
 				console.log(totalPage);
 				console.log(data.page);
-				$("#pageList").append('<li><a href="javascript:void(0);"><i class="fa fa-chevron-left" id="lastPage"></i></a></li>'
-				+'<c:forEach begin="1" end="'+totalPage+'" var="index">'
-				+'<c:if test="'+data.page+'">'
-				+'<li class="active"><a href="#">${index}</a></li>'
-				+'</c:if>'
-				+'<c:if test="'+data.page+'">'
-				+'<li><a href="javascript:void(0);" class="toPage">${index}</a></li>'
-				+'</c:if>'
-				+'</c:forEach>');  
+				$("#pageList").empty();
+				$("#pageList").append('<a id="down" href="javascript:void(0)" onClick="toPage('+(data.page-1)+','+totalPage+')">上一页</a>'
+						 +'<span id="a3">  </span><a id="up" href="javascript:void(0)" onClick="toPage('+(data.page+1)+','+totalPage+')">下一页</a>'
+						 +'<span class="ho">  第<span id="a2">'+data.page+'</span>/<span id="a1">'+totalPage+'</span>页</span></span></div></div>');
+				
 			 }
 		 });
-		 
-	  });
-	  
-	  
-  });
-  
+  	}
   
   </script>
 	<!-- App -->
