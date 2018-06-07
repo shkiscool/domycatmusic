@@ -102,20 +102,21 @@
         	$("#name").html("<font color='red'>用户名不能为空!</font>");
         	$("#name")[0].style.display="block";
             flag = false;
-            return false;
+            return flag;
         }else if($("#password").val() == ""){
         	$("#pwd").html("<font color='red'>密码不能为空!</font>");
         	$("#pwd")[0].style.display="block";
             flag = false;
-            return false;
+            return flag;
         }else{
         	$.post("UsersController","op=ajax&ap=login&userName="+$("#username").val()+"&userPwd="+$("#password").val(),
         		function(data,status){
-        		if("success" == status){
+        		console.log(data);
+        		if("true" != data){
         		$("#name").html("<font color='red'>"+data+"</font>");
         		$("#name")[0].style.display="block";
         		flag = false;
-                return false;
+                return flag;
         		}
         	});	
         }

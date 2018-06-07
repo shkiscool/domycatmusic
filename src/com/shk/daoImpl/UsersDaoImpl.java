@@ -10,21 +10,20 @@ import com.shk.util.PageData;
 /**
  * 用户DAO的实现类
  * 
- * @author 徐扬    2018/6/2 20:00
+ * @author 徐扬 2018/6/2 20:00
  *
  */
 public class UsersDaoImpl implements UsersDao {
 
-	
 	/**
 	 * 用户增加方法的实现
 	 */
 	@Override
 	public boolean addUsers(Users users) {
 		// TODO Auto-generated method stub
-		return DBUtil.execute("insert into MUSER values(?,?,?,?,?,?,?)", users.getUSERID(), users.getUSERNAME(),
-				users.getUSERPASSWORD(), users.getUSERLEVEL(), users.getUSERLOVE(), users.getUSERPHOTO(),
-				users.getUSEREMAIL()) > 0;
+		return DBUtil.execute("insert into MUSER values(?,?,?,?,?,?,?,?,to_date(?,'YYYY-MM-DD'))", users.getUSERID(),
+				users.getUSERNAME(), users.getUSERPASSWORD(), users.getUSERLEVEL(), users.getUSERLOVE(),
+				users.getUSERPHOTO(), users.getUSEREMAIL(), users.getUSERSEX(), users.getUSERBIRTHDAY()) > 0;
 	}
 
 	/**
@@ -43,9 +42,10 @@ public class UsersDaoImpl implements UsersDao {
 	public boolean updateUsers(Users users) {
 		// TODO Auto-generated method stub
 		return DBUtil.execute(
-				"update MUSER set USERNAME=?,USERPASSWORD=?,USERLEVEL=?,USERPHOTO=?,USEREMAIL=?,USERLOVE=? where USERID=?",
-				users.getUSERNAME(), users.getUSERPASSWORD(), users.getUSERLEVEL(),
-				users.getUSERPHOTO(), users.getUSEREMAIL(), users.getUSERLOVE(), users.getUSERID()) > 0;
+				"update MUSER set USERNAME=?,USERPASSWORD=?,USERLEVEL=?,USERPHOTO=?,USEREMAIL=?,USERLOVE=?,USERSEX=?,USERBIRTHDAY=to_date(?,'YYYY-MM-DD') where USERID=?",
+				users.getUSERNAME(), users.getUSERPASSWORD(), users.getUSERLEVEL(), users.getUSERPHOTO(),
+				users.getUSEREMAIL(), users.getUSERLOVE(), users.getUSERSEX(), users.getUSERBIRTHDAY(),
+				users.getUSERID()) > 0;
 	}
 
 	/**
@@ -55,8 +55,8 @@ public class UsersDaoImpl implements UsersDao {
 	public PageData<Users> queryUsers(int page, int pagesize, String usersNameLike) {
 		// TODO Auto-generated method stub
 		@SuppressWarnings("unchecked")
-		PageData<Users> user = DBUtil.getPage("select*from MUSER where USERNAME like ? ORDER BY USERID", page,
-				pagesize, Users.class, "%" + usersNameLike + "%");
+		PageData<Users> user = DBUtil.getPage("select*from MUSER where USERNAME like ? ORDER BY USERID", page, pagesize,
+				Users.class, "%" + usersNameLike + "%");
 		if (null != user) {
 			return user;
 		}
