@@ -1,6 +1,10 @@
 package com.shk.entity;
 
-public class Song {
+import java.io.Serializable;
+
+public class Song implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private String poster; // ¸èÇúÍ¼Æ¬
 	private String artist; // ¸èÊÖÃû³Æ
 	private String title; // ÒôÀÖÃû³Æ

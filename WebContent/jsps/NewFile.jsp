@@ -47,12 +47,14 @@
       </ul>
       <form class="navbar-form navbar-left input-s-lg m-t m-l-n-xs hidden-xs" role="search">
         <div class="form-group">
-          <div class="input-group">
-            <span class="input-group-btn">
-              <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
-            </span>
-            <input type="text" class="form-control input-sm no-border rounded" placeholder="搜索 歌曲 歌手。。。">
-          </div>
+         <div class="input-group">
+						<span class="input-group-btn"> <a class="btn btn-sm bg-white btn-icon rounded"
+							href="${pageContext.request.contextPath}/jsps/musicLib.jsp">
+							<i class="fa fa-search"></i>
+								</a>
+						</span>
+						<!-- <input type="text" class="form-control input-sm no-border rounded" placeholder="搜索 歌曲 歌手。。。"> -->
+					</div>
         </div>
       </form>
       <div class="navbar-right ">
@@ -890,7 +892,7 @@
   <script type="text/javascript">
   	
   	var music = ${requestScope.data};
-	var autoPlay = ${requestScope.autoPlay};
+	var autoPlay = ${requestScope.autoPlay==null?false:requestScope.autoPlay};
   	function palyMusic(id) {
   		location.href="${pageContext.request.contextPath}/MusicController?op=query&musicId="+id;
   	}

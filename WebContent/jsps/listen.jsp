@@ -50,14 +50,12 @@
 				role="search">
 				<div class="form-group">
 					<div class="input-group">
-						<span class="input-group-btn">
-							<button type="submit"
-								class="btn btn-sm bg-white btn-icon rounded">
-								<i class="fa fa-search"></i>
-							</button>
-						</span> <input type="text"
-							class="form-control input-sm no-border rounded"
-							placeholder="搜索 歌曲 歌手。。。">
+						<span class="input-group-btn"> <a class="btn btn-sm bg-white btn-icon rounded"
+							href="${pageContext.request.contextPath}/jsps/musicLib.jsp">
+							<i class="fa fa-search"></i>
+								</a>
+						</span>
+						<!-- <input type="text" class="form-control input-sm no-border rounded" placeholder="搜索 歌曲 歌手。。。"> -->
 					</div>
 				</div>
 			</form>
