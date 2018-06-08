@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!-- 用户查询界面（用户列表） -->
@@ -88,8 +88,8 @@ pageEncoding="UTF-8"%>
 							音乐管理 <span class="fa-angle-right fa right-arrow text-right"></span>
 					</a>
 						<ul class="nav nav-list tree">
-							<li><a href="${pageContext.request.contextPath}/music/MusicList.jsp">音乐列表</a></li>
-							<li><a href="#">音乐编辑</a></li>
+							<li class="active"><a href="${pageContext.request.contextPath}/BackMusicController?op=list"">音乐列表</a></li>
+							<li><a href="${pageContext.request.contextPath}/music/EditMusic.jsp">音乐编辑</a></li>
 						</ul></li>
 				</ul>
 			</div>
@@ -102,16 +102,16 @@ pageEncoding="UTF-8"%>
 			<div class="panel">
 				<div class="panel-body">
 					<div class="col-md-12">
-						<h3 class="animated fadeInLeft">用户管理</h3>
+						<h3 class="animated fadeInLeft">曲库管理</h3>
 						<p class="animated fadeInDown">
-							业务 <span class="fa-angle-right fa"></span> 用户列表
+							业务 <span class="fa-angle-right fa"></span> 歌曲列表
 						</p>
 					</div>
 				</div>
 			</div>
 			<div class="panel">
 				<div class="col-md-3" style="float:left; padding:10px 15px;">
-						<input type="text" name="userNameLike" id="userNameLike"
+						<input type="text" name="musicNameLike" id="musicNameLike"
 							class="form-control" placeholder="Search...">
 				</div>
 				<div style="float:right; padding:10px 15px;">
@@ -129,18 +129,23 @@ pageEncoding="UTF-8"%>
 							class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 							<div class="row">
 								<div class="col-sm-12">
-									<table class="table table-striped table-bordered dataTable no-footer"  cellspacing="0" style="width: 100%;">
+									<table
+										class="table table-striped table-bordered dataTable no-footer"
+										width="100%" cellspacing="0" style="width: 100%;">
 										<thead>
 											<tr role="row">
 												<th class="sorting_asc" style="width: 60px;">编号</th>
-												<th class="sorting" style="width: 60px;">用户名</th>
-												<th class="sorting" style="width: 60px;">性别</th>
-												<th class="sorting" style="width: 60px;">权限</th>
-												<th class="sorting" style="width: 60px;">音乐偏好</th>
-												<th class="sorting" style="width: 60px;">头像</th>
-												<th class="sorting" style="width: 60px;">生日</th>
-												<th class="sorting" style="width: 60px;">Email</th>
-												<th class="sorting" style="width: 60px;">操作</th>
+												<th class="sorting" style="width: 60px;">类型编号</th>
+												<th class="sorting" style="width: 60px;">歌手编号</th>
+												<th class="sorting" style="width: 60px;">歌曲名</th>
+												<th class="sorting" style="width: 60px;">链接地址</th>
+												<th class="sorting" style="width: 60px;">播放次数</th>
+												<th class="sorting" style="width: 60px;">歌词</th>
+												<th class="sorting" style="width: 60px;">收录时间</th>
+												<th class="sorting" style="width: 61px;">歌曲图片</th>
+												<th class="sorting" style="width: 61px;">歌手</th>
+												<th class="sorting" style="width: 60px;">时长</th>
+																	
 											</tr>
 										</thead>
 										<tbody id="listtbody">
@@ -163,8 +168,7 @@ pageEncoding="UTF-8"%>
 	</div>
 
 	<!-- end: content -->
-
-	<!--弹出复选-->
+<!--弹出复选-->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog form-element">
@@ -172,79 +176,66 @@ pageEncoding="UTF-8"%>
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">修改用户</h4>
+					<h4 class="modal-title" id="myModalLabel">修改歌名</h4>
 				</div>
 				<div class="modal-body form-element-padding">
-			<form class="form-horizontal" role="form" id="forms" method="post" enctype="multipart/form-data">
-				<div class="form-group">
-					<label for="userPhoto" class="col-sm-2 control-label">头像:</label>
-					<div class="col-sm-6">
-						<label class="ui_button ui_button_primary" for="xFile"><img id="image" src="../images/imgback.png" width="160" height="160" style="border-radius:80px"></label><br/>
-		                <input type="file" name ="user" id="xFile" accept="image/*" style="position:absolute;clip:rect(0 0 0 0);" onchange="selectImage(this);" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="userName" class="col-sm-2 control-label">用户名:</label>
-					<div class="col-sm-6">
-						<input type="text" required="required" class="form-control"
-							name="userName" id="userName" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="userSex" class="col-sm-2 control-label">性别:</label>
-					<div class="col-sm-6" id="Sex">
-						<input name="userSex" type="radio" value="男" checked="checked"/>男   &nbsp;&nbsp;&nbsp;&nbsp;
-						<input name="userSex" type="radio" value="女"/>女
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="userPwd" class="col-sm-2 control-label">密码:</label>
-					<div class="col-sm-6">
-						<input type="password" required="required" class="form-control"
-							name="userPwd" id="userPwd" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="userEmail" class="col-sm-2 control-label">Email:</label>
-					<div class="col-sm-6">
-						<input type="text" required="required" class="form-control"
-							name="userEmail" id="userEmail" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="userBirthday" class="col-sm-2 control-label">生日:</label>
-					<div class="col-sm-6">
-						<input type="text" required="required" class="form-control"
-							name="userBirthday" id="userBirthday" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="userLove" class="col-sm-2 control-label">音乐偏好:</label>
-					<div class="col-sm-6">
-						<select name="userLove" id="userLove" class="form-control">
-							<option value="流行">流行</option><option value="英伦">英伦</option><option value="朋克">朋克</option>
-							<option value="民谣">民谣</option><option value="金属">金属</option><option value="后摇">后摇</option>
-							<option value="爵士">爵士</option><option value="轻音乐">轻音乐</option><option value="乡村">乡村</option>
-							<option value="摇滚">摇滚</option><option value="经典">经典 </option>
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="userLevel" class="col-sm-2 control-label">用户权限:</label>
-					<div class="col-sm-3">
-						<select name="userLevel" id="userLevel" class="form-control">
-							<option value="1">普通用户</option>
-							<option value="2">管理员</option>
-						</select>
-					</div>
-				</div>
-				<input type="hidden" class="userId" name="userId" id="userId" />
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10" style="float: right;">
-						<button type="button" onclick="uploadImage();" class="btn btn-danger">提交</button>
-					</div>
-				</div>
-			</form>
+					<form class="form-horizontal" role="form" onsubmit="return send()"
+						id="forms"
+						action="${pageContext.request.contextPath}/UsersController?op=upd"
+						method="post">
+						<div class="form-group">
+							<label for="userName" class="col-sm-2 control-label">用户名:</label>
+							<div class="col-sm-6">
+								<input type="text" required="required" class="form-control"
+									name="userName" id="userName" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="userPwd" class="col-sm-2 control-label">密码:</label>
+							<div class="col-sm-6">
+								<input type="password" required="required" class="form-control"
+									name="userPwd" id="userPwd" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="userEmail" class="col-sm-2 control-label">Email:</label>
+							<div class="col-sm-6">
+								<input type="text" required="required" class="form-control"
+									name="userEmail" id="userEmail" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="userPhoto" class="col-sm-2 control-label">用户照片:</label>
+							<div class="col-sm-6">
+								<input type="text" required="required" class="form-control"
+									name="userPhoto" id="userPhoto" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="userLove" class="col-sm-2 control-label">音乐偏好:</label>
+							<div class="col-sm-6">
+								<input type="text" required="required" class="form-control"
+									name="userLove" id="userLove" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="userLevel" class="col-sm-2 control-label">用户权限:</label>
+							<div class="col-sm-3">
+								<select name="userLevel" id="userLevel" class="form-control">
+									<option value="1">普通用户</option>
+									<option value="2">管理员</option>
+								</select>
+							</div>
+						</div>
+						<input class="userId" type=hidden name="userId"></input>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10" style="float: right;">
+								<button type="submit" class="btn btn-primary">提交更改</button>
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭</button>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -252,6 +243,7 @@ pageEncoding="UTF-8"%>
 		<!-- /.modal -->
 	</div>
 	<!--弹出复选 end-->
+	
 
 	<!-- start: Javascript -->
 	<script src="${pageContext.request.contextPath}/asset/js/jquery.min.js"></script>
@@ -266,10 +258,10 @@ pageEncoding="UTF-8"%>
 	<script src="${pageContext.request.contextPath}/asset/js/main.js"></script>
 	<!-- end: Javascript -->
 	<script src="${pageContext.request.contextPath}/layer/layer.js"></script>
-	<script src="${pageContext.request.contextPath}/laydate/laydate.js"></script>
 	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 	<script>
-	window.onload = function(){
+	
+	window.onload = function(){//页面加载时显示第1页
 		pages(1);
 	}
 	
@@ -278,7 +270,7 @@ pageEncoding="UTF-8"%>
 		pages(page);
 	});
 	
-	$("#userNameLike").keyup(function(){
+	$("#musicNameLike").keyup(function(){
 		pages(1);
 	});
 	
@@ -288,32 +280,35 @@ pageEncoding="UTF-8"%>
 	
 	//用于分页，显示数据的通用方法
 	function pages(page){	
-		 $.post("${pageContext.request.contextPath}/UsersController",{"op":"ajax","ap":"list","Userpage":page,"pagesize":$("#sel").val(),"userNameLike":$("#userNameLike").val()},function(data,status){
+		 $.post("${pageContext.request.contextPath}/BackMusicController",{"op":"ajax","ap":"list","musicpage":page,"pageSize":$("#sel").val(),"musicNameLike":$("#musicNameLike").val()},function(data,status){
 				array = JSON.parse(data);
 				var nextpages = array.page + 1;
 				var prepages = array.page - 1;
-				$("td").each(function(index,element){
-					element.remove();
-				});
+				
+				$("#listtbody").html("");
 				$(".pageNo").remove();
 				$("#nextPage").remove();
 				$("#prePage").remove();
 			    $.each(array.data,function(index,type){
-			    	var userLevel = type.USERLEVEL == 1 ? "普通用户" : "管理员";
-			    	var userClass = type.USERID%2 == 0 ? "even" : "odd";
-			    	var userBirthday = type.USERBIRTHDAY.substring(0,10);
-			    	$("#listtbody").append("<tr role='row' class='"+userClass+"'>");
-			    	$("#listtbody").append("<td>"+type.USERID+"</td>");
-			    	$("#listtbody").append("<td>"+type.USERNAME+"</td>");
-			    	$("#listtbody").append("<td>"+type.USERSEX+"</td>");
-			    	$("#listtbody").append("<td>"+userLevel+"</td>");
-			    	$("#listtbody").append("<td>"+type.USERLOVE+"</td>");
-			    	$("#listtbody").append("<td><img id='Image' src="+type.USERPHOTO+"width='20' height='20' style='border-radius:10px'></td>");
-			    	$("#listtbody").append("<td>"+userBirthday+"</td>");
-			    	$("#listtbody").append("<td>"+type.USEREMAIL+"</td>");
-			    	$("#listtbody").append("<td><button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='save("+type.USERID+",\""+type.USERNAME+"\",\""+type.USERPASSWORD+"\",\""+type.USERSEX+"\",\""+type.USERLOVE+"\",\""+type.USERLEVEL+"\",\""+type.USERPHOTO+"\",\""+type.USEREMAIL+"\",\""+userBirthday+
-			    			"\");'>修改</button><a href='javascript:delFunction("+type.USERID+")'><button class='btn btn-danger'>删除</button></a></td></tr>");
+			    	var musicClass = type.mId%2 == 0 ? "even" : "odd";
+			    	$("#listtbody").append("<tr role='row' class='"+musicClass+"'>");
+			    	$("#listtbody").append("<td>"+type.mId+"</td>");
+			    	$("#listtbody").append("<td>"+type.tId+"</td>");
+			    	$("#listtbody").append("<td>"+type.singerId+"</td>");
+			    	$("#listtbody").append("<td>"+type.mName+"</td>");
+			    	$("#listtbody").append("<td>"+type.mUrl+"</td>");
+			    	$("#listtbody").append("<td>"+type.mCount+"</td>");
+			    	$("#listtbody").append("<td>"+type.mLyric+"</td>");
+			    	$("#listtbody").append("<td>"+type.mDate+"</td>");
+			    	$("#listtbody").append("<td><img id='Image' src="+type.mImg+"width='20' height='20' style='border-radius:10px'></td>");
+			    	$("#listtbody").append("<td>"+type.singerName+"</td>");
+			    	$("#listtbody").append("<td>"+type.mTime+"</td>");
+			    	
+			    	$("#listtbody").append("<td><button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='save("+type.mId+")'>修改</button><a href='javascript:delFunction("+type.mId+")'><button class='btn btn-danger'>删除</button></a></td></tr>");
 			    });
+			    
+			    
+			    //下列是进行选择页码
 			    $("#pul").append("<li><a href='javascript:void(0)' id='prePage' onclick='pages("+prepages+")'>上一页</a></li>");
 			    for(var i=(array.totalpage < 5 ? 1 : (array.page+2 >= array.totalpage ? array.totalpage-4 : (array.page-1 >= 3 ? array.page-2 : 1))); i<=(array.totalpage < 5 ? array.totalpage : (array.page-2 <= 1 ? 5 :(array.page+2 <= array.totalpage ? array.page+2 : array.totalpage))); i++){
 			    	$("#pagela").html("第"+array.page+"页(总共"+array.totalpage+"页)")
@@ -339,51 +334,35 @@ pageEncoding="UTF-8"%>
 		});
 	}
 	
-	laydate.render({
-		  elem: '#userBirthday' //指定元素
-	});
-	
-	//用于修改的方法
-	function selectImage(file) {
-		if(!file.files || !file.files[0]) {
-			return;
-		}
-		var reader = new FileReader();
-		reader.readAsDataURL(file.files[0]);
-		reader.onload = function(evt) {
-			document.getElementById('image').src = evt.target.result;
-		}	
-	} 
-
-	function uploadImage() {
-			var form = new FormData(document.getElementById("forms"));
-		    $.ajax({
-		       url:"${pageContext.request.contextPath}/UsersController?op=udp",
-		        type:"post",
-		        data:form,
-		        processData:false,
-		        contentType:false,
-		        success:function(data){
-		        	pages(1);
-		            layer.msg('修改成功！', {icon : 1});
-		        },
-		        error:function(e){
-		       	layer.msg('修改失败！', {icon : 1});
-		        }
-		    });
-	}
+	/* //用于修改的方法
+	var flag = false;
+    function send(forms) {
+        	$.post("${pageContext.request.contextPath}/UsersController",{
+        	op:"udp",
+        	userName:$("#userName").val(),
+        	userId:$(".userId").val(),
+        	userPwd:$("#userPwd").val(),
+        	userEmail:$("#userEmail").val(),
+        	userLove:$("#userLove").val(),
+        	userPhoto:$("#userPhoto").val(),
+        	userLevel:$("#userLevel").val()
+        	},
+        	function(data,status){
+        	    if("true" == data){
+        	    	layer.msg('修改成功！',{icon: 1},function(){
+        	    		page(1);
+        	    	});
+        	    	return flag;
+        	    }else{
+        	    	layer.msg('修改失败！',{icon: 1});
+        	    }
+        	});
+    	return flag;
+    }
 	   
-	//用于修改方法(将数据填入文本框中)
-	function save(userId,userName,userPwd,userSex,userLove,userLevel,userPhoto,userEmail,userBirthday){
+	//用于修改和删除的通用方法
+	function save(userId){
 		$(".userId").val(userId);
-	    document.getElementById("userName").value = userName;
-	    document.getElementById("userPwd").value = userPwd;
-	    $(":radio[name='userSex'][value='" + userSex + "']").prop("checked", "checked");
-	    document.getElementById("userLove").value = userLove;
-	    document.getElementById("userLevel").value = userLevel;
-	    document.getElementById('image').src = userPhoto;
-	    document.getElementById("userEmail").value = userEmail;
-	    document.getElementById("userBirthday").value = userBirthday;
 	}
 	
 	//用于删除的方法
@@ -393,7 +372,7 @@ pageEncoding="UTF-8"%>
 			function(data,status){
 				if("true" == data){
 				 layer.msg('删除成功!',{icon: 1},function(){
-					 pages(1);
+					 page(1);
 				 });
 				}else{
 				 layer.msg('删除失败!',{icon: 1});
@@ -401,12 +380,12 @@ pageEncoding="UTF-8"%>
 			});
 		});
 	}
-	
+	*/
 	//用于按钮的点击
-	$("#left-menu-2").click();
+	$("#left-menu-3").click();
 	$("#left-menu-1").click(function() {
 		location.href = "${pageContext.request.contextPath}/mvc/Behinddesk.jsp";
-	})
+	}) 
 		
 	</script>
 </body>

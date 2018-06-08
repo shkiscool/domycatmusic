@@ -3,6 +3,7 @@ package com.shk.dao;
 import java.util.List;
 
 import com.shk.entity.Music;
+import com.shk.entity.View_Singer;
 import com.shk.util.PageData;
 
 public interface MusicDao {
@@ -77,5 +78,10 @@ public interface MusicDao {
 	public List<Music> queryMusicByAnyWord(String str);
 	
 //	public List<Music> queryFavoriteMusicByUserNameAndPwd(String userName,String userPwd);
-
+	
+	/**
+	 * 通过视图获取不重复的歌手列表；
+	 * @return
+	 */
+	public List<View_Singer> querySinger();
 }

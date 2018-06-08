@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.shk.dao.MusicDao;
 import com.shk.entity.Music;
+import com.shk.entity.View_Singer;
 import com.shk.util.DBUtil;
 import com.shk.util.PageData;
 
@@ -40,6 +41,7 @@ public class MusicDaoImpl implements MusicDao {
 	@Override
 	public List<Music> queryAllMusic() {
 		// TODO Auto-generated method stub
+		@SuppressWarnings("unchecked")
 		List<Music> list = (List<Music>) DBUtil.select(
 				"select mId as \"mId\",tId as \"tId\",singerId as \"singerId\",mName as \"mName\",mUrl as \"mUrl\",mCount as \"mCount\",mLyric as \"mLyric\",mDate as \"mDate\",mImg as \"mImg\",singerName as \"singerName\",mTime as \"mTime\" from MUSIC",
 				Music.class);
@@ -47,17 +49,17 @@ public class MusicDaoImpl implements MusicDao {
 	}
 
 	//勾思奇：修改返回值类型
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Music> queryMusicById(int musicId) {
-		// TODO Auto-generated method stub
-		return (List<Music>) DBUtil.getFirst(
-				"select mId as \"mId\",tId as \"tId\",singerId as \"singerId\",mName as \"mName\",mUrl as \"mUrl\",mCount as \"mCount\",mLyric as \"mLyric\",mDate as \"mDate\",mImg as \"mImg\",singerName as \"singerName\",mTime as \"mTime\" from MUSIC where MID = ?",
-				musicId);
+		return (List<Music>) DBUtil.select("select mId as \"mId\",tId as \"tId\",singerId as \"singerId\",mName as \"mName\",mUrl as \"mUrl\",mCount as \"mCount\",mLyric as \"mLyric\",mDate as \"mDate\",mImg as \"mImg\",singerName as \"singerName\",mTime as \"mTime\" from MUSIC where MID = ?",
+				Music.class,musicId);
 	}
 
 	@Override
 	public List<Music> queryMusicByTypeId(int typeId) {
 		// TODO Auto-generated method stub
+		@SuppressWarnings("unchecked")
 		List<Music> list = (List<Music>) DBUtil.select(
 				"select mId as \"mId\",tId as \"tId\",singerId as \"singerId\",mName as \"mName\",mUrl as \"mUrl\",mCount as \"mCount\",mLyric as \"mLyric\",mDate as \"mDate\",mImg as \"mImg\",singerName as \"singerName\",mTime as \"mTime\" from MUSIC where TID = ?",
 				Music.class, typeId);
@@ -97,6 +99,14 @@ public class MusicDaoImpl implements MusicDao {
 		List<Music> list = (List<Music>) DBUtil.select(
 				"select mId as \"mId\",tId as \"tId\",singerId as \"singerId\",mName as \"mName\",mUrl as \"mUrl\",mCount as \"mCount\",mLyric as \"mLyric\",mDate as \"mDate\",mImg as \"mImg\",singerName as \"singerName\",mTime as \"mTime\" from MUSIC where MNAME like ? or SINGERNAME like ? or MLYRIC like ?",
 				Music.class, "%" + str + "%", "%" + str + "%", "%" + str + "%");
+		return list;
+	}
+	
+	@Override
+	public List<View_Singer> querySinger() {
+		//从创建的视图中获取不重复的id列表；
+		String sql = "select singerid as \"singerId\", singername as \"singerName\" from singer";
+		List<View_Singer> list = (List<View_Singer>)DBUtil.select(sql, View_Singer.class);
 		return list;
 	}
 

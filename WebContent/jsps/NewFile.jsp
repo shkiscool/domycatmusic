@@ -104,10 +104,10 @@
                 <a href="#">设置</a>
               </li>
               <li>
-                <a href="profile.html">用户信息</a>
+                <a href="${pageContext.request.contextPath}/jsps/profile.html">用户信息</a>
               </li>
               <li>
-                <a href="docs.html">帮助</a>
+                <a href="${pageContext.request.contextPath}/jsps/docs.html">帮助</a>
               </li>
               <li class="divider"></li>
               <li>
@@ -136,13 +136,13 @@
                       	在线音乐
                     </li>
                     <li>
-                      <a href="index.html">
+                      <a href="${pageContext.request.contextPath}/MusicController">
                         <i class="icon-disc icon text-success"></i>
                         <span class="font-bold">音乐馆</span>
                       </a>
                     </li>
                     <li>
-                      <a href="genres.html">
+                      <a href="${pageContext.request.contextPath}/jsps/musicLib.jsp">
                         <i class="icon-music-tone-alt icon text-info"></i>
                         <span class="font-bold">音乐库</span>
                       </a>
@@ -168,7 +168,7 @@
                                              我的音乐
                     </li>
                     <li>
-                      <a href="listen.html">
+                      <a href="${pageContext.request.contextPath}/jsps/listen.jsp">
                         <i class="icon-list icon  text-info-dker"></i>
                         <span class="font-bold">用户歌单</span>
                       </a>
@@ -507,32 +507,33 @@
 						</c:when>
 						<c:otherwise>
 							<c:forEach items="${requestScope.pdRandom.data}" var="music">
-							
 								<div class="clearfix visible-xs"></div>
-			                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+								<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
 			                      <div class="item">
 			                        <div class="pos-rlt">
-			                          <div class="item-overlay opacity r r-2x bg-black active">
+			                          <div class="bottom">
+			                            <span class="badge bg-info m-l-sm m-b-sm">${music.mTime}</span>
+			                          </div>
+			                          <div class="item-overlay opacity r r-2x bg-black">
 			                            <div class="text-info padder m-t-sm text-sm">
 			                              <i class="fa fa-star"></i>
 			                              <i class="fa fa-star"></i>
 			                              <i class="fa fa-star"></i>
-			                              <i class="fa fa-star-o text-muted"></i>
+			                              <i class="fa fa-star"></i>
 			                              <i class="fa fa-star-o text-muted"></i>
 			                            </div>
 			                            <div class="center text-center m-t-n">
-			                              <a href="#" data-toggle="class">
+			                               <a href="javascript:void(0);" onclick="palyMusic(${music.mId})" data-toggle="class">
 			                                <i class="icon-control-play i-2x text"></i>
-			                                <i class="icon-control-pause i-2x text-active"></i>
 			                              </a>
 			                            </div>
 			                            <div class="bottom padder m-b-sm">
-			                              <a href="#" class="pull-right active" data-toggle="class">
+			                              <a href="#" class="pull-right"  data-toggle="class">
 			                                <i class="fa fa-heart-o text"></i>
 			                                <i class="fa fa-heart text-active text-danger"></i>
 			                              </a>
-			                              <a href="#" data-toggle="class">
-			                                <i class="fa fa-plus-circle text"></i>
+			                              <a href="#">
+			                                 <i class="fa fa-plus-circle text"></i>
 			                                <i class="fa fa-check-circle text-active text-info"></i>
 			                              </a>
 			                            </div>
@@ -565,10 +566,10 @@
 		                            <div class="pos-rlt">
 		                              <div class="item-overlay opacity r r-2x bg-black">
 		                                <div class="center text-center m-t-n">
-		                                  <a href="#"><i class="fa fa-play-circle i-2x"></i></a>
+		                                  <a href="javascript:void(0);" onclick="palyMusic(${music.mId})" ><i class="fa fa-play-circle i-2x"></i></a>
 		                                </div>
 		                              </div>
-		                              <a href="#"><img src="${music.mImg}" alt="" class="r r-2x img-full"></a>
+		                              <a href="#"><img src= ${music.mImg} alt="" class="r r-2x img-full"></a>
 		                            </div>
 		                            <div class="padder-v">
 		                              <a href="#" class="text-ellipsis">${music.mName}</a>
@@ -887,15 +888,23 @@
   <script type="text/javascript" src="${pageContext.request.contextPath}/jsps/js/jPlayer/add-on/jplayer.playlist.min.js"></script>
 <%--   <script type="text/javascript" src="${pageContext.request.contextPath}/jsps/js/jPlayer/demo.js"></script> --%>
   <script type="text/javascript">
+  	
+  	var music = ${requestScope.data};
+	var autoPlay = ${requestScope.autoPlay};
+  	function palyMusic(id) {
+  		location.href="${pageContext.request.contextPath}/MusicController?op=query&musicId="+id;
+  	}
+  
+  
   $(document).ready(function(){
-
+	  	console.log(music);
 		var myPlaylist = new jPlayerPlaylist({
 		    jPlayer: "#jplayer_N",
 		    cssSelectorAncestor: "#jp_container_N"
-		  },${requestScope.data}, {
+		  },music, {
 		    playlistOptions: {
 		      enableRemoveControls: true,
-		      autoPlay: false
+		      autoPlay: autoPlay
 		    },
 		    swfPath: "js/jPlayer",
 		    supplied: "webmv, ogv, m4v, oga, mp3",
