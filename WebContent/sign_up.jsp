@@ -63,7 +63,7 @@
 						</div>
 						<div class="form-group">
 							<label for="email" class="sr-only">Email</label>
-							<input type="email" class="form-control" id="email" placeholder="邮箱" autocomplete="off">
+							<input type="email" class="form-control" id="email" name="userEmail" placeholder="邮箱" autocomplete="off">
 						</div>
 						<div class="form-group">
 						    <label id="pwd" style="display:none"></label>

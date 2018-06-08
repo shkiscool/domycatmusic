@@ -64,7 +64,7 @@
         <li class=" ripple"> <a class="tree-toggle nav-header"  id="left-menu-3"><span class="fa fa-check-square-o"></span> 音乐管理 <span class="fa-angle-right fa right-arrow text-right"></span> </a>
           <ul class="nav nav-list tree" >
             <li><a href="${pageContext.request.contextPath}/music/MusicList.jsp">音乐列表</a></li>
-            <li><a href="#">音乐编辑</a></li>
+            <li><a href="#s">音乐编辑</a></li>
           </ul>
         </li>
       </ul>

@@ -224,10 +224,6 @@ public class UsersController extends HttpServlet {
             if(!item.getContentType().startsWith("image")){
                 return;
             }
-
-            //向控制台打印文件信息
-            System.out.println("fileName:"+fileName);
-            System.out.println("fileSize:"+item.getSize());
         }
 
         //上传文件存储路径
@@ -239,8 +235,8 @@ public class UsersController extends HttpServlet {
         try {
             item.write(new File(childDirectory.toString(),UUID.randomUUID()+"_"+fileName));
             String FileName = UUID.randomUUID() +"_"+fileName;
-            String FilePath = childDirectory.toString() + "\\";
-            USER_PHOTO = FilePath + FileName;
+            String NewPath = childDirectory.toString().substring(childDirectory.toString().indexOf("\file"),17);
+            USER_PHOTO = NewPath + FileName;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -320,6 +316,8 @@ public class UsersController extends HttpServlet {
 		int USER_LEVEL = 1; // 用户权限（一般默认为普通用户，这句其实是多余的~~）
 		String USER_LOVE = ""; // 注册界面没有该窗口所以为空
 		String USER_PHOTO = ""; // 注册界面没有该窗口所以为空
+		String USER_SEX = "男";
+		String USER_BIRTHDAY = "2000/01/01";
 		String USER_EMAIL = ""; // 这句其实也是多余的，因为登录界面必须输入EMAIL地址才能注册成功
 		String USER_NAME = request.getParameter("userName"); // 从网页端获取用户名
 		String USER_PWD = request.getParameter("userPwd"); // 从网页端获取用户密码
@@ -327,8 +325,6 @@ public class UsersController extends HttpServlet {
 		if (null != userEmail) {
 			USER_EMAIL = userEmail;
 		}
-		String USER_SEX = request.getParameter("userSex");
-		String USER_BIRTHDAY = request.getParameter("userBirthday");
 
 		Users users = new Users(USER_ID, USER_NAME, USER_PWD, USER_LEVEL, USER_EMAIL, USER_LOVE, USER_PHOTO, USER_SEX,
 				USER_BIRTHDAY);
