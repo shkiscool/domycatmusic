@@ -43,6 +43,7 @@ public class UsersController extends HttpServlet {
 	UsersService us = new UsersServiceImpl();
 	public static Map<String, String> Nomalform = new HashMap<String, String>();
 	private static String USER_PHOTO = "";
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response) 判断执行哪个操作
@@ -85,37 +86,37 @@ public class UsersController extends HttpServlet {
 	protected void doUpd(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-        response.setContentType("text/html;charset=utf-8");
+		response.setContentType("text/html;charset=utf-8");
 
-        //检查请求是否是multipart/form-data类型
-        if(!ServletFileUpload.isMultipartContent(request)){  //不是multipart/form-data类型
-            throw new RuntimeException("表单的enctype属性不是multipart/form-data类型！！");
-        }
+		// 检查请求是否是multipart/form-data类型
+		if (!ServletFileUpload.isMultipartContent(request)) { // 不是multipart/form-data类型
+			throw new RuntimeException("表单的enctype属性不是multipart/form-data类型！！");
+		}
 
-        //创建上传所需要的两个对象
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        ServletFileUpload sfu = new ServletFileUpload(factory); //解析器依赖于工厂
+		// 创建上传所需要的两个对象
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		ServletFileUpload sfu = new ServletFileUpload(factory); // 解析器依赖于工厂
 
-        //创建容器来接受解析的内容
-        List<FileItem> items = new ArrayList<FileItem>();
-        //将上传的文件信息放入容器中
-        try {
-            items = sfu.parseRequest(request);
-        } catch (FileUploadException e) {
-            e.printStackTrace();
-        }
+		// 创建容器来接受解析的内容
+		List<FileItem> items = new ArrayList<FileItem>();
+		// 将上传的文件信息放入容器中
+		try {
+			items = sfu.parseRequest(request);
+		} catch (FileUploadException e) {
+			e.printStackTrace();
+		}
 
-
-        //遍历容器,处理解析的内容;封装两个方法，一个处理普通表单域，一个处理文件的表单域
-        for(FileItem item : items){
-            if(item.isFormField()){
-                handleFormField(item);
-            }else{
-                handleUploadField(item);  
-            }
-        }
-        Users users = new Users(Integer.parseInt(Nomalform.get("userId")), Nomalform.get("userName"), Nomalform.get("userPwd"), Integer.parseInt(Nomalform.get("userLevel")), Nomalform.get("userEmail"), Nomalform.get("userLove"), USER_PHOTO, Nomalform.get("userSex"),
-				Nomalform.get("userBirthday"));
+		// 遍历容器,处理解析的内容;封装两个方法，一个处理普通表单域，一个处理文件的表单域
+		for (FileItem item : items) {
+			if (item.isFormField()) {
+				handleFormField(item);
+			} else {
+				handleUploadField(item);
+			}
+		}
+		Users users = new Users(Integer.parseInt(Nomalform.get("userId")), Nomalform.get("userName"),
+				Nomalform.get("userPwd"), Integer.parseInt(Nomalform.get("userLevel")), Nomalform.get("userEmail"),
+				Nomalform.get("userLove"), USER_PHOTO, Nomalform.get("userSex"), Nomalform.get("userBirthday"));
 		boolean flag = us.updateUsers(users);
 		PrintWriter out = response.getWriter();
 		if (flag) {
@@ -156,37 +157,38 @@ public class UsersController extends HttpServlet {
 		PageData<Users> pd = us.getUsers(1, 1, "");
 		int USER_ID = pd.getTotal() + 1; // 从用户表中获取用户的总数然后加一变成新加用户的编号（有缺陷，中间不能隔断）
 		request.setCharacterEncoding("utf-8");
-        response.setContentType("text/html;charset=utf-8");
+		response.setContentType("text/html;charset=utf-8");
 
-        //检查请求是否是multipart/form-data类型
-        if(!ServletFileUpload.isMultipartContent(request)){  //不是multipart/form-data类型
-            throw new RuntimeException("表单的enctype属性不是multipart/form-data类型！！");
-        }
+		// 检查请求是否是multipart/form-data类型
+		if (!ServletFileUpload.isMultipartContent(request)) { // 不是multipart/form-data类型
+			throw new RuntimeException("表单的enctype属性不是multipart/form-data类型！！");
+		}
 
-        //创建上传所需要的两个对象
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        ServletFileUpload sfu = new ServletFileUpload(factory); //解析器依赖于工厂
+		// 创建上传所需要的两个对象
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		ServletFileUpload sfu = new ServletFileUpload(factory); // 解析器依赖于工厂
 
-        //创建容器来接受解析的内容
-        List<FileItem> items = new ArrayList<FileItem>();
-        //将上传的文件信息放入容器中
-        try {
-            items = sfu.parseRequest(request);
-        } catch (FileUploadException e) {
-            e.printStackTrace();
-        }
+		// 创建容器来接受解析的内容
+		List<FileItem> items = new ArrayList<FileItem>();
+		// 将上传的文件信息放入容器中
+		try {
+			items = sfu.parseRequest(request);
+		} catch (FileUploadException e) {
+			e.printStackTrace();
+		}
 
-        //遍历容器,处理解析的内容;封装两个方法，一个处理普通表单域，一个处理文件的表单域
-        for(FileItem item : items){
-            if(item.isFormField()){
-                handleFormField(item);
-            }else{
-                handleUploadField(item);  
-            }
-        }
-		
-		Users users = new Users(USER_ID, Nomalform.get("userName"), Nomalform.get("userPwd"), Integer.parseInt(Nomalform.get("userLevel")), Nomalform.get("userEmail"), Nomalform.get("userLove"), USER_PHOTO, Nomalform.get("userSex"),
-				Nomalform.get("userBirthday"));
+		// 遍历容器,处理解析的内容;封装两个方法，一个处理普通表单域，一个处理文件的表单域
+		for (FileItem item : items) {
+			if (item.isFormField()) {
+				handleFormField(item);
+			} else {
+				handleUploadField(item);
+			}
+		}
+
+		Users users = new Users(USER_ID, Nomalform.get("userName"), Nomalform.get("userPwd"),
+				Integer.parseInt(Nomalform.get("userLevel")), Nomalform.get("userEmail"), Nomalform.get("userLove"),
+				USER_PHOTO, Nomalform.get("userSex"), Nomalform.get("userBirthday"));
 		boolean flag = us.addUsers(users);
 		PrintWriter out = response.getWriter();
 		if (flag) {
@@ -194,71 +196,73 @@ public class UsersController extends HttpServlet {
 		}
 		out.close();
 	}
-	
+
 	/**
-     * 处理普通的表单域
-     * @param item
-     */
+	 * 处理普通的表单域
+	 * 
+	 * @param item
+	 */
 	private void handleFormField(FileItem item) {
-        String fieldName = item.getFieldName(); //得到表单域的name的值
-        String value = "";
-        try {
-            value = item.getString("utf-8");  //得到普通表单域中所输入的值
-            Nomalform.put(fieldName, value);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+		String fieldName = item.getFieldName(); // 得到表单域的name的值
+		String value = "";
+		try {
+			value = item.getString("utf-8"); // 得到普通表单域中所输入的值
+			Nomalform.put(fieldName, value);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
 
-        //打印到控制台
-        System.out.println("fieldName:"+fieldName+"--value:"+value);
-    }
-	
 	/**
-     * 处理文件的表单域
-     * @param item
-     */
-    private void handleUploadField(FileItem item) {
-        String fileName = item.getName();  //得到上传文件的文件名
-        if(fileName!=null && !"".equals(fileName)){
-            //控制只能上传图片
-            if(!item.getContentType().startsWith("image")){
-                return;
-            }
-        }
+	 * 处理文件的表单域
+	 * 
+	 * @param item
+	 */
+	private void handleUploadField(FileItem item) {
+		String fileName = item.getName(); // 得到上传文件的文件名
+		if (fileName != null && !"".equals(fileName)) {
+			// 控制只能上传图片
+			if (!item.getContentType().startsWith("image")) {
+				return;
+			}
+		}
 
-        //上传文件存储路径
-        String path = this.getServletContext().getRealPath("/files");
-        //创建子目录
-        File childDirectory = getChildDirectory(path);
+		// 上传文件存储路径
+		String path = "E:/upload/images";
+		// 创建子目录
+		File childDirectory = getChildDirectory(path);
 
-        //写入服务器或者磁盘
-        try {
-            item.write(new File(childDirectory.toString(),UUID.randomUUID()+"_"+fileName));
-            String FileName = UUID.randomUUID() +"_"+fileName;
-            String NewPath = childDirectory.toString().substring(childDirectory.toString().indexOf("\file"),17);
-            USER_PHOTO = NewPath + FileName;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		// 写入服务器或者磁盘
+		try {
+			String Filename = UUID.randomUUID() + "_" + fileName;
+			item.write(new File(childDirectory.toString(), Filename));
+			String str = childDirectory.toString().replace("E:\\upload", "");
+			String str1 = str + "/" + Filename;
+			str1 = str1.replace("\\", "/");
+			USER_PHOTO = "http://127.0.0.1:8080" + str1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    }
-    
-    /**
-     * 按照时间创建子目录，防止一个目录中文件过多，不利于以后遍历查找
-     * @param path
-     * @return
-     */
-    private File getChildDirectory(String path) {
-        Date currTime = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String time = sdf.format(currTime);
+	}
 
-        File file = new File(path,time);
-        if(!file.exists()){
-            file.mkdirs();
-        }
-        return file;
-    }
+	/**
+	 * 按照时间创建子目录，防止一个目录中文件过多，不利于以后遍历查找
+	 * 
+	 * @param path
+	 * @return
+	 */
+	private File getChildDirectory(String path) {
+		Date currTime = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String time = sdf.format(currTime);
+
+		File file = new File(path, time);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		return file;
+	}
 
 	/**
 	 * 执行用户的分页查询操作
@@ -365,7 +369,7 @@ public class UsersController extends HttpServlet {
 			Users u = us.login(userName, userPwd);
 			if (null == u) {
 				out.print("用户名或密码错误！");
-			}else {
+			} else {
 				out.print("true");
 			}
 		} else if ("list".equals(ap)) {

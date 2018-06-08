@@ -46,7 +46,7 @@
 				<ul class="nav navbar-nav navbar-right user-nav">
 					<li class="user-name"><span>${sessionScope.users.USERNAME}</span></li>
 					<li class="dropdown avatar-dropdown"><img
-						src="${pageContext.request.contextPath}/asset/img/avatar.jpg"
+						src="${sessionScope.users.USERPHOTO}"
 						class="img-circle avatar" alt="user name" data-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="true" />
 						<ul class="dropdown-menu user-dropdown">

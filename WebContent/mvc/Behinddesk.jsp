@@ -36,7 +36,7 @@
       <a href="mvc/Behinddesk.jsp" class="navbar-brand"> <b>DMC音乐后台管理</b> </a>
       <ul class="nav navbar-nav navbar-right user-nav">
         <li class="user-name"><span>${sessionScope.users.USERNAME}</span></li>
-        <li class="dropdown avatar-dropdown"> <img src="${pageContext.request.contextPath}/asset/img/avatar.jpg" class="img-circle avatar" alt="user name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"/>
+        <li class="dropdown avatar-dropdown"> <img src="${sessionScope.users.USERPHOTO}" class="img-circle avatar" alt="user name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"/>
           <ul class="dropdown-menu user-dropdown">
             <li><a href="#"><span class="fa fa-power-off"></span> 退出登录</a></li>
           </ul>

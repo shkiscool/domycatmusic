@@ -50,7 +50,7 @@ pageEncoding="UTF-8"%>
 				<ul class="nav navbar-nav navbar-right user-nav">
 					<li class="user-name"><span>${sessionScope.users.USERNAME}</span></li>
 					<li class="dropdown avatar-dropdown"><img
-						src="${pageContext.request.contextPath}/asset/img/avatar.jpg"
+						src="${sessionScope.users.USERPHOTO}"
 						class="img-circle avatar" alt="user name" data-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="true" />
 						<ul class="dropdown-menu user-dropdown">
@@ -308,7 +308,7 @@ pageEncoding="UTF-8"%>
 			    	$("#listtbody").append("<td>"+type.USERSEX+"</td>");
 			    	$("#listtbody").append("<td>"+userLevel+"</td>");
 			    	$("#listtbody").append("<td>"+type.USERLOVE+"</td>");
-			    	$("#listtbody").append("<td><img id='Image' src="+type.USERPHOTO+"width='20' height='20' style='border-radius:10px'></td>");
+			    	$("#listtbody").append("<td><img id='Image' src="+type.USERPHOTO+" width='20' height='20' style='border-radius:10px'></td>");
 			    	$("#listtbody").append("<td>"+userBirthday+"</td>");
 			    	$("#listtbody").append("<td>"+type.USEREMAIL+"</td>");
 			    	$("#listtbody").append("<td><button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='save("+type.USERID+",\""+type.USERNAME+"\",\""+type.USERPASSWORD+"\",\""+type.USERSEX+"\",\""+type.USERLOVE+"\",\""+type.USERLEVEL+"\",\""+type.USERPHOTO+"\",\""+type.USEREMAIL+"\",\""+userBirthday+
