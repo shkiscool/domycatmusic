@@ -171,6 +171,12 @@
                         <span class="font-bold">用户歌单</span>
                       </a>
                     </li>
+                    
+                    
+                    
+                    
+                    
+                    
                     <!--<li >
                       <a href="#" class="auto">
                         <span class="pull-right text-muted">
@@ -497,51 +503,24 @@
                           </a>
                           <div>
                             <div class="h3 m-t-xs m-b-xs">John.Smith</div>
-                            <small class="text-muted"><i class="fa fa-map-marker"></i> London, UK</small>
+                            
                           </div>                
                         </div>
-                        <div class="panel wrapper">
-                          <div class="row text-center">
-                            <div class="col-xs-6">
-                              <a href="#">
-                                <span class="m-b-xs h4 block">245</span>
-                                <small class="text-muted">Followers</small>
-                              </a>
-                            </div>
-                            <div class="col-xs-6">
-                              <a href="#">
-                                <span class="m-b-xs h4 block">55</span>
-                                <small class="text-muted">Following</small>
+                      
                               </a>
                             </div>
                           </div>
                         </div>
                         <div class="btn-group btn-group-justified m-b">
-                          <a class="btn btn-success btn-rounded" data-toggle="button">
-                            <span class="text">
-                              <i class="fa fa-eye"></i> Follow
+                       
                             </span>
-                            <span class="text-active">
-                              <i class="fa fa-eye"></i> Following
-                            </span>
+
                           </a>
-                          <a class="btn btn-dark btn-rounded">
-                            <i class="fa fa-comment-o"></i> Chat
+                          <a class="btn btn-dark btn-rounded btn-group-justified">
+                            <i class="fa fa-comment-o"></i> 编辑头像
                           </a>
                         </div>
-                        <div>
-                          <small class="text-uc text-xs text-muted">about me</small>
-                          <p>Artist</p>
-                          <small class="text-uc text-xs text-muted">info</small>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat.</p>
-                          <div class="line"></div>
-                          <small class="text-uc text-xs text-muted">connection</small>
-                          <p class="m-t-sm">
-                            <a href="#" class="btn btn-rounded btn-twitter btn-icon"><i class="fa fa-twitter"></i></a>
-                            <a href="#" class="btn btn-rounded btn-facebook btn-icon"><i class="fa fa-facebook"></i></a>
-                            <a href="#" class="btn btn-rounded btn-gplus btn-icon"><i class="fa fa-google-plus"></i></a>
-                          </p>
-                        </div>
+                       
                       </div>
                     </section>
                   </section>
@@ -550,14 +529,76 @@
                   <section class="vbox">
                     <header class="header bg-light lt">
                       <ul class="nav nav-tabs nav-white">
-                        <li class="active"><a href="#activity" data-toggle="tab">修改用户信息</a></li>
+                        <li class="active"><a href="#activity" data-toggle="tab">编辑个人信息</a></li>
                         <!--<li class=""><a href="#events" data-toggle="tab">Events</a></li>
                         <li class=""><a href="#interaction" data-toggle="tab">Interaction</a></li>-->
                       </ul>
+                      <form>    
+                      	
+                      </form>
                     </header>
+                                           
                     <section class="scrollable">
                       <div class="tab-content">
                         <div class="tab-pane active" id="activity">
+                        	 <br /><br /><br /><br />
+                        	 <div style="position:absolute;top:20px;left:52px;">
+                        		名称:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="user"  ><br><br /><br />
+                        </div> 
+                        <!--[if IE]>
+                        	修改密码
+                        <![endif]-->
+                        	<div  style="position: relative;">
+                        <span style="position:absolute;top:0px;left:35px;" >修改密码:</span>
+                        <input style="resize: none;margin-left:100px;" type="password" maxlength="12"></input><br><br />
+                         <span style="position:absolute;top:50px;left:35px;" >确认密码:</span>
+                        <input style="resize: none;margin-left:100px;" type="password" maxlength="12"></input><br><br />
+                                <!--[if IE]>
+                                	选择性别
+                                <![endif]-->  
+                          </div>      
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+                             性别： <input type="radio" name="sex" value="male" checked />男
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             <input type="radio" name="sex" value="female" />女 
+                             <br /><br>
+                               <!--[if IE]>
+                               	修改邮箱
+                               <![endif]-->  
+                          <div style="position:absolute;top:220px;left:35px;"> 修改邮箱:&nbsp; <input type="email"></div> 
+                            
+                             <!--[if IE]>
+                             	选择出生年月日
+                             <![endif]-->
+                            <span style="position:absolute;top:285px;left:35px;">生日：<input type="datetime-local"   ></span>
+    
+                              
+                              <!--[if IE]>
+                              	
+                              <![endif]-->
+                           <head>
+                         <script type="text/javascript">
+                               function show(){
+                          if(confirm("确定？")){
+                              alert("sure");
+                           }
+                                 else{
+                             alert("not sure")
+                               }
+                                 }
+                               </script>
+                                </head>
+                              <body>
+                              	 <span style="position:absolute;top:350px;left:200px;">
+                         <input type="button" value="保存" onclick="show();"/>
+                         </span>
+                          </body>
+                  
+                              <form onSubmit= "return ret()">
+                              	<span style="position:absolute;top:350px;left:300px;">
+                               <input type="submit" value="取消">
+                                </span>
+                              </form>
                          <!-- <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
                             <li class="list-group-item">
                               <a href="#" class="thumb-sm pull-left m-r-sm">
@@ -679,21 +720,21 @@
                   <section class="vbox">
                     <section class="scrollable padder-v">
                       <div class="panel">
-                        <h4 class="font-thin padder">广告区</h4>
-                        <!--<ul class="list-group">
+                        <h4 class="font-thin padder">HELLO</h4>
+                        <<ul class="list-group">
                           <li class="list-group-item">
-                              <p>Wellcome <a href="#" class="text-info">@Drew Wllon</a> and play this web application template, have fun1 </p>
-                              <small class="block text-muted"><i class="fa fa-clock-o"></i> 2 minuts ago</small>
+                              <p>Wellcome to<a href="#" class="text-info">DMC音乐</a> </p>
+                              
                           </li>
                           <li class="list-group-item">
-                              <p>Morbi nec <a href="#" class="text-info">@Jonathan George</a> nunc condimentum ipsum dolor sit amet, consectetur</p>
-                              <small class="block text-muted"><i class="fa fa-clock-o"></i> 1 hour ago</small>
+                              <p>Hello，<a href="#" class="text-info"></a>在这里请你尽情的聆听美妙的音乐，当你带上耳机的那一刹那，外面的世界已经与你无关。</p>
+                             
                           </li>
                           <li class="list-group-item">                     
-                              <p><a href="#" class="text-info">@Josh Long</a> Vestibulum ullamcorper sodales nisi nec adipiscing elit. Morbi id neque quam. Aliquam sollicitudin venenatis</p>
-                              <small class="block text-muted"><i class="fa fa-clock-o"></i> 2 hours ago</small>
+                              <p><a href="#" class="text-info"></a> 因为有你，我每天都在“绚丽多姿”的绕梁余音中度过。 人们常说音乐是听觉的艺术。我说，音乐还是视觉的艺术。 </p>
+                              
                           </li>
-                        </ul>-->
+                        </ul>
                       </div>
 <!--                      <div class="panel clearfix">
                         <div class="panel-body">
