@@ -1,20 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en" class="app">
 <head>  
   <meta charset="utf-8" />
-  <title>DMC音乐-除了远方还有DMC音乐</title>
+  <title>Musik | Web Application</title>
   <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/jsps/js/jPlayer/jplayer.flat.css" type="text/css" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/jsps/css/bootstrap.css" type="text/css" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/jsps/css/animate.css" type="text/css" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/jsps/css/font-awesome.min.css" type="text/css" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/jsps/css/simple-line-icons.css" type="text/css" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/jsps/css/font.css" type="text/css" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/jsps/css/app.css" type="text/css" />  
+  <link rel="stylesheet" href="js/jPlayer/jplayer.flat.css" type="text/css" />
+  <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="css/animate.css" type="text/css" />
+  <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="css/simple-line-icons.css" type="text/css" />
+  <link rel="stylesheet" href="css/font.css" type="text/css" />
+  <link rel="stylesheet" href="css/app.css" type="text/css" />  
     <!--[if lt IE 9]>
     <script src="js/ie/html5shiv.js"></script>
     <script src="js/ie/respond.min.js"></script>
@@ -23,7 +22,7 @@
 </head>
 <body class="">
   <section class="vbox">
-  	<!--顶部部分开始-->
+   <!--顶部部分开始-->
     <header class="bg-white-only header header-md navbar navbar-fixed-top-xs">
       <div class="navbar-header aside bg-info nav-xs">
         <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
@@ -31,7 +30,7 @@
         </a>
         <a href="index.html" class="navbar-brand text-lt">
           <i class="icon-earphones"></i>
-          <img src="${pageContext.request.contextPath}/jsps/images/logo.png" alt="." class="hide">
+          <img src="images/logo.png" alt="." class="hide">
           <span class="hidden-nav-xs m-l-sm">Musik</span>
         </a>
         <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">
@@ -94,7 +93,7 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown">
               <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
-                <img src="${pageContext.request.contextPath}/jsps/images/a0.png" alt="...">
+                <img src="images/a0.png" alt="...">
               </span>
               John.Smith <b class="caret"></b>
             </a>
@@ -104,10 +103,10 @@
                 <a href="#">设置</a>
               </li>
               <li>
-                <a href="${pageContext.request.contextPath}/jsps/profile.html">用户信息</a>
+                <a href="profile.html">用户信息</a>
               </li>
               <li>
-                <a href="${pageContext.request.contextPath}/jsps/docs.html">帮助</a>
+                <a href="docs.html">帮助</a>
               </li>
               <li class="divider"></li>
               <li>
@@ -136,13 +135,13 @@
                       	在线音乐
                     </li>
                     <li>
-                      <a href="${pageContext.request.contextPath}/MusicController">
+                      <a href="index.html">
                         <i class="icon-disc icon text-success"></i>
                         <span class="font-bold">音乐馆</span>
                       </a>
                     </li>
                     <li>
-                      <a href="${pageContext.request.contextPath}/jsps/musicLib.jsp">
+                      <a href="genres.html">
                         <i class="icon-music-tone-alt icon text-info"></i>
                         <span class="font-bold">音乐库</span>
                       </a>
@@ -168,7 +167,7 @@
                                              我的音乐
                     </li>
                     <li>
-                      <a href="${pageContext.request.contextPath}/jsps/listen.jsp">
+                      <a href="listen.html">
                         <i class="icon-list icon  text-info-dker"></i>
                         <span class="font-bold">用户歌单</span>
                       </a>
@@ -486,180 +485,402 @@
         </aside>
         <!-- /.aside -->
         <section id="content">
-          <section class="hbox stretch">
-            <section>
-              <section class="vbox">
-                <section class="scrollable padder-lg w-f-md" id="bjax-target">
-                  <a href="#" class="pull-right text-muted m-t-lg" data-toggle="class:fa-spin" ><i class="icon-refresh i-lg  inline" id="refresh"></i></a>
-                  <h2 class="font-thin m-b">每日推荐 <span class="musicbar animate inline m-l-sm" style="width:20px;height:20px">
-                    <span class="bar1 a1 bg-primary lter"></span>
-                    <span class="bar2 a2 bg-info lt"></span>
-                    <span class="bar3 a3 bg-success"></span>
-                    <span class="bar4 a4 bg-warning dk"></span>
-                    <span class="bar5 a5 bg-danger dker"></span>
-                  </span></h2>
-                  <div class="row row-sm">
-                  
-					<!-- 这边使用JSTL显示推荐数据 -->
-					<c:choose>
-						<c:when test="${requestScope.pdRandom==null}">
-						显示推荐出错了
-						</c:when>
-						<c:otherwise>
-							<c:forEach items="${requestScope.pdRandom.data}" var="music">
-								<div class="clearfix visible-xs"></div>
-								<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-			                      <div class="item">
-			                        <div class="pos-rlt">
-			                          <div class="bottom">
-			                            <span class="badge bg-info m-l-sm m-b-sm">${music.mTime}</span>
-			                          </div>
-			                          <div class="item-overlay opacity r r-2x bg-black">
-			                            <div class="text-info padder m-t-sm text-sm">
-			                              <i class="fa fa-star"></i>
-			                              <i class="fa fa-star"></i>
-			                              <i class="fa fa-star"></i>
-			                              <i class="fa fa-star"></i>
-			                              <i class="fa fa-star-o text-muted"></i>
-			                            </div>
-			                            <div class="center text-center m-t-n">
-			                               <a href="javascript:void(0);" onclick="palyMusic(${music.mId})" data-toggle="class">
-			                                <i class="icon-control-play i-2x text"></i>
-			                              </a>
-			                            </div>
-			                            <div class="bottom padder m-b-sm">
-			                              <a href="#" class="pull-right"  data-toggle="class">
-			                                <i class="fa fa-heart-o text"></i>
-			                                <i class="fa fa-heart text-active text-danger"></i>
-			                              </a>
-			                              <a href="#">
-			                                 <i class="fa fa-plus-circle text"></i>
-			                                <i class="fa fa-check-circle text-active text-info"></i>
-			                              </a>
-			                            </div>
-			                          </div>
-			                          <a href="#"><img src="${music.mImg}" alt="" class="r r-2x img-full"></a>
-			                        </div>
-			                        <div class="padder-v">
-			                          <a href="#" class="text-ellipsis">${music.mName}</a>
-			                          <a href="#" class="text-ellipsis text-xs text-muted">${music.singerName}</a>
-			                        </div>
-			                      </div>
-			                    </div>
-							
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-7">
-                      <h3 class="font-thin">新歌速递</h3>
-                      <div class="row row-sm">
-                      <c:choose>
-                      	<c:when test="${requestScope.pdNew==null}">
-                      	显示错误
-                      	</c:when>
-                      	<c:otherwise>
-                      		<c:forEach items="${requestScope.pdNew.data}" var="music">
-                      		<div class="col-xs-6 col-sm-3">
-		                         <div class="item">
-		                            <div class="pos-rlt">
-		                              <div class="item-overlay opacity r r-2x bg-black">
-		                                <div class="center text-center m-t-n">
-		                                  <a href="javascript:void(0);" onclick="palyMusic(${music.mId})" ><i class="fa fa-play-circle i-2x"></i></a>
-		                                </div>
-		                              </div>
-		                              <a href="#"><img src= ${music.mImg} alt="" class="r r-2x img-full"></a>
-		                            </div>
-		                            <div class="padder-v">
-		                              <a href="#" class="text-ellipsis">${music.mName}</a>
-		                              <a href="#" class="text-ellipsis text-xs text-muted">${music.singerName}</a>
-		                            </div>
-                         		</div>
-                       		</div>
-                      		</c:forEach>
-                      	</c:otherwise>
-                      </c:choose>
-                        
+          <section class="vbox">
+          <section class="w-f-md">
+            <section class="hbox stretch bg-black dker">
+              <!-- side content -->
+              <aside class="col-sm-5 no-padder" id="sidebar">
+                <section class="vbox animated fadeInUp">
+                  <section class="scrollable">
+                    <div class="m-t-n-xxs item pos-rlt">
+                      <div class="top text-right">
+                        <span class="musicbar animate bg-success bg-empty inline m-r-lg m-t" style="width:25px;height:30px">
+                          <span class="bar1 a3 lter"></span>
+                          <span class="bar2 a5 lt"></span>
+                          <span class="bar3 a1 bg"></span>
+                          <span class="bar4 a4 dk"></span>
+                          <span class="bar5 a2 dker"></span>
+                        </span>
                       </div>
-                    </div>
-                    <div class="col-md-5">
-                      <h3 class="font-thin">歌曲排行</h3>
-                      <div class="list-group bg-white list-group-lg no-bg auto">                          
-                        <a href="#" class="list-group-item clearfix">
-                          <span class="pull-right h2 text-muted m-l">1</span>
-                          <span class="pull-left thumb-sm avatar m-r">
-                            <img src="${pageContext.request.contextPath}/jsps/images/a4.png" alt="...">
-                          </span>
-                          <span class="clear">
-                            <span>Little Town</span>
-                            <small class="text-muted clear text-ellipsis">by Chris Fox</small>
-                          </span>
-                        </a>
-                        <a href="#" class="list-group-item clearfix">
-                          <span class="pull-right h2 text-muted m-l">2</span>
-                          <span class="pull-left thumb-sm avatar m-r">
-                            <img src="${pageContext.request.contextPath}/jsps/images/a5.png" alt="...">
-                          </span>
-                          <span class="clear">
-                            <span>Lementum ligula vitae</span>
-                            <small class="text-muted clear text-ellipsis">by Amanda Conlan</small>
-                          </span>
-                        </a>
-                        <a href="#" class="list-group-item clearfix">
-                          <span class="pull-right h2 text-muted m-l">3</span>
-                          <span class="pull-left thumb-sm avatar m-r">
-                            <img src="${pageContext.request.contextPath}/jsps/images/a6.png" alt="...">
-                          </span>
-                          <span class="clear">
-                            <span>Aliquam sollicitudin venenatis</span>
-                            <small class="text-muted clear text-ellipsis">by Dan Doorack</small>
-                          </span>
-                        </a>
-                        <a href="#" class="list-group-item clearfix">
-                          <span class="pull-right h2 text-muted m-l">4</span>
-                          <span class="pull-left thumb-sm avatar m-r">
-                            <img src="${pageContext.request.contextPath}/jsps/images/a7.png" alt="...">
-                          </span>
-                          <span class="clear">
-                            <span>Aliquam sollicitudin venenatis ipsum</span>
-                            <small class="text-muted clear text-ellipsis">by Lauren Taylor</small>
-                          </span>
-                        </a>
-                        <a href="#" class="list-group-item clearfix">
-                          <span class="pull-right h2 text-muted m-l">5</span>
-                          <span class="pull-left thumb-sm avatar m-r">
-                            <img src="${pageContext.request.contextPath}/jsps/images/a8.png" alt="...">
-                          </span>
-                          <span class="clear">
-                            <span>Vestibulum ullamcorper</span>
-                            <small class="text-muted clear text-ellipsis">by Dan Doorack</small>
-                          </span>
-                        </a>
+                      <div class="bottom gd bg-info wrapper-lg">
+                        <span class="pull-right text-sm">101,400 <br>Followers</span>
+                        <span class="h2 font-thin">Soph Ashe</span>
                       </div>
+                      <img class="img-full" src="images/m43.jpg" alt="...">
                     </div>
-                  </div>
-                  <div class="row m-t-lg m-b-lg">
-                    <div class="col-sm-6">
-                      <div class="bg-primary wrapper-md r">
-                        <a href="#">
-                          <span class="h4 m-b-xs block"><i class=" icon-user-follow i-lg"></i> Login or Create account</span>
-                          <span class="text-muted">Save and share your playlist with your friends when you log in or create an account.</span>
+                    <ul class="list-group list-group-lg no-radius no-border no-bg m-t-n-xxs m-b-none auto">
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#" class="m-r-sm"><i class="icon-plus"></i></a>
+                          <a href="#"><i class="icon-close"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
                         </a>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="bg-black wrapper-md r">
-                        <a href="#">
-                          <span class="h4 m-b-xs block"><i class="icon-cloud-download i-lg"></i> Download our app</span>
-                          <span class="text-muted">Get the apps for desktop and mobile to start listening music at anywhere and anytime.</span>
+                        <div class="clear text-ellipsis">
+                          <span>E.T.M</span>
+                          <span class="text-muted"> -- 04:35</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
                         </a>
-                      </div>
-                    </div>
-                  </div>
+                        <div class="clear text-ellipsis">
+                          <span>Vestibulum id ligula porta</span>
+                          <span class="text-muted"> -- 04:15</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Praesent commodo cursus magna</span>
+                          <span class="text-muted"> -- 02:25</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Curabitur blandit tempus</span>
+                          <span class="text-muted"> -- 05:00</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Faucibus dolor auctor</span>
+                          <span class="text-muted"> -- 03:50</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Get lacinia odio sem nec elit cibus dolor auctor sed odio dui mollis ornare</span>
+                          <span class="text-muted"> -- 04:05</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Faucibus dolor auctor</span>
+                          <span class="text-muted"> -- 02:55</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Donec sed odio dui</span>
+                          <span class="text-muted"> -- 04:35</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Urna mollis ornare vel eu leo</span>
+                          <span class="text-muted"> -- 05:10</span>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="pull-right m-l">
+                          <a href="#" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+                          <a href="#"><i class="icon-plus"></i></a>
+                        </div>
+                        <a href="#" class="jp-play-me m-r-sm pull-left">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <div class="clear text-ellipsis">
+                          <span>Vivamus sagittis lacus vel augue</span>
+                          <span class="text-muted"> -- 02:35</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </section>
                 </section>
-                <footer class="footer bg-dark">
-                  <div id="jp_container_N">
+              </aside>
+              <!-- / side content -->
+              <section class="col-sm-4 no-padder bg">
+                <section class="vbox">
+                  <section class="scrollable hover">
+                    <ul class="list-group list-group-lg no-bg auto m-b-none m-t-n-xxs">
+                      <li class="list-group-item clearfix">
+                        <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <a href="#" class="pull-left thumb-sm m-r">
+                          <img src="images/m0.jpg" alt="...">
+                        </a>
+                        <a class="clear" href="#">
+                          <span class="block text-ellipsis">Little Town</span>
+                          <small class="text-muted">by Soph Ashe</small>
+                        </a>
+                      </li>
+                      <li class="list-group-item clearfix">
+                        <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <a href="#" class="pull-left thumb-sm m-r">
+                          <img src="images/a1.png" alt="...">
+                        </a>
+                        <a class="clear" href="#">
+                          <span class="block text-ellipsis">Get lacinia odio sem nec elit</span>
+                          <small class="text-muted">by Filex</small>
+                        </a>
+                      </li>
+                      <li class="list-group-item clearfix">
+                        <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <a href="#" class="pull-left thumb-sm m-r">
+                          <img src="images/a2.png" alt="...">
+                        </a>
+                        <a class="clear" href="#">
+                          <span class="block text-ellipsis">Donec sed odio du</span>
+                          <small class="text-muted">by Dan Doorack</small>
+                        </a>
+                      </li>
+                      <li class="list-group-item clearfix">
+                        <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <a href="#" class="pull-left thumb-sm m-r">
+                          <img src="images/a3.png" alt="...">
+                        </a>
+                        <a class="clear" href="#">
+                          <span class="block text-ellipsis">Curabitur blandit tempu</span>
+                          <small class="text-muted">by Foxes</small>
+                        </a>
+                      </li>
+                      <li class="list-group-item clearfix">
+                        <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <a href="#" class="pull-left thumb-sm m-r">
+                          <img src="images/a4.png" alt="...">
+                        </a>
+                        <a class="clear" href="#">
+                          <span class="block text-ellipsis">Urna mollis ornare vel eu leo</span>
+                          <small class="text-muted">by Chris Fox</small>
+                        </a>
+                      </li>
+                      <li class="list-group-item clearfix">
+                        <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <a href="#" class="pull-left thumb-sm m-r">
+                          <img src="images/a5.png" alt="...">
+                        </a>
+                        <a class="clear" href="#">
+                          <span class="block text-ellipsis">Faucibus dolor auctor</span>
+                          <small class="text-muted">by Lauren Taylor</small>
+                        </a>
+                      </li>
+                      <li class="list-group-item clearfix">
+                        <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <a href="#" class="pull-left thumb-sm m-r">
+                          <img src="images/a6.png" alt="...">
+                        </a>
+                        <a class="clear" href="#">
+                          <span class="block text-ellipsis">Praesent commodo cursus magn</span>
+                          <small class="text-muted">by Chris Fox</small>
+                        </a>
+                      </li>
+                      <li class="list-group-item clearfix">
+                        <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <a href="#" class="pull-left thumb-sm m-r">
+                          <img src="images/a7.png" alt="...">
+                        </a>
+                        <a class="clear" href="#">
+                          <span class="block text-ellipsis">Vestibulum id</span>
+                          <small class="text-muted">by Milian</small>
+                        </a>
+                      </li>
+                      <li class="list-group-item clearfix">
+                        <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <a href="#" class="pull-left thumb-sm m-r">
+                          <img src="images/a8.png" alt="...">
+                        </a>
+                        <a class="clear" href="#">
+                          <span class="block text-ellipsis">Blandit tempu</span>
+                          <small class="text-muted">by Amanda Conlan</small>
+                        </a>
+                      </li>
+                      <li class="list-group-item clearfix">
+                        <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <a href="#" class="pull-left thumb-sm m-r">
+                          <img src="images/a9.png" alt="...">
+                        </a>
+                        <a class="clear" href="#">
+                          <span class="block text-ellipsis">Vestibulum ullamcorpe quis malesuada augue mco rpe</span>
+                          <small class="text-muted">by Dan Doorack</small>
+                        </a>
+                      </li>
+                      <li class="list-group-item clearfix">
+                        <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <a href="#" class="pull-left thumb-sm m-r">
+                          <img src="images/a10.png" alt="...">
+                        </a>
+                        <a class="clear" href="#">
+                          <span class="block text-ellipsis">Natis ipsum ac feugiat</span>
+                          <small class="text-muted">by Hamburg</small>
+                        </a>
+                      </li>
+                      <li class="list-group-item clearfix">
+                        <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+                          <i class="icon-control-play text"></i>
+                          <i class="icon-control-pause text-active"></i>
+                        </a>
+                        <a href="#" class="pull-left thumb-sm m-r">
+                          <img src="images/a0.png" alt="...">
+                        </a>
+                        <a class="clear" href="#">
+                          <span class="block text-ellipsis">Sec condimentum au</span>
+                          <small class="text-muted">by Amanda Conlan</small>
+                        </a>
+                      </li>
+                    </ul>
+                  </section>
+                </section>
+              </section>
+              <section class="col-sm-3 no-padder lt">
+                <section class="vbox">
+                  <section class="scrollable hover">
+                    <div class="m-t-n-xxs">
+                      <div class="item pos-rlt">
+                        <a href="#" class="item-overlay active opacity wrapper-md font-xs">
+                          <span class="block h3 font-bold text-info">Find</span>
+                          <span class="text-muted">Search the music you like</span>
+                          <span class="bottom wrapper-md block">- <i class="icon-arrow-right i-lg pull-right"></i></span>
+                        </a>
+                        <a href="#">
+                          <img class="img-full" src="images/m40.jpg" alt="...">
+                        </a>
+                      </div>
+                      <div class="item pos-rlt">
+                        <a href="#" class="item-overlay active opacity wrapper-md font-xs text-right">
+                          <span class="block h3 font-bold text-warning text-u-c">Listen</span>
+                          <span class="text-muted">Find the peace in your heart</span>
+                          <span class="bottom wrapper-md block"><i class="icon-arrow-right i-lg pull-left"></i> -</span>
+                        </a>
+                        <a href="#">
+                          <img class="img-full" src="images/m41.jpg" alt="...">
+                        </a>
+                      </div>
+                      <div class="item pos-rlt">
+                        <a href="#" class="item-overlay active opacity wrapper-md font-xs">
+                          <span class="block h3 font-bold text-success text-u-c">Share</span>
+                          <span class="text-muted">Share the good songs with your loves</span>
+                          <span class="bottom wrapper-md block">- <i class="icon-arrow-right i-lg pull-right"></i></span>
+                        </a>
+                        <a href="#">
+                          <img class="img-full" src="images/m42.jpg" alt="...">
+                        </a>
+                      </div>
+                      <div class="item pos-rlt">
+                        <a href="#" class="item-overlay active opacity wrapper-md font-xs text-right">
+                          <span class="block h3 font-bold text-white text-u-c">2014</span>
+                          <span class="text-muted">Find, Listen & Share</span>
+                          <span class="bottom wrapper-md block"><i class="icon-arrow-right i-lg pull-left"></i> -</span>
+                        </a>
+                        <a href="#">
+                          <img class="img-full" src="images/m44.jpg" alt="...">
+                        </a>
+                      </div>
+                      <div class="item pos-rlt">
+                        <a href="#" class="item-overlay active opacity wrapper-md font-xs">
+                          <span class="block h3 font-bold text-danger-lter text-u-c">Top10</span>
+                          <span class="text-muted">Selected songs</span>
+                          <span class="bottom wrapper-md block">- <i class="icon-arrow-right i-lg pull-right"></i></span>
+                        </a>
+                        <a href="#">
+                          <img class="img-full" src="images/m45.jpg" alt="...">
+                        </a>
+                      </div>
+                    </div>
+                  </section>
+                </section>
+              </section>
+            </section>
+          </section>
+          <footer class="footer bg-success dker">
+            <div id="jp_container_N">
                     <div class="jp-type-playlist">
                       <div id="jplayer_N" class="jp-jplayer hide"></div>
                       <div class="jp-gui">
@@ -678,7 +899,7 @@
                             <div><a class="" data-toggle="dropdown" data-target="#playlist"><i class="icon-list"></i></a></div>
                             <div class="jp-progress hidden-xs">
                               <div class="jp-seek-bar dk">
-                                <div class="jp-play-bar bg-info">
+                                <div class="jp-play-bar bg">
                                 </div>
                                 <div class="jp-title text-lt">
                                   <ul>
@@ -725,255 +946,23 @@
                       </div>
                     </div>
                   </div>
-                </footer>
-              </section>
-            </section>
-            <!-- side content -->
-            <aside class="aside-md bg-light dk" id="sidebar">
-              <section class="vbox animated fadeInRight">
-                <section class="w-f-md scrollable hover">
-                  <h4 class="font-thin m-l-md m-t">电台</h4>
-                  <ul class="list-group no-bg no-borders auto m-t-n-xxs">
-                    <li class="list-group-item">
-                      <span class="pull-left thumb-xs m-t-xs avatar m-l-xs m-r-sm">
-                        <img src="${pageContext.request.contextPath}/jsps/images/a1.png" alt="..." class="img-circle">
-                        <i class="on b-light right sm"></i>
-                      </span>
-                      <div class="clear">
-                        <div><a href="#">Chris Fox</a></div>
-                        <small class="text-muted">New York</small>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <span class="pull-left thumb-xs m-t-xs avatar m-l-xs m-r-sm">
-                        <img src="${pageContext.request.contextPath}/jsps/images/a2.png" alt="...">
-                        <i class="on b-light right sm"></i>
-                      </span>
-                      <div class="clear">
-                        <div><a href="#">Amanda Conlan</a></div>
-                        <small class="text-muted">France</small>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <span class="pull-left thumb-xs m-t-xs avatar m-l-xs m-r-sm">
-                        <img src="${pageContext.request.contextPath}/jsps/images/a3.png" alt="...">
-                        <i class="busy b-light right sm"></i>
-                      </span>
-                      <div class="clear">
-                        <div><a href="#">Dan Doorack</a></div>
-                        <small class="text-muted">Hamburg</small>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <span class="pull-left thumb-xs m-t-xs avatar m-l-xs m-r-sm">
-                        <img src="${pageContext.request.contextPath}/jsps/images/a4.png" alt="...">
-                        <i class="away b-light right sm"></i>
-                      </span>
-                      <div class="clear">
-                        <div><a href="#">Lauren Taylor</a></div>
-                        <small class="text-muted">London</small>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <span class="pull-left thumb-xs m-t-xs avatar m-l-xs m-r-sm">
-                        <img src="${pageContext.request.contextPath}/jsps/images/a5.png" alt="..." class="img-circle">
-                        <i class="on b-light right sm"></i>
-                      </span>
-                      <div class="clear">
-                        <div><a href="#">Chris Fox</a></div>
-                        <small class="text-muted">Milan</small>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <span class="pull-left thumb-xs m-t-xs avatar m-l-xs m-r-sm">
-                        <img src="${pageContext.request.contextPath}/jsps/images/a6.png" alt="...">
-                        <i class="on b-light right sm"></i>
-                      </span>
-                      <div class="clear">
-                        <div><a href="#">Amanda Conlan</a></div>
-                        <small class="text-muted">Copenhagen</small>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <span class="pull-left thumb-xs m-t-xs avatar m-l-xs m-r-sm">
-                        <img src="${pageContext.request.contextPath}/jsps/images/a7.png" alt="...">
-                        <i class="busy b-light right sm"></i>
-                      </span>
-                      <div class="clear">
-                        <div><a href="#">Dan Doorack</a></div>
-                        <small class="text-muted">Barcelona</small>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <span class="pull-left thumb-xs m-t-xs avatar m-l-xs m-r-sm">
-                        <img src="${pageContext.request.contextPath}/jsps/images/a8.png" alt="...">
-                        <i class="away b-light right sm"></i>
-                      </span>
-                      <div class="clear">
-                        <div><a href="#">Lauren Taylor</a></div>
-                        <small class="text-muted">Tokyo</small>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <span class="pull-left thumb-xs m-t-xs avatar m-l-xs m-r-sm">
-                        <img src="${pageContext.request.contextPath}/jsps/images/a9.png" alt="..." class="img-circle">
-                        <i class="on b-light right sm"></i>
-                      </span>
-                      <div class="clear">
-                        <div><a href="#">Chris Fox</a></div>
-                        <small class="text-muted">UK</small>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <span class="pull-left thumb-xs m-t-xs avatar m-l-xs m-r-sm">
-                        <img src="${pageContext.request.contextPath}/jsps/images/a1.png" alt="...">
-                        <i class="on b-light right sm"></i>
-                      </span>
-                      <div class="clear">
-                        <div><a href="#">Amanda Conlan</a></div>
-                        <small class="text-muted">Africa</small>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <span class="pull-left thumb-xs m-t-xs avatar m-l-xs m-r-sm">
-                        <img src="${pageContext.request.contextPath}/jsps/images/a2.png" alt="...">
-                        <i class="busy b-light right sm"></i>
-                      </span>
-                      <div class="clear">
-                        <div><a href="#">Dan Doorack</a></div>
-                        <small class="text-muted">Paris</small>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <span class="pull-left thumb-xs m-t-xs avatar m-l-xs m-r-sm">
-                        <img src="${pageContext.request.contextPath}/jsps/images/a3.png" alt="...">
-                        <i class="away b-light right sm"></i>
-                      </span>
-                      <div class="clear">
-                        <div><a href="#">Lauren Taylor</a></div>
-                        <small class="text-muted">Brussels</small>
-                      </div>
-                    </li>
-                  </ul>
-                </section>
-                <footer class="footer footer-md bg-black">
-                  <form class="" role="search">
-                    <div class="form-group clearfix m-b-none">
-                      <div class="input-group m-t m-b">
-                        <span class="input-group-btn">
-                          <button type="submit" class="btn btn-sm bg-empty text-muted btn-icon"><i class="fa fa-search"></i></button>
-                        </span>
-                        <input type="text" class="form-control input-sm text-white bg-empty b-b b-dark no-border" placeholder="Search members">
-                      </div>
-                    </div>
-                  </form>
-                </footer>
-              </section>              
-            </aside>
-            <!-- / side content -->
-          </section>
+          </footer>
+        </section>
           <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open" data-target="#nav,html"></a>
         </section>
       </section>
     </section>    
   </section>
-  <script src="${pageContext.request.contextPath}/jsps/js/jquery.min.js"></script>
+  <script src="js/jquery.min.js"></script>
   <!-- Bootstrap -->
-  <script src="${pageContext.request.contextPath}/jsps/js/bootstrap.js"></script>
+  <script src="js/bootstrap.js"></script>
   <!-- App -->
-  <script src="${pageContext.request.contextPath}/jsps/js/app.js"></script>  
-  <script src="${pageContext.request.contextPath}/jsps/js/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="${pageContext.request.contextPath}/jsps/js/app.plugin.js"></script>
-  <script type="text/javascript" src="${pageContext.request.contextPath}/jsps/js/jPlayer/jquery.jplayer.min.js"></script>
-  <script type="text/javascript" src="${pageContext.request.contextPath}/jsps/js/jPlayer/add-on/jplayer.playlist.min.js"></script>
-<%--   <script type="text/javascript" src="${pageContext.request.contextPath}/jsps/js/jPlayer/demo.js"></script> --%>
-  <script type="text/javascript">
-  	
-  	var music = ${requestScope.data};
-	var autoPlay = ${requestScope.autoPlay};
-  	function palyMusic(id) {
-  		location.href="${pageContext.request.contextPath}/MusicController?op=query&musicId="+id;
-  	}
-  
-  
-  $(document).ready(function(){
-	  	console.log(music);
-		var myPlaylist = new jPlayerPlaylist({
-		    jPlayer: "#jplayer_N",
-		    cssSelectorAncestor: "#jp_container_N"
-		  },music, {
-		    playlistOptions: {
-		      enableRemoveControls: true,
-		      autoPlay: autoPlay
-		    },
-		    swfPath: "js/jPlayer",
-		    supplied: "webmv, ogv, m4v, oga, mp3",
-		    smoothPlayBar: true,
-		    keyEnabled: true,
-		    audioFullScreen: false
-		  });
-	
-	
-	$(document).on($.jPlayer.event.pause, myPlaylist.cssSelector.jPlayer,  function(){
-	$('.musicbar').removeClass('animate');
-	$('.jp-play-me').removeClass('active');
-	$('.jp-play-me').parent('li').removeClass('active');
-	});
-	
-	$(document).on($.jPlayer.event.play, myPlaylist.cssSelector.jPlayer,  function(){
-	$('.musicbar').addClass('animate');
-	});
-	
-	$(document).on('click', '.jp-play-me', function(e){
-	e && e.preventDefault();
-	var $this = $(e.target);
-	if (!$this.is('a')) $this = $this.closest('a');
-	
-	$('.jp-play-me').not($this).removeClass('active');
-	$('.jp-play-me').parent('li').not($this.parent('li')).removeClass('active');
-	
-	$this.toggleClass('active');
-	$this.parent('li').toggleClass('active');
-	if( !$this.hasClass('active') ){
-	  myPlaylist.pause();
-	}else{
-	  var i = Math.floor(Math.random() * (1 + 7 - 1));
-	  myPlaylist.play(i);
-	}
-	
-	});
-	
-	
-	
-	// video
-	
-	$("#jplayer_1").jPlayer({
-	ready: function () {
-	  $(this).jPlayer("setMedia", {
-	    title: "Big Buck Bunny",
-	    m4v: "http://flatfull.com/themes/assets/video/big_buck_bunny_trailer.m4v",
-	    ogv: "http://flatfull.com/themes/assets/video/big_buck_bunny_trailer.ogv",
-	    webmv: "http://flatfull.com/themes/assets/video/big_buck_bunny_trailer.webm",
-	    poster: "images/m41.jpg"
-	  });
-	},
-	swfPath: "js",
-	supplied: "webmv, ogv, m4v",
-	size: {
-	  width: "100%",
-	  height: "auto",
-	  cssClass: "jp-video-360p"
-	},
-	globalVolume: true,
-	smoothPlayBar: true,
-	keyEnabled: true
-	});
-
-
-		
-});
-  
-  </script>
+  <script src="js/app.js"></script>  
+  <script src="js/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="js/app.plugin.js"></script>
+  <script type="text/javascript" src="js/jPlayer/jquery.jplayer.min.js"></script>
+  <script type="text/javascript" src="js/jPlayer/add-on/jplayer.playlist.min.js"></script>
+  <script type="text/javascript" src="js/jPlayer/demo.js"></script>
 
 </body>
 </html>

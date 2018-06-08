@@ -3,13 +3,13 @@ package com.shk.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.shk.entity.Music;
@@ -45,6 +45,7 @@ public class MusicController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
 		
 		String op = "query";
 		int page = 1;
@@ -72,23 +73,28 @@ public class MusicController extends HttpServlet {
 				musicLike = request.getParameter("musicLike");
 			}
 			
-			
-			List<Song> songList = getMyList(page, pageSize, musicLike);
+		
 			if(null!=request.getParameter("musicId")) {
+				
 				int musicId =Integer.parseInt(request.getParameter("musicId"));
-				String str = addSongToMyList(request, response, musicId, songList);
+				
+				List<Song> songList = (List<Song>)session.getAttribute("songList");
+				String str = addSongToMyList(session,request, response, musicId, songList);
 				System.out.println(str);
+				request.setAttribute("autoPlay", true);
 				request.setAttribute("data", str);
 			} else {
+				
+				List<Song> songList = getMyList(page, pageSize, musicLike);
 				String str = changToStr(songList);//我的音乐列表
-				
+				session.setAttribute("songList", songList);
 				System.out.println("songList:"+str);
-				
+				request.setAttribute("autoPlay", false);
 				request.setAttribute("data", str);
 			}
 			
 			
-			PageData<Music> pdRandom = getRandomMusic(1,12);//推荐音乐
+			PageData<Music> pdRandom = getRandomMusic(2,12);//推荐音乐
 			PageData<Music> pdNew = getRandomMusic(1,8);//新曲推荐
 			request.setAttribute("pdNew", pdNew);
 			
@@ -185,7 +191,7 @@ public class MusicController extends HttpServlet {
 		return str;
 	}
 	
-	public static String addSongToMyList(HttpServletRequest request, HttpServletResponse response,int musicId,List<Song> songList) {
+	public static String addSongToMyList(HttpSession session,HttpServletRequest request, HttpServletResponse response,int musicId,List<Song> songList) {
 		System.out.println(request.getParameter("musicId"));
 		int id =Integer.parseInt(request.getParameter("musicId"));
 		Music music = ms.getMusicById(id);
@@ -193,8 +199,9 @@ public class MusicController extends HttpServlet {
 		if(null!=songList) {
 			songList.add(0, song);				
 		}
-		String str = changToStr(songList);
 		
+		session.setAttribute("songList", songList);
+		String str = changToStr(songList);
 		return str;
 	}
 
