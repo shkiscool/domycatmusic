@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
 <!DOCTYPE html>
 <html lang="en" class="app">
 <head>
@@ -135,7 +136,7 @@
 									<ul class="nav bg clearfix">
 										<li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted">
 											在线音乐</li>
-										<li><a href="index.html"> <i
+										<li><a href="${pageContext.request.contextPath}/MusicController"> <i
 												class="icon-disc icon text-success"></i> <span
 												class="font-bold">音乐馆</span>
 										</a></li>
@@ -149,7 +150,7 @@
 									<ul class="nav" data-ride="collapse">
 										<li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted">
 											我的音乐</li>
-										<li><a href="listen.html"> <i
+										<li><a href="listen.jsp"> <i
 												class="icon-list icon  text-info-dker"></i> <span
 												class="font-bold">用户歌单</span>
 										</a></li>
@@ -171,10 +172,14 @@
 								<!-- side content -->
 								<aside class="aside bg-light dk" id="sidebar">
 									<section class="vbox animated fadeInUp">
+											<div
+												class="list-group no-radius no-border no-bg m-t-n-xxs m-b-none">
+												<a href="#" class="list-group-item active" > 热门歌手 </a> 
+											</div>
 										<section class="scrollable hover">
+											
 											<div
 												class="list-group no-radius no-border no-bg m-t-n-xxs m-b-none auto" id="singerList">
-												<a href="javascript:void(0)" class="list-group-item"> 热门歌手 </a> 
 											</div>
 										</section>
 									</section>
@@ -214,11 +219,8 @@
 											
 											<!-- 显示分页标签 -->
 											<div class="row row-sm" id="pageList" >
-												
-											
+					
 											</div>
-											
-											
 											<!-- 显示分页 -->
 											<!-- <ul class="pagination pagination" id="pageList">
 												
@@ -232,9 +234,7 @@
 												<li><a href="javascript:void(0);">5</a></li>
 								
 												<li><a href="javascript:void(0);" id="nextPage"><i class="fa fa-chevron-right"></i></a></li>
-											</ul>	 -->
-																		
-											
+											</ul>	 -->			
 										</section>
 									</section>
 								</section>
@@ -340,7 +340,7 @@
 
 
 	
-	<!-- 自动加载所有歌曲 -->
+	<!-- 自动加载所有歌曲和歌手列表事件 -->
 <script type="text/javascript">
 $(function(){
 	//定义分页查询所有歌曲，定义关键词为空；
@@ -351,12 +351,13 @@ $(function(){
 	
 	//执行根据关键词查询单词的方法
 	ajax(keyword);
-	
+	console.log("加载歌手列表");
+	ajaxGetSingerList();
 	
 })
 </script>
 
-<!-- 执行搜索歌曲的方法 -->
+<!-- 执行搜索歌曲事件 -->
 <script type="text/javascript">
 $(function(){
   //歌曲搜索的点击事件，ajax向控制器发送请求，获取分页数据；
@@ -370,8 +371,30 @@ $(function(){
   });
 });
 </script>
-  
-<!-- 翻页的方法 -->
+
+<!-- 获取唯一歌手列表事件 -->
+<script type="text/javascript">
+	function ajaxGetSingerList(){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/MusicController",
+			data:{
+				"op":"showSinger"
+			},
+			success:function(data){
+				data = JSON.parse(data);
+				$("#singerList").empty();
+				$("#singerList").append('<a href="javascript:void(0)" class="list-group-item" >热门歌手</a> ');
+				for(var index in data){
+					
+					$("#singerList").append('<a href="javascript:void(0)" class="list-group-item" onclick=showBySinger("'
+							+data[index].singerName+'")> '+data[index].singerName+' </a> ');
+				}
+			}
+		});
+	}
+</script>
+
+<!-- 翻页事件和点击歌手名字方法 -->
 <script type="text/javascript">
 function toPage(page, totalPage){
 	  if(page>0&&page<=totalPage){
@@ -383,7 +406,17 @@ function toPage(page, totalPage){
 		  ajax(keyword);
 	  }
 }
-  
+</script>
+
+<script type="text/javascript">
+ function showBySinger(singerName){
+	 var keyword = {
+			  "op":"search",
+			  "keyword":singerName,
+			  }
+	 $("#txtSearch").val(singerName);
+	 ajax(keyword);
+};	  
 </script>
 
 <!-- 定义根据关键词查询歌曲的请求 --> 
@@ -436,6 +469,7 @@ function toPage(page, totalPage){
   	}
   
   </script>
+
 	<!-- App -->
 	<script src="js/app.js"></script>
 	<script src="js/slimscroll/jquery.slimscroll.min.js"></script>
