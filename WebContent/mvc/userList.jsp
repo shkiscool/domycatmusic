@@ -88,7 +88,7 @@ pageEncoding="UTF-8"%>
 							音乐管理 <span class="fa-angle-right fa right-arrow text-right"></span>
 					</a>
 						<ul class="nav nav-list tree">
-							<li><a href="#">音乐列表</a></li>
+							<li><a href="${pageContext.request.contextPath}/music/MusicList.jsp">音乐列表</a></li>
 							<li><a href="#">音乐编辑</a></li>
 						</ul></li>
 				</ul>
@@ -175,81 +175,76 @@ pageEncoding="UTF-8"%>
 					<h4 class="modal-title" id="myModalLabel">修改用户</h4>
 				</div>
 				<div class="modal-body form-element-padding">
-					<form class="form-horizontal" role="form" onsubmit="return send()"
-						id="forms"
-						action="${pageContext.request.contextPath}/UsersController?op=upd"
-						method="post">
-						<div class="form-group">
-							<label for="userPhoto" class="col-sm-2 control-label">头像:</label>
-							<div class="col-sm-6">
-								<input type="text" required="required" class="form-control"
-									name="userPhoto" id="userPhoto" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="userName" class="col-sm-2 control-label">用户名:</label>
-							<div class="col-sm-6">
-								<input type="text" required="required" class="form-control"
-									name="userName" id="userName" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="userSex" class="col-sm-2 control-label">性别:</label>
-							<div class="col-sm-6" id="Sex">
-								<input name="userSex" type="radio" value="男" checked="checked"/>男   &nbsp;&nbsp;&nbsp;&nbsp;
-								<input name="userSex" type="radio" value="女"/>女
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="userPwd" class="col-sm-2 control-label">密码:</label>
-							<div class="col-sm-6">
-								<input type="password" required="required" class="form-control"
-									name="userPwd" id="userPwd" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="userEmail" class="col-sm-2 control-label">Email:</label>
-							<div class="col-sm-6">
-								<input type="text" required="required" class="form-control"
-									name="userEmail" id="userEmail" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="userBirthday" class="col-sm-2 control-label">生日:</label>
-							<div class="col-sm-6">
-								<input type="text" required="required" class="form-control"
-									name="userBirthday" id="userBirthday" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="userLove" class="col-sm-2 control-label">音乐偏好:</label>
-							<div class="col-sm-6">
-								<select name="userLove" id="userLove" class="form-control">
-									<option value="流行">流行</option><option value="英伦">英伦</option><option value="朋克">朋克</option>
-									<option value="民谣">民谣</option><option value="金属">金属</option><option value="后摇">后摇</option>
-									<option value="爵士">爵士</option><option value="轻音乐">轻音乐</option><option value="乡村">乡村</option>
-									<option value="摇滚">摇滚</option><option value="经典">经典 </option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="userLevel" class="col-sm-2 control-label">用户权限:</label>
-							<div class="col-sm-3">
-								<select name="userLevel" id="userLevel" class="form-control">
-									<option value="1">普通用户</option>
-									<option value="2">管理员</option>
-								</select>
-							</div>
-						</div>
-						<input class="userId" type=hidden name="userId"></input>
-						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10" style="float: right;">
-								<button type="submit" class="btn btn-primary">提交更改</button>
-								<button type="button" class="btn btn-default"
-									data-dismiss="modal" onclick="clear()">关闭</button>
-							</div>
-						</div>
-					</form>
+			<form class="form-horizontal" role="form" id="forms" method="post" enctype="multipart/form-data">
+				<div class="form-group">
+					<label for="userPhoto" class="col-sm-2 control-label">头像:</label>
+					<div class="col-sm-6">
+						<label class="ui_button ui_button_primary" for="xFile"><img id="image" src="../images/imgback.png" width="160" height="160" style="border-radius:80px"></label><br/>
+		                <input type="file" name ="user" id="xFile" accept="image/*" style="position:absolute;clip:rect(0 0 0 0);" onchange="selectImage(this);" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="userName" class="col-sm-2 control-label">用户名:</label>
+					<div class="col-sm-6">
+						<input type="text" required="required" class="form-control"
+							name="userName" id="userName" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="userSex" class="col-sm-2 control-label">性别:</label>
+					<div class="col-sm-6" id="Sex">
+						<input name="userSex" type="radio" value="男" checked="checked"/>男   &nbsp;&nbsp;&nbsp;&nbsp;
+						<input name="userSex" type="radio" value="女"/>女
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="userPwd" class="col-sm-2 control-label">密码:</label>
+					<div class="col-sm-6">
+						<input type="password" required="required" class="form-control"
+							name="userPwd" id="userPwd" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="userEmail" class="col-sm-2 control-label">Email:</label>
+					<div class="col-sm-6">
+						<input type="text" required="required" class="form-control"
+							name="userEmail" id="userEmail" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="userBirthday" class="col-sm-2 control-label">生日:</label>
+					<div class="col-sm-6">
+						<input type="text" required="required" class="form-control"
+							name="userBirthday" id="userBirthday" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="userLove" class="col-sm-2 control-label">音乐偏好:</label>
+					<div class="col-sm-6">
+						<select name="userLove" id="userLove" class="form-control">
+							<option value="流行">流行</option><option value="英伦">英伦</option><option value="朋克">朋克</option>
+							<option value="民谣">民谣</option><option value="金属">金属</option><option value="后摇">后摇</option>
+							<option value="爵士">爵士</option><option value="轻音乐">轻音乐</option><option value="乡村">乡村</option>
+							<option value="摇滚">摇滚</option><option value="经典">经典 </option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="userLevel" class="col-sm-2 control-label">用户权限:</label>
+					<div class="col-sm-3">
+						<select name="userLevel" id="userLevel" class="form-control">
+							<option value="1">普通用户</option>
+							<option value="2">管理员</option>
+						</select>
+					</div>
+				</div>
+				<input type="hidden" class="userId" name="userId" id="userId" />
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10" style="float: right;">
+						<button type="button" onclick="uploadImage();" class="btn btn-danger">提交</button>
+					</div>
+				</div>
+			</form>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -306,16 +301,17 @@ pageEncoding="UTF-8"%>
 			    $.each(array.data,function(index,type){
 			    	var userLevel = type.USERLEVEL == 1 ? "普通用户" : "管理员";
 			    	var userClass = type.USERID%2 == 0 ? "even" : "odd";
+			    	var userBirthday = type.USERBIRTHDAY.substring(0,10);
 			    	$("#listtbody").append("<tr role='row' class='"+userClass+"'>");
 			    	$("#listtbody").append("<td>"+type.USERID+"</td>");
 			    	$("#listtbody").append("<td>"+type.USERNAME+"</td>");
 			    	$("#listtbody").append("<td>"+type.USERSEX+"</td>");
 			    	$("#listtbody").append("<td>"+userLevel+"</td>");
 			    	$("#listtbody").append("<td>"+type.USERLOVE+"</td>");
-			    	$("#listtbody").append("<td>"+type.USERPHOTO+"</td>");
-			    	$("#listtbody").append("<td>"+type.USERBIRTHDAY+"</td>");
+			    	$("#listtbody").append("<td><img id='Image' src="+type.USERPHOTO+"width='20' height='20' style='border-radius:10px'></td>");
+			    	$("#listtbody").append("<td>"+userBirthday+"</td>");
 			    	$("#listtbody").append("<td>"+type.USEREMAIL+"</td>");
-			    	$("#listtbody").append("<td><button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='save("+type.USERID+",\""+type.USERNAME+"\",\""+type.USERPASSWORD+"\",\""+type.USERSEX+"\",\""+type.USERLOVE+"\",\""+type.USERLEVEL+"\",\""+type.USERPHOTO+"\",\""+type.USEREMAIL+"\",\""+type.USERBIRTHDAY+
+			    	$("#listtbody").append("<td><button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick='save("+type.USERID+",\""+type.USERNAME+"\",\""+type.USERPASSWORD+"\",\""+type.USERSEX+"\",\""+type.USERLOVE+"\",\""+type.USERLEVEL+"\",\""+type.USERPHOTO+"\",\""+type.USEREMAIL+"\",\""+userBirthday+
 			    			"\");'>修改</button><a href='javascript:delFunction("+type.USERID+")'><button class='btn btn-danger'>删除</button></a></td></tr>");
 			    });
 			    $("#pul").append("<li><a href='javascript:void(0)' id='prePage' onclick='pages("+prepages+")'>上一页</a></li>");
@@ -348,32 +344,34 @@ pageEncoding="UTF-8"%>
 	});
 	
 	//用于修改的方法
-	var flag = false;
-    function send(forms) {
-        	$.post("${pageContext.request.contextPath}/UsersController",{
-        	op:"udp",
-        	userName:$("#userName").val(),
-        	userId:$(".userId").val(),
-        	userPwd:$("#userPwd").val(),
-        	userEmail:$("#userEmail").val(),
-        	userLove:$("#userLove").val(),
-        	userPhoto:$("#userPhoto").val(),
-        	userLevel:$("#userLevel").val(),
-        	userSex: $('#Sex input[name="userSex"]:checked ').val(),
-        	userBirthday:$("#userBirthday").val()
-        	},
-        	function(data,status){
-        	    if("true" == data){
-        	    	layer.msg('修改成功！',{icon: 1},function(){
-        	    		pages(1);
-        	    	});
-        	    	return flag;
-        	    }else{
-        	    	layer.msg('修改失败！',{icon: 1});
-        	    }
-        	});
-    	return flag;
-    }
+	function selectImage(file) {
+		if(!file.files || !file.files[0]) {
+			return;
+		}
+		var reader = new FileReader();
+		reader.readAsDataURL(file.files[0]);
+		reader.onload = function(evt) {
+			document.getElementById('image').src = evt.target.result;
+		}	
+	} 
+
+	function uploadImage() {
+			var form = new FormData(document.getElementById("forms"));
+		    $.ajax({
+		       url:"${pageContext.request.contextPath}/UsersController?op=udp",
+		        type:"post",
+		        data:form,
+		        processData:false,
+		        contentType:false,
+		        success:function(data){
+		        	pages(1);
+		            layer.msg('修改成功！', {icon : 1});
+		        },
+		        error:function(e){
+		       	layer.msg('修改失败！', {icon : 1});
+		        }
+		    });
+	}
 	   
 	//用于修改方法(将数据填入文本框中)
 	function save(userId,userName,userPwd,userSex,userLove,userLevel,userPhoto,userEmail,userBirthday){
@@ -383,9 +381,8 @@ pageEncoding="UTF-8"%>
 	    $(":radio[name='userSex'][value='" + userSex + "']").prop("checked", "checked");
 	    document.getElementById("userLove").value = userLove;
 	    document.getElementById("userLevel").value = userLevel;
-	    document.getElementById("userPhoto").value = userPhoto;
+	    document.getElementById('image').src = userPhoto;
 	    document.getElementById("userEmail").value = userEmail;
-	    userBirthday = userBirthday.substring(0,9);
 	    document.getElementById("userBirthday").value = userBirthday;
 	}
 	

@@ -85,7 +85,7 @@
 					</a>
 						<ul class="nav nav-list tree">
 							<li><a
-								href="#">音乐列表</a></li>
+								href="${pageContext.request.contextPath}/music/MusicList.jsp">音乐列表</a></li>
 							<li><a
 								href="#">音乐编辑</a></li>
 						</ul></li>
@@ -106,16 +106,12 @@
 					</div>
 				</div>
 			</div>
-			<form class="form-horizontal" role="form" onsubmit="return send()"
-				id="forms"
-				action="${pageContext.request.contextPath}/UsersController?op=add"
-				method="post">
+			<form class="form-horizontal" role="form" id="forms" method="post" enctype="multipart/form-data">
 				<div class="form-group">
 					<label for="userPhoto" class="col-sm-2 control-label">头像:</label>
 					<div class="col-sm-6">
 						<label class="ui_button ui_button_primary" for="xFile"><img id="image" src="../images/imgback.png" width="212" height="212"></label><br/>
-		                <input type="file" id="xFile" style="position:absolute;clip:rect(0 0 0 0);" onchange="selectImage(this);" />
-		                <input type="button" class="btn btn-danger" onclick="uploadImage();" value="上传" />
+		                <input type="file" name ="user" id="xFile" accept="image/*" style="position:absolute;clip:rect(0 0 0 0);" onchange="selectImage(this);" />
 					</div>
 				</div>
 				<div class="form-group">
@@ -175,7 +171,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10" style="float: right;">
-						<button type="submit" class="btn btn-danger">提交</button>
+						<button type="button" onclick="uploadImage();" class="btn btn-danger">提交</button>
 					</div>
 				</div>
 			</form>
@@ -199,69 +195,33 @@
 	<script src="${pageContext.request.contextPath}/layer/layer.js"></script>
 	<script src="${pageContext.request.contextPath}/laydate/laydate.js"></script>
 	<script>
-			var image = '';
-
-			function selectImage(file) {
-				if(!file.files || !file.files[0]) {
-					return;
-				}
-				var reader = new FileReader();
-				reader.onload = function(evt) {
-					document.getElementById('image').src = evt.target.result;
-					image = evt.target.result;
-				}
-				reader.readAsDataURL(file.files[0]);
-			}
-
-			function uploadImage() {
-				$.ajax({
-					type: 'POST',
-					url: 'UsersController',
-					data: {
-						image: image
-					},
-					async: false,
-					dataType: 'json',
-					success: function(data) {
-						if(data.success) {
-							alert('上传成功');
-						} else {
-							alert('上传失败');
-						}
-					},
-					error: function(err) {
-						alert('网络故障');
-					}
-				});
-			}
-	</script>
-	<script>
-		var flag = false;
-		function send(forms) {
-			$.post("${pageContext.request.contextPath}/UsersController", {
-				op : "add",
-				userName : $("#userName").val(),
-				userPwd : $("#userPwd").val(),
-				userEmail : $("#userEmail").val(),
-				userLove : $("#userLove").val(),
-				userLevel : $("#userLevel").val(),
-				userBirthday : $("#userBirthday").val(),
-				userSex : $("#userSex").val()
-			}, function(data, status) {
-				if ("true" == data) {
-					layer.msg('添加成功！', {icon : 1});
-					document.getElementById("userName").value = "";
-					document.getElementById("userPwd").value = "";
-					document.getElementById("userEmail").value = "";
-					document.getElementById("userPhoto").value = "";
-					document.getElementById("userBirthday").value = "";
-					return flag;
-				} else {
-					layer.msg('添加失败！', {icon : 1});
-				}
-			});
-			return flag;
+	function selectImage(file) {
+		if(!file.files || !file.files[0]) {
+			return;
 		}
+		var reader = new FileReader();
+		reader.readAsDataURL(file.files[0]);
+		reader.onload = function(evt) {
+			document.getElementById('image').src = evt.target.result;
+		}	
+	} 
+
+	function uploadImage() {
+			var form = new FormData(document.getElementById("forms"));
+		    $.ajax({
+		       url:"${pageContext.request.contextPath}/UsersController?op=add",
+		        type:"post",
+		        data:form,
+		        processData:false,
+		        contentType:false,
+		        success:function(data){
+		            layer.msg('添加成功！', {icon : 1});
+		        },
+		        error:function(e){
+		       	layer.msg('添加失败！', {icon : 1});
+		        }
+		    });
+	}
 	</script>
 	<script>
 	laydate.render({

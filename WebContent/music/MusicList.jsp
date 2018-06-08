@@ -300,7 +300,7 @@
 			    	$("#listtbody").append("<td>"+type.mCount+"</td>");
 			    	$("#listtbody").append("<td>"+type.mLyric+"</td>");
 			    	$("#listtbody").append("<td>"+type.mDate+"</td>");
-			    	$("#listtbody").append("<td>"+type.mImg+"</td>");
+			    	$("#listtbody").append("<td><img id='Image' src="+type.mImg+"width='20' height='20' style='border-radius:10px'></td>");
 			    	$("#listtbody").append("<td>"+type.singerName+"</td>");
 			    	$("#listtbody").append("<td>"+type.mTime+"</td>");
 			    	
