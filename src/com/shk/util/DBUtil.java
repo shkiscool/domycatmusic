@@ -1,5 +1,6 @@
 package com.shk.util;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,8 +9,12 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import javax.sql.DataSource;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory;
 
 import com.shk.util.PageData;
 
@@ -17,32 +22,41 @@ import com.shk.util.PageData;
  * 数据库操作的辅助类
  */
 public class DBUtil {
+	private static DataSource ds =null;
+	static {
 
-	private static final String DRIVER = "oracle.jdbc.OracleDriver";
-	private static final String URL = "jdbc:oracle:thin:@192.168.13.117:1521:orcl";
-	private static final String USER = "scott"; // 用户名
-	private static final String PASSWORD = "tiger";// 密码
+		// 加载jdbc.properties配置文件
+		InputStream in = DBUtil.class.getResourceAsStream("jdbc.properties");
+		Properties prop = new Properties();
+		try {
+			prop.load(in);
+			// 创建数据源
+			ds = BasicDataSourceFactory.createDataSource(prop);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+	}
 	/**
 	 * 获取连接对象
 	 * 
 	 * @return 连接对象
+	 * @throws SQLException
 	 */
+
 	public static Connection getConn() {
 
 		Connection conn = null;
 		try {
-
-			Class.forName(DRIVER);
-			// 得到连接对象
-			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-
-		} catch (Exception e) {
+			conn = ds.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			throw new RuntimeException("数据库连接失败!", e);
 		}
 		return conn;
-	}
 
+	}
 	/**
 	 * 释放资源
 	 * 
