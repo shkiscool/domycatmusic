@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.shk.entity.Music;
 import com.shk.entity.Song;
+import com.shk.entity.View_Singer;
 import com.shk.service.MusicService;
 import com.shk.serviceImpl.MusicServiceImpl;
 import com.shk.util.PageData;
@@ -49,7 +50,7 @@ public class MusicController extends HttpServlet {
 		
 		String op = "query";
 		int page = 1;
-		int pageSize = 1;
+		int pageSize = 12;
 		String musicLike = "";
 		
 		if(null!=request.getParameter("op"))
@@ -85,7 +86,7 @@ public class MusicController extends HttpServlet {
 				request.setAttribute("data", str);
 			} else {
 				
-				List<Song> songList = getMyList(page, pageSize, musicLike);
+				List<Song> songList = getMyList(page, 1, musicLike);
 				String str = changToStr(songList);//我的音乐列表
 				session.setAttribute("songList", songList);
 				System.out.println("songList:"+str);
@@ -124,6 +125,19 @@ public class MusicController extends HttpServlet {
 			String data = gson.toJson(pd);
 			out.print(data);
 		}
+		
+		/**
+		 * 获取歌手列表
+		 */
+		else if("showSinger".equals(op)) {
+			
+			List<View_Singer> singerList = ms.getAllSinger();
+			
+			Gson gson = new Gson();
+			String data = gson.toJson(singerList);
+			out.print(data);
+		}
+
 		
 	}
 

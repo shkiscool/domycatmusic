@@ -7,6 +7,7 @@ import com.shk.dao.MusicDao;
 import com.shk.daoImpl.MusicDaoImpl;
 import com.shk.entity.Music;
 import com.shk.entity.Song;
+import com.shk.entity.View_Singer;
 import com.shk.service.MusicService;
 import com.shk.util.PageData;
 
@@ -102,5 +103,11 @@ public class MusicServiceImpl implements MusicService {
 		return md.queryMusicByAnyWord(str);
 	}
 
+	@Override
+	public List<View_Singer> getAllSinger() {
+		
+		return md.querySinger();
+	}
+	
 	
 }
