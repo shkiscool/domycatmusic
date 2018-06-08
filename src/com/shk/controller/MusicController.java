@@ -86,7 +86,8 @@ public class MusicController extends HttpServlet {
 				List<Song> songList = (List<Song>) session.getAttribute("songList");
 				String str = addSongToMyList(session, request, response, addMusicId, songList,"addMusicId",2);
 				request.setAttribute("data", str);
-
+				request.setAttribute("autoPlay", true);
+				
 			} else {
 				
 				List<Song> songList = getMyList(page, 1, musicLike);
