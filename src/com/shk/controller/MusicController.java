@@ -152,6 +152,19 @@ public class MusicController extends HttpServlet {
 		}
 
 		
+		/**
+		 * 获取歌手列表
+		 */
+		else if("showSinger".equals(op)) {
+			
+			List<View_Singer> singerList = ms.getAllSinger();
+			
+			Gson gson = new Gson();
+			String data = gson.toJson(singerList);
+			out.print(data);
+		}
+
+		
 	}
 
 	/**
