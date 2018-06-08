@@ -1,6 +1,6 @@
 package com.shk.serviceImpl;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.shk.dao.MusicDao;
@@ -32,31 +32,18 @@ public class MusicServiceImpl implements MusicService {
 	 * @return SongµÄ×Ö·û´®
 	 */
 	@Override
-	public String changeToSongStr(List<Music> list) {
-		List<Song> songList = new ArrayList<Song>();
+	public List<Song> changeToSong(List<Music> list) {
+		List<Song> songList = new LinkedList<Song>();
 
 		for (Music music : list) {
 			Song song = new Song(music.getmName(), music.getmUrl(), music.getmImg(), music.getSingerName());
 			songList.add(song);
 		}
 
-		StringBuilder sb = new StringBuilder();
-		sb.append("[");
-		for (int i = 0; i < songList.size(); i++) {
-			sb.append("{");
-			sb.append(songList.get(i).toString());
-			if(i==(songList.size()-1)) {
-				sb.append("}");
-			} else {
-				
-				sb.append("},");
-			}
-		}
-		sb.append("]");
-		String str = new String(sb);
-
-		return str;
+		return songList;
 	}
+	
+	
 	@Override
 	public boolean addMusic(Music music) {
 		// TODO Auto-generated method stub

@@ -2,6 +2,7 @@ package com.shk.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Random;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.shk.entity.Music;
+import com.shk.entity.Song;
 import com.shk.service.MusicService;
 import com.shk.serviceImpl.MusicServiceImpl;
 import com.shk.util.PageData;
@@ -70,11 +72,26 @@ public class MusicController extends HttpServlet {
 				musicLike = request.getParameter("musicLike");
 			}
 			
-			String str = getMyList(page, pageSize, musicLike); //我的音乐列表
+			
+			List<Song> songList = getMyList(page, pageSize, musicLike);
+			if(null!=request.getParameter("musicId")) {
+				int musicId =Integer.parseInt(request.getParameter("musicId"));
+				String str = addSongToMyList(request, response, musicId, songList);
+				System.out.println(str);
+				request.setAttribute("data", str);
+			} else {
+				String str = changToStr(songList);//我的音乐列表
+				
+				System.out.println("songList:"+str);
+				
+				request.setAttribute("data", str);
+			}
+			
+			
 			PageData<Music> pdRandom = getRandomMusic(pageSize);//推荐音乐
 			PageData<Music> pdNew = getRandomMusic(8);//新曲推荐
 			request.setAttribute("pdNew", pdNew);
-			request.setAttribute("data", str);
+			
 			request.setAttribute("pdRandom", pdRandom);
 			
 			request.getRequestDispatcher("jsps/NewFile.jsp").forward(request, response);
@@ -86,7 +103,7 @@ public class MusicController extends HttpServlet {
 		/**
 		 * 勾思奇：后续添加搜索得到分页歌单列表的方法
 		 */
-		if("search".equals(op)) {
+		else if("search".equals(op)) {
 			if(null!=request.getParameter("page"))
 			{
 				page =Integer.parseInt(request.getParameter("page"));
@@ -134,10 +151,50 @@ public class MusicController extends HttpServlet {
 	 * @param musicLike
 	 * @return
 	 */
-	public static String getMyList(int page,int pageSize,String musicLike) {
+	public static List<Song> getMyList(int page,int pageSize,String musicLike) {
 		PageData<Music> pd = ms.getMusic(page, pageSize, musicLike);
-		String str = ms.changeToSongStr(pd.getData());
-		System.out.println(str);
+		List<Song> songList = ms.changeToSong(pd.getData());
+		
+		return songList;
+	}
+	
+	/**
+	 * 将List转换为Jplayer可接受的字符串格式
+	 * @param songList
+	 * @return
+	 */
+	public static String changToStr(List<Song> songList) {
+		if(songList==null) {
+			return null;
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		for (int i = 0; i < songList.size(); i++) {
+			sb.append("{");
+			sb.append(songList.get(i).toString());
+			if(i==(songList.size()-1)) {
+				sb.append("}");
+			} else {
+				
+				sb.append("},");
+			}
+		}
+		sb.append("]");
+		String str = new String(sb);
+		
+		return str;
+	}
+	
+	public static String addSongToMyList(HttpServletRequest request, HttpServletResponse response,int musicId,List<Song> songList) {
+		System.out.println(request.getParameter("musicId"));
+		int id =Integer.parseInt(request.getParameter("musicId"));
+		Music music = ms.getMusicById(id);
+		Song song = new Song(music.getmName(), music.getmUrl(), music.getmImg(), music.getSingerName());
+		if(null!=songList) {
+			songList.add(0, song);				
+		}
+		String str = changToStr(songList);
+		
 		return str;
 	}
 

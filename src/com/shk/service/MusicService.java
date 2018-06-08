@@ -32,9 +32,9 @@ public interface MusicService {
 	/**
 	 * 将Music转换成Song格式
 	 * @param list Music的集合
-	 * @return	Song的字符串
+	 * @return	Song的集合
 	 */
-	public String changeToSongStr(List<Music> list);
+	public List<Song> changeToSong(List<Music> list);
 	/**
 	 * 添加歌曲
 	 * @param music 歌曲对象
