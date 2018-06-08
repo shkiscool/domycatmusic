@@ -528,11 +528,11 @@
 			                              </a>
 			                            </div>
 			                            <div class="bottom padder m-b-sm">
-			                              <a href="#" class="pull-right"  data-toggle="class">
+			                              <a href="#333" class="pull-right"  data-toggle="class">
 			                                <i class="fa fa-heart-o text"></i>
 			                                <i class="fa fa-heart text-active text-danger"></i>
 			                              </a>
-			                              <a href="#">
+			                              <a href="javascript:void(0);" onclick="addMusicToPlayList(${music.mId})">
 			                                 <i class="fa fa-plus-circle text"></i>
 			                                <i class="fa fa-check-circle text-active text-info"></i>
 			                              </a>
@@ -893,6 +893,10 @@
 	var autoPlay = ${requestScope.autoPlay};
   	function palyMusic(id) {
   		location.href="${pageContext.request.contextPath}/MusicController?op=query&musicId="+id;
+  	}
+  	
+  	function addMusicToPlayList(id) {
+  		location.href="${pageContext.request.contextPath}/MusicController?op=query&addMusicId="+id;
   	}
   
   
