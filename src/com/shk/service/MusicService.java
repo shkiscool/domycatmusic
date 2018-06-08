@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.shk.entity.Music;
 import com.shk.entity.Song;
+import com.shk.entity.View_Singer;
 import com.shk.util.PageData;
 
 /**
@@ -90,5 +91,10 @@ public interface MusicService {
 	public List<Music> getMusicByAnyWord(String str);
 	
 //	public List<Music> getFavoriteMusicByUserNameAndPwd(String userName,String userPwd);
-
+	
+	/**
+	 * 定义查询所有的歌手列表；
+	 * @return
+	 */
+	public List<View_Singer> getAllSinger();
 }
