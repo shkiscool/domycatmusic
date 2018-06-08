@@ -48,7 +48,7 @@ public class MusicController extends HttpServlet {
 		
 		String op = "query";
 		int page = 1;
-		int pageSize = 12;
+		int pageSize = 1;
 		String musicLike = "";
 		
 		if(null!=request.getParameter("op"))
@@ -88,8 +88,8 @@ public class MusicController extends HttpServlet {
 			}
 			
 			
-			PageData<Music> pdRandom = getRandomMusic(pageSize);//推荐音乐
-			PageData<Music> pdNew = getRandomMusic(8);//新曲推荐
+			PageData<Music> pdRandom = getRandomMusic(1,12);//推荐音乐
+			PageData<Music> pdNew = getRandomMusic(1,8);//新曲推荐
 			request.setAttribute("pdNew", pdNew);
 			
 			request.setAttribute("pdRandom", pdRandom);
@@ -134,9 +134,9 @@ public class MusicController extends HttpServlet {
 	 * 获得随机的推荐歌曲
 	 * @param pageSize
 	 */
-	public static PageData<Music> getRandomMusic(int pageSize) {
-		Random rd = new Random();
-		int page = rd.nextInt(100);
+	public static PageData<Music> getRandomMusic(int page,int pageSize) {
+//		Random rd = new Random();
+//		int page = rd.nextInt(5);
 		
 		PageData<Music> pd = ms.getMusic(page, pageSize, "");
 		

@@ -569,7 +569,7 @@
 		                                  <a href="#"><i class="fa fa-play-circle i-2x"></i></a>
 		                                </div>
 		                              </div>
-		                              <a href="#"><img src= "${music.mImg}" alt="" class="r r-2x img-full"></a>
+		                              <a href="#"><img src= ${music.mImg} alt="" class="r r-2x img-full"></a>
 		                            </div>
 		                            <div class="padder-v">
 		                              <a href="#" class="text-ellipsis">${music.mName}</a>
