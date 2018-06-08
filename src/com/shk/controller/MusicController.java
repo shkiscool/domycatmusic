@@ -77,15 +77,14 @@ public class MusicController extends HttpServlet {
 				int musicId = Integer.parseInt(request.getParameter("musicId"));
 
 				List<Song> songList = (List<Song>) session.getAttribute("songList");
-				String str = addSongToMyList(session, request, response, musicId, songList,"musicId");
+				String str = addSongToMyList(session, request, response, musicId, songList,"musicId",0);
 				request.setAttribute("autoPlay", true);
 				request.setAttribute("data", str);
 			} else if (null != request.getParameter("addMusicId")) {
 				int addMusicId = Integer.parseInt(request.getParameter("addMusicId"));
 
 				List<Song> songList = (List<Song>) session.getAttribute("songList");
-				String str = addSongToMyList(session, request, response, addMusicId, songList,"addMusicId");
-				request.setAttribute("autoPlay", false);
+				String str = addSongToMyList(session, request, response, addMusicId, songList,"addMusicId",2);
 				request.setAttribute("data", str);
 
 			} else {
@@ -237,13 +236,12 @@ public class MusicController extends HttpServlet {
 	}
 
 	public static String addSongToMyList(HttpSession session, HttpServletRequest request, HttpServletResponse response,
-			int musicId, List<Song> songList,String key) {
-		System.out.println(request.getParameter(key));
+			int musicId, List<Song> songList,String key,int index) {
 		int id = Integer.parseInt(request.getParameter(key));
 		Music music = ms.getMusicById(id);
 		Song song = new Song(music.getmName(), music.getmUrl(), music.getmImg(), music.getSingerName());
 		if (null != songList) {
-			songList.add(0, song);
+			songList.add(index, song);
 		}
 
 		session.setAttribute("songList", songList);
