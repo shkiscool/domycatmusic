@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en" class="app">
 <head>  
@@ -294,7 +296,7 @@
 
 <body>
 <!--表单提交的时候是会触发onsubmit事件的，如果onsubmit事件的方法返回是true，那么该表单允许提交，如果返回的是false，该表单不允许提交。-->
-    <form   action="index.html" method="get" onsubmit="return checkAll()">
+    <form action="index.html" method="get" onsubmit="return checkAll()">
         <table align="center" width="400px" height="400px">
             <tr>
                 <td>姓名:</td>
@@ -332,7 +334,7 @@
         
             <tr>
                 <td colspan="2" align="center">
-                    <input type="submit"  />
+                   <a href="index.html#refresh"> <input type="submit"  /></a>
                 </td>
             </tr>
     </table>
