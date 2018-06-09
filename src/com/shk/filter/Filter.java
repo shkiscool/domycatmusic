@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Administrator
  *
  */
-@WebFilter(urlPatterns={"/mvc/*","/GoodsController","/TypeController"})
+@WebFilter(urlPatterns={"/mvc/*","/jsps/listen.jsp"})
 public class Filter implements javax.servlet.Filter {
 
     /**
