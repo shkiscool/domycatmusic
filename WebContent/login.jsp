@@ -56,8 +56,7 @@
 					
 
 					<!-- Start Sign In Form -->
-					<form action="${pageContext.request.contextPath}/UsersController?op=login" method="post" class="fh5co-form animate-box" data-animate-effect="fadeInLeft"
-					onsubmit="return checkForm();" id="frm">
+					<form class="fh5co-form animate-box" data-animate-effect="fadeInLeft">
 						<h2>用户登录</h2>
 						<div class="form-group">
 						    <label id="name" style="display:none"></label>
@@ -76,7 +75,7 @@
 							<p>没有注册? <a href="sign_up.jsp">注册</a> | <a href="forgot.jsp">忘记密码?</a></p>
 						</div>
 						<div class="form-group">
-							<input type="submit" value="登     录" class="btn btn-primary">
+							<input type="button" onclick="send();" value="登     录" class="btn btn-primary"/>
 						</div>
 					</form>
 					<!-- END Sign In Form -->
@@ -96,31 +95,25 @@
 	<!-- Main JS -->
 	<script src="${pageContext.request.contextPath}/js/main.js"></script>
 	<script>
-	var flag = true;
-    function checkForm(frm) {
+	
+    function send() {
     	if($("#username").val() == ""){
         	$("#name").html("<font color='red'>用户名不能为空!</font>");
         	$("#name")[0].style.display="block";
-            flag = false;
-            return flag;
         }else if($("#password").val() == ""){
         	$("#pwd").html("<font color='red'>密码不能为空!</font>");
         	$("#pwd")[0].style.display="block";
-            flag = false;
-            return flag;
         }else{
-        	$.post("UsersController","op=ajax&ap=login&userName="+$("#username").val()+"&userPwd="+$("#password").val(),
+        	$.post("UsersController",{"op":"ajax","ap":"login","userName":$("#username").val(),"userPwd":$("#password").val()},
         		function(data,status){
-        		console.log(data);
         		if("true" != data){
-        		$("#name").html("<font color='red'>"+data+"</font>");
-        		$("#name")[0].style.display="block";
-        		flag = false;
-                return flag;
+        		    $("#name").html("<font color='red'>"+data+"</font>");
+        		    $("#name")[0].style.display="block";
+        		}else{
+        			location.href="UsersController?op=login&userName="+$("#username").val();
         		}
-        	});	
+        	});		
         }
-        return flag;
     }
     $(function(){
     	$("#username").blur(function(){

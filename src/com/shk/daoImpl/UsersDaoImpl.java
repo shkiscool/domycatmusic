@@ -21,7 +21,7 @@ public class UsersDaoImpl implements UsersDao {
 	@Override
 	public boolean addUsers(Users users) {
 		// TODO Auto-generated method stub
-		return DBUtil.execute("insert into MUSER values(?,?,?,?,?,?,?,?,to_date(?,'YYYY-MM-DD'))", users.getUSERID(),
+		return DBUtil.execute("insert into MUSER values( adduserid.nextval,?,?,?,?,?,?,?,to_date(?,'YYYY-MM-DD'))", 
 				users.getUSERNAME(), users.getUSERPASSWORD(), users.getUSERLEVEL(), users.getUSERLOVE(),
 				users.getUSERPHOTO(), users.getUSEREMAIL(), users.getUSERSEX(), users.getUSERBIRTHDAY()) > 0;
 	}

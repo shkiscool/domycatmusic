@@ -57,7 +57,7 @@ public class UsersController extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		// 参数名 op 值如果等于 list才做查询
 		String op = request.getParameter("op");
-
+         System.out.println(op);
 		if ("ajax".equals(op)) {
 			doAjax(request, response);
 		} else if ("sign".equals(op)) {
@@ -287,11 +287,13 @@ public class UsersController extends HttpServlet {
 	 */
 	protected void doLogin(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
 		String userName = request.getParameter("userName");
-		String userPwd = request.getParameter("userPwd");
+		System.out.println(userName);
 		// 调用userService的方法
-		Users u = us.login(userName, userPwd);
+		Users u = us.getUserByName(userName);
+		System.out.println(u);
 		if (u.getUSERLEVEL() == 2) {
 			// 将用户信息存储在session对象中
 			session.setAttribute("users", u);
@@ -301,7 +303,8 @@ public class UsersController extends HttpServlet {
 			// 将用户信息存储在session对象中
 			session.setAttribute("users", u);
 			// 未登录的或者是普通用户则转发到前台界面
-			request.getRequestDispatcher("#").forward(request, response);
+			response.sendRedirect("MusicController");
+		
 		}
 	}
 
